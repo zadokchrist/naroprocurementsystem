@@ -1,0 +1,20 @@
+ReqID	Number		3
+PD_EntityCode	String	50	NWSC
+ProcurementType	String	50	pt
+SequenceNumber	String	50	1
+ITBnumber	String	50	2
+ContractNumber	String	50	3
+SubjectOfProcurement	String	100	subject
+SequencyNumber	String	50	5
+FinancialYear	String	50	10-11
+NoOfEnvelopes	String	100	HQ
+ReceiveDate	DateTime		01/01/2011
+ReceiveTime		01/01/2011
+CompanyName	String	500	reason
+LocationOfSubmission	String	500	qtn
+Method	String	1000	resp
+FullNames	String	150	name
+Designation	String	50	desg
+Description	String	500	desg
+empimg	BLOB		
+CreationDate	Date		01/01/2011

@@ -1,0 +1,188 @@
+<%@ Master Language="C#" AutoEventWireup="true" CodeFile="SetUp.master.cs" Inherits="SetUp" %>
+<%@ Import Namespace="System.Data" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="Head1" runat="server">
+    <title>Untitled Page</title>
+    
+    <link href="scripts/WQC_stylesheet.css" rel="stylesheet" type="text/css" />
+    
+    <link href="scripts/globalscape.css" rel="stylesheet" type="text/css" />
+    
+    <script type="text/javascript" src="ddtabmenufiles/ddtabmenu.js">
+
+/***********************************************
+* DD Tab Menu script- © Dynamic Drive DHTML code library (www.dynamicdrive.com)
+* This notice MUST stay intact for legal use
+* Visit Dynamic Drive at http://www.dynamicdrive.com/ for full source code
+***********************************************/
+
+    </script>
+    
+
+<!-- CSS for Tab Menu #4 -->
+<link rel="stylesheet" type="text/css" href="ddtabmenufiles/ddcolortabs.css" />
+
+<script type="text/javascript">
+//SYNTAX: ddtabmenu.definemenu("tab_menu_id", integer OR "auto")
+ddtabmenu.definemenu("ddtabs1", 0) //initialize Tab Menu #1 with 1st tab selected
+ddtabmenu.definemenu("ddtabs2", 1) //initialize Tab Menu #2 with 2nd tab selected
+ddtabmenu.definemenu("ddtabs3", 1) //initialize Tab Menu #3 with 2nd tab selected
+ddtabmenu.definemenu("ddtabs4", 2) //initialize Tab Menu #4 with 3rd tab selected
+ddtabmenu.definemenu("ddtabs5", -1) //initialize Tab Menu #5 with NO tabs selected (-1)
+
+</script>
+    
+    <style type="text/css">
+        
+        .style12
+        {
+            width: 100%;
+        }
+         .style13
+        {
+            width: 99%;
+        }
+    
+        </style>
+    
+</head>
+<body>
+    <form id="form1" runat="server">
+
+    <table cellpadding="0" cellspacing="0" class="style12">
+        <tr>
+            <td style="vertical-align: top; text-align: left">
+               
+               <table style="border: 1px solid #EEEEEE; width: 100%; background-color: #ffffff; padding-top: 0px; margin-top: 0px;">
+            <tr>
+                <td style="border-right: thin solid #ebf3ff; background-color: #ebf3ff; padding-right: 0px; margin-right: 0px; height: 5px;" 
+                    colspan="2">
+                    <table cellpadding="0" cellspacing="0" class="style12">
+                        <tr>
+                            <td style="padding-left: 0px; margin-left: 0px; vertical-align: middle; border-left: #ebf3ff thin solid;
+                                width: 1%; height: 12px; text-align: left">
+                            </td>
+                            <td style="padding-left: 0px; margin-left: 0px; vertical-align: middle; border-left: #ebf3ff thin solid;
+                                width: 85%; height: 12px; text-align: left">
+                                <asp:Label ID="lbllevel" runat="server" Font-Bold="True" Font-Italic="False" Font-Names="Cambria"
+                                    Font-Size="Small" ForeColor="Firebrick" Style="font-weight: 700" Text="Logged in as: Admin"></asp:Label>
+                            </td>
+                            <td style="vertical-align: middle; width: 14%; height: 12px; text-align: right">
+                                <asp:Button ID="btnLogout" runat="server" Font-Size="9pt" Height="23px" OnClick="btnLogout_Click"
+                                    Text="Log out" Width="85px" /></td>
+                            <td style="width: 1%; height: 12px">
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 1%">
+                </td>
+                <td style="width: 99%">
+                    <img alt="" src="Images/headerAdmin.png" style="width: 518px; height: 44px" /></td>
+            </tr>
+            <tr>
+                <td style="width: 1%">
+                </td>
+                <td style="width: 99%">
+                
+   <div id="ddtabs5" class="ddcolortabs">
+<ul>
+    <% 
+        DataTable dTable = (DataTable)Session["Pages"];
+
+        foreach (DataRow dr in dTable.Rows)
+        {
+    %>
+        <li><a href="<% Response.Write(dr["PageFath"]); %>" rel="ct1"><span><% Response.Write(dr["ModuleName"]); %></span></a>
+            
+    <%      
+        } 
+        %>
+        </li>
+        <li><a href="General_Password.aspx" rel="ct1"><span>TOOLS</span></a></li>
+   </ul>
+</div>
+
+<div class="ddcolortabsline">&nbsp;</div>
+                </td>
+            </tr>
+                   <tr>
+                       <td style="width: 1%">
+                       </td>
+                       <td style="vertical-align: top; width: 99%; text-align: left">
+                           <table style="width: 100%">
+                               <tr>
+                                   <td style="vertical-align: top; width: 75%; text-align: left">
+                           <table align="left" cellpadding="0" cellspacing="0" style="width: 85%">
+                               <tr>
+                                <td class="leftnav" style="vertical-align: middle; width: 15%; text-align: left; height: 19px;">
+                                       <a href="SwitchBoard.aspx">CHANGE SETTINGS</a></td>
+                                <td class="leftnav" style="vertical-align: middle; width: 15%; text-align: left; height: 19px;">
+                                       <a href="General_Password.aspx">PASSWORD</a></td>                            
+                                 </tr>
+                              </table>
+                                </td>
+                               </tr>
+                           </table>
+                       </td>
+                   </tr>
+                   <tr>
+                       <td style="width: 1%">
+                       </td>
+                       <td style="vertical-align: top; width: 99%; text-align: left">
+                       </td>
+                   </tr>
+            <tr>
+                <td style="width: 1%">
+                    &nbsp;</td>
+                <td style="width: 99%; text-align: center; vertical-align: middle;">
+                    <asp:Label ID="lblmsg" runat="server" Font-Names="Cambria" Font-Size="11pt" 
+                        ForeColor="Red" Text="."></asp:Label>
+                            </td>
+            </tr>
+            <tr>
+                <td style="width: 1%">
+                    &nbsp;</td>
+                <td style="width: 99%">
+                    <table align ="left" class="style13" 
+                        style="border: 1px solid #617DA6; height: 300px; ">
+                        <tr>
+                            <td style="text-align: left; vertical-align: top">
+           
+                                <div style="vertical-align: top; text-align: center">
+                                    <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                                    </asp:ContentPlaceHolder>
+                                </div>
+           <br />
+                                </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 1%">
+                    &nbsp;</td>
+                <td style="width: 99%">
+                    &nbsp;</td>
+            </tr>
+            </table>
+               
+               &nbsp;</td>
+        </tr>
+        <tr>
+            <td style="font-family: Tahoma; font-size: 13px; vertical-align: top; text-align: center; background-color: #EEEEEE;">
+                <div id="copyinfo" style="padding: 10px 0pt 20px;">© 2011, National Water and Sewerage Corporation | Powered by <a href="#">The Software Development Section</a></div>
+                </td>
+        </tr>
+    </table>
+
+    </form>
+</body>
+</html>
+
+

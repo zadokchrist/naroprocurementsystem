@@ -1,0 +1,16 @@
+ProcID	Number		3
+PD_EntityCode	String	50	NWSC
+ProcurementType	String	50	pt
+SequenceNumber	String	50	1
+ITBnumber	String	50	2
+ContractNumber	String	50	3
+SubjectOfProcurement	String	100	subject
+SequencyNumber	String	50	5
+FinancialYear	String	50	10-11
+MeetingLocation	String	100	HQ
+MeetingDate	Date		01/01/2011
+ReasonForMeeting	String	500	reason
+Name	String	150	name
+Position	String	50	position
+[Company/Department]	String	50	position
+Signature	BLOB

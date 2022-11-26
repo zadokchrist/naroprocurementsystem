@@ -1,0 +1,28 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="Index.master.cs" Inherits="Index" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+    <title>Lagos Water Procurement</title>
+     <!-- CSS-->
+    <link rel="stylesheet" type="text/css" href="css/main.css"/>
+    <!-- Font-icon css-->
+   <link rel="stylesheet" type="text/css" href="font-awesome-4.7.0/css/font-awesome.css"/>
+        <asp:ContentPlaceHolder id="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+
+    <div>
+        <asp:ContentPlaceHolder id="ContentPlaceHolder1" runat="server">
+        
+        </asp:ContentPlaceHolder>
+    </div>
+ 
+</body>
+      <script src="js/jquery-2.1.4.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/plugins/pace.min.js"></script>
+  <script src="js/main.js"></script>
+</html>
