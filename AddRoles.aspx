@@ -10,20 +10,19 @@ Title="MANAGE ROLES" Culture="auto" UICulture="auto" %>
     <div class="card shadow mb-4">
         <asp:MultiView ID="MultiView1" runat="server">
             <asp:View ID="View1" runat="server">
-                <div class="form-group row">
-                    <div class="col-sm-3 mb-3 mb-sm-0"></div>
-                    <div class="col-sm-6 mb-3 mb-sm-0">
+                <div class="card-body">
+                    <div class="form-group row">
+                        <div class="col-sm-6 mb-3 mb-sm-0">
+                            <div class="text-right">
+                                <h6 class="m-0 font-weight-bold text-primary">List of Access Roles</h6>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <asp:Button ID="Button1" runat="server" OnClick="Button1_Click" class="btn btn-primary btn-user float-right" Text="Add User Role" />
+                        </div>
                     </div>
-                </div>
-                <div class="form-group row">
-                    <div class="col-sm-3 mb-3 mb-sm-0"></div>
-                    <div class="col-sm-6">
-                        <asp:Button ID="Button1" runat="server" OnClick="Button1_Click" class="btn btn-primary btn-user btn-block float-right" Text="Add User Role" />
-                    </div>
-                </div>
-                <div  class="card-body">
-                     <asp:DataGrid ID="DataGrid1" runat="server" DataKeyField="LevelID" AllowPaging="True" OnPageIndexChanged="DataGrid1_PageIndexChanged" AutoGenerateColumns="False"  class="table table-striped table-bordered zero-configuration" OnItemCommand="DataGrid2_ItemCommand" HorizontalAlign="Center">
-                         <PagerStyle Mode="NumericPages" Position="Bottom"/>
+                    <asp:DataGrid ID="DataGrid1" runat="server" DataKeyField="LevelID" AllowPaging="True" OnPageIndexChanged="DataGrid1_PageIndexChanged" AutoGenerateColumns="False" class="table table-striped table-bordered zero-configuration" OnItemCommand="DataGrid2_ItemCommand" HorizontalAlign="Center">
+                        <PagerStyle Mode="NumericPages" Position="Bottom" />
                         <FooterStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
                         <EditItemStyle BackColor="#999999" />
                         <SelectedItemStyle BackColor="#E2DED6" Font-Bold="True" ForeColor="#333333" />
@@ -31,6 +30,7 @@ Title="MANAGE ROLES" Culture="auto" UICulture="auto" %>
                         <AlternatingItemStyle BackColor="White" ForeColor="#284775" />
                         <ItemStyle BackColor="#F7F6F3" ForeColor="#333333" HorizontalAlign="Left" />
                         <Columns>
+                            <asp:BoundColumn DataField="LevelID" HeaderText="LevelID" Visible="false"></asp:BoundColumn>
                             <asp:BoundColumn DataField="LevelName" HeaderText="LevelName"></asp:BoundColumn>
                             <asp:BoundColumn DataField="Description" HeaderText="Description"></asp:BoundColumn>
                             <asp:BoundColumn DataField="Active" HeaderText="Active"></asp:BoundColumn>
@@ -44,31 +44,38 @@ Title="MANAGE ROLES" Culture="auto" UICulture="auto" %>
             <asp:View ID="View2" runat="server">
                 <formview>
                     <div class="form-group row">
-                        <div class="col-sm-3 mb-3 mb-sm-0">
-                            Edit Area
+                        <div class="col-sm-3 mb-3 mb-sm-0"></div>
+                        <div class="col-sm-6 mb-3 mb-sm-0">
+                            <div class="card-header py-3">
+                                Edit Access Level
+                            </div>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <div class="col-sm-3 mb-3 mb-sm-0"><label>Category</label></div>
+                        <div class="col-sm-3 mb-3 mb-sm-0"></div>
+                        <div class="col-sm-3 mb-3 mb-sm-0"><label>Level Name</label>
+                            <asp:Label runat="server" ID="lblLevelid" Visible="false"></asp:Label>
+                        </div>
                         <div class="col-sm-3 mb-3 mb-sm-0">
-                            <asp:DropDownList ID="cboCompany" runat="server" class="form-control" AutoPostBack="True">
-                                <asp:ListItem Text="LWC Area" Value="1"></asp:ListItem>
-                            </asp:DropDownList>
+                             <asp:TextBox ID="txtEditLevelName"  runat="server" class="form-control"></asp:TextBox>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <div class="col-sm-3 mb-3 mb-sm-0"><label>Area Name</label></div>
+                        <div class="col-sm-3 mb-3 mb-sm-0"></div>
+                        <div class="col-sm-3 mb-3 mb-sm-0"><label>Description</label></div>
                         <div class="col-sm-3 mb-3 mb-sm-0">
-                            <asp:TextBox ID="txtCcCode"  runat="server" class="form-control"></asp:TextBox>
+                            <asp:TextBox ID="txtEditDescription"  runat="server" TextMode="MultiLine" class="form-control"></asp:TextBox>
                         </div>
                     </div>
                     <div class="form-group row">
+                        <div class="col-sm-3 mb-3 mb-sm-0"></div>
                         <div class="col-sm-3 mb-3 mb-sm-0"><label>Active/De-active</label></div>
                         <div class="col-sm-3 mb-3 mb-sm-0">
-                            <asp:CheckBox ID="CheckBox1" runat="server" class="form-control" Text="Active" />
+                            <asp:CheckBox ID="CheckEditActive" runat="server" class="form-control" Text="Active" />
                         </div>
                     </div>
                     <div class="form-group row">
+                        <div class="col-sm-3 mb-3 mb-sm-0"></div>
                         <div class="col-sm-3 mb-3 mb-sm-0">
                             <asp:Button ID="btnOK" runat="server" Text="OK" class="btn btn-primary btn-user btn-block" OnClick="btnOK_Click" />
                         </div>
@@ -98,21 +105,19 @@ Title="MANAGE ROLES" Culture="auto" UICulture="auto" %>
                     <div class="form-group  row">
                         <div class="col-sm-1 mb-3 mb-sm-0"></div>
                         <div class="col-sm-3 mb-3 mb-sm-0">
-                            <label>Area Name</label>
+                            <label>Role Name</label>
                         </div>
                         <div class="col-sm-5 mb-3 mb-sm-0">
                             <asp:TextBox ID="txtAName" runat="server" class="form-control"></asp:TextBox>
                         </div>
                     </div>
-                    <div class="form-group row">
+                    <div class="form-group  row">
                         <div class="col-sm-1 mb-3 mb-sm-0"></div>
                         <div class="col-sm-3 mb-3 mb-sm-0">
-                            <label>Category</label>
+                            <label>Description</label>
                         </div>
                         <div class="col-sm-5 mb-3 mb-sm-0">
-                            <asp:DropDownList ID="cboCategory" runat="server" class="form-control" AutoPostBack="True">
-                                <asp:ListItem Text="LWC Area" Value="1"></asp:ListItem>
-                            </asp:DropDownList>
+                            <asp:TextBox ID="txtdescript" runat="server" TextMode="MultiLine" class="form-control"></asp:TextBox>
                         </div>
                     </div>
                     <div class="form-group row">

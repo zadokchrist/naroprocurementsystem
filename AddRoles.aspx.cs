@@ -39,36 +39,9 @@ public partial class AddRoles : System.Web.UI.Page
         DataGrid1.DataSource = dataTable;
         DataGrid1.DataBind();
     }
-    private void LoadCompany()
-    {
-        dataTable = data.GetAllAreas();
-        cboCompany.DataSource = dataTable;
-        cboCompany.DataValueField = "AreaID";
-        cboCompany.DataTextField = "Area";
-        cboCompany.DataBind();
-
-    }
     protected void cboCCcategory_DataBound(object sender, EventArgs e)
     {
 
-    }
-    protected void cboCCcategory_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        try
-        {
-            if (cboCompany.SelectedValue != "0")
-            {
-                int ctypeCode = Convert.ToInt32(cboCompany.SelectedValue);
-                clearControls();
-
-            }
-
-        }
-        catch (Exception ec)
-        {
-            Label msg = (Label)Master.FindControl("lblmsg");
-            msg.Text = "MESSAGE:  " + ec.Message;
-        }
     }
 
 
@@ -77,85 +50,34 @@ public partial class AddRoles : System.Web.UI.Page
     {
         try
         {
-            string areaName = txtAName.Text.Trim();
-
-            //if (cboCompany.SelectedValue == "0")
-            //{
-            //    ShowMessage("Please Select the Cost Center Category");
-            //}
-            //else
-            //{
-            string Name = txtCcCode.Text.Trim();
-            int category = int.Parse(cboCategory.SelectedValue.ToString());
-            string CostCenterID = lblCcCode.Text.Trim();
-            bool Active = CheckBox1.Checked;
-            Process.SaveAreaDetails(int.Parse(CostCenterID), Name, category, Convert.ToInt32(Active));
-
-            ShowMessage("Area (" + areaName + ") has been added successfull......");
-            clearControls();
-            //}
+            string LevelName = txtEditLevelName.Text.Trim();
+            string description = txtEditDescription.Text;
+            bool Active = CheckEditActive.Checked;
+            if (string.IsNullOrEmpty(LevelName))
+            {
+                ShowMessage("Please Enter Level Name");
+            }
+            else if (string.IsNullOrEmpty(description))
+            {
+                ShowMessage("Please Enter Description");
+            }
+            else
+            {
+                Process.UpdateAccessLevelDetails(lblLevelid.Text, LevelName, description, Active);
+                ShowMessage("Access Level (" + LevelName + ") has been updated successfull......");
+                clearControls();
+            }
+            
+            
         }
         catch (Exception ex)
         {
             ShowMessage(ex.Message);
-        }
-    }
-    private void saveDetails()
-    {
-        try
-        {
-            int ccid = Convert.ToInt32(lblcode.Text.Trim());
-            string CostCenterCode = txtCcCode.Text.Trim();
-            string compareCode = lblCcCode.Text.Trim();
-            string compareInitials = lblInitials.Text.Trim();
-            string CCCategoryCode = cboCompany.SelectedValue;
-
-        }
-        catch (Exception ex)
-        {
-            ShowMessage(ex.Message);
-        }
-    }
-    private void loadForm()
-    {
-        try
-        {
-            MultiView1.ActiveViewIndex = 1;
-            LoadCompany();
-            int ccid = Convert.ToInt32(lblCcCode.Text.Trim());
-            dataTable = data.GetAreaDetails(ccid);
-            txtCcCode.Text = dataTable.Rows[0]["Area"].ToString();
-
-            bool IsActive = Convert.ToBoolean(dataTable.Rows[0]["Active"].ToString());
-            CheckBox1.Checked = IsActive;
-
-        }
-        catch (Exception ex)
-        {
-            Label msg = (Label)Master.FindControl("lblmsg");
-            msg.Text = "MESSAGE: " + ex.Message;
         }
     }
     protected void GridCCenter_RowCreated(object sender, GridViewRowEventArgs e)
     {
 
-    }
-    protected void GridCCenter_RowCommand(object sender, GridViewCommandEventArgs e)
-    {
-        try
-        {
-            if (e.CommandName == "btnEdit")
-            {
-                int intIndex = Convert.ToInt32(e.CommandArgument);
-                lblCcCode.Text = Convert.ToString(DataGrid1.DataKeys[intIndex].ToString());
-                loadForm();
-            }
-
-        }
-        catch (Exception ex)
-        {
-            ShowMessage(ex.Message);
-        }
     }
     private void ShowMessage(string Message)
     {
@@ -171,22 +93,20 @@ public partial class AddRoles : System.Web.UI.Page
     }
     private void clearControls()
     {
-        txtCcCode.Text = "";
+        txtdescript.Text = "";
         txtAName.Text = "";
-        txtCcCode.Text = "";
+        txtEditLevelName.Text = "";
         lblcode.Text = "0";
+        txtEditDescription.Text = "";
         CheckBox2.Checked = false;
-        CheckBox1.Checked = false;
+        CheckEditActive.Checked = false;
     }
     protected void btnCancel_Click(object sender, EventArgs e)
     {
         clearControls();
+        LoadAccessLevels();
         MultiView1.ActiveViewIndex = 0;
-    }
 
-    protected void cboCompany_DataBound(object sender, EventArgs e)
-    {
-        cboCompany.Items.Insert(0, new ListItem("--- Select Area ---", "0"));
     }
     protected void Button2_Click(object sender, EventArgs e)
     {
@@ -201,14 +121,23 @@ public partial class AddRoles : System.Web.UI.Page
         try
         {
 
-            string Name = txtAName.Text.Trim();
-            string CostCenterID = lblCenterID.Text.Trim();
+            string LevelName = txtAName.Text.Trim();
+            string description = txtdescript.Text;
             bool Active = CheckBox2.Checked;
-            int category = int.Parse(cboCategory.SelectedValue.ToString());
-            Process.SaveAreaDetails(int.Parse(CostCenterID), Name, category, Convert.ToInt32(Active));
-
-            ShowMessage("Area (" + Name + ") has been added successfull......");
-            clearControls();
+            if (string.IsNullOrEmpty(LevelName))
+            {
+                ShowMessage("Please Enter Level Name");
+            }
+            else if (string.IsNullOrEmpty(description))
+            {
+                ShowMessage("Please Enter Description");
+            }
+            else
+            {
+                Process.SaveAccessLevel(LevelName, description, Active);
+                ShowMessage("Access Level (" + LevelName + ") has been added successfull......");
+                clearControls();
+            }
         }
         catch (Exception ex)
         {
@@ -225,17 +154,31 @@ public partial class AddRoles : System.Web.UI.Page
     {
         try
         {
-            string code = e.Item.Cells[0].Text;
+            string levelid = e.Item.Cells[0].Text;
+            lblLevelid.Text = levelid;
             if (e.CommandName == "btnEdit")
             {
-                Response.Redirect("./General_EditUser.aspx?transferid=" + code, true);
+                DataTable table = data.GetAccessLevelsByID(levelid);
+                txtEditLevelName.Text = table.Rows[0]["LevelName"].ToString();
+                txtEditDescription.Text = table.Rows[0]["Description"].ToString();
+                bool active = bool.Parse(table.Rows[0]["Active"].ToString());
+                if (active)
+                {
+                    CheckEditActive.Checked = true;
+                }
+                else
+                {
+                    CheckEditActive.Checked = false;
+                }
+                MultiView1.ActiveViewIndex = 1;
             }
             else if (e.CommandName == "btnenable")
             {
-                string Status = e.Item.Cells[5].Text;
-                string returned = Process.ChangeUserStatus(code, Status);
+                string code = e.Item.Cells[0].Text;
+                string Status = e.Item.Cells[3].Text;
+                string returned = Process.ChangeAccessLevelStatus(code, Status);
                 ShowMessage(returned);
-                //LoadUsers();
+                LoadAccessLevels();
             }
         }
         catch (Exception ex)

@@ -62,10 +62,6 @@ public class ProcessUsers
         {
             output = "Email Address already exists in system";
         }
-        else if (ModArray == "")
-        {
-            output = "Please Select System Module(s) to accessed by User";
-        }
         else
         {
             string Username = MakeUserName(FirstName, LastName).Trim().ToLower();
@@ -86,13 +82,23 @@ public class ProcessUsers
                 NotifyUser(Email, Username, Name);
                 string SaveUserID = data.SaveUserDetails(FirstName, MiddleName, LastName, Username, Password, Disgnation,
                                     Email, PhoneNumber, CostCenterID, IsPDUMember, IsPDUSupervisor, AccessLevelID, CapturedBy);
-                SaveUserModules(SaveUserID, ModArray);
+                //SaveUserModules(SaveUserID, ModArray);
                 SaveSignature(SaveUserID, imgUpload);
 
                 output = "Access for " + Name + " has been successfully created ( Username " + Username + " )";
             }
         }
         return output;
+    }
+
+    public void UpdateAccessLevelDetails(string text, string levelName, string description, bool active)
+    {
+        data.UpdateAccessLevelDetails(text, levelName, description, active);
+    }
+
+    public void SaveAccessLevel(string levelName, string description, bool active)
+    {
+        data.SaveAccessLevel(levelName, description, active);
     }
 
     public void UpdateWorkFlowDetails(string name, bool active, string flowid)
@@ -105,7 +111,7 @@ public class ProcessUsers
         string message = "<p>Hello " + Name.ToUpper() + ", " + Environment.NewLine + "</p><p> Access the E-Procurement System through http://192.168.8.110:4070/procurement/ </p>" + Environment.NewLine;
         message += "<p>Your Username is " + Username + ". (Password is the same as the username). </p>" + Environment.NewLine;
         
-        mailer.SendEmail("Admin", Email, "E-Procurement Account Profile", message);
+        mailer.SendEmail("Admin", Email, "NARO CMS Account Profile", message);
     }
 
     private void NotifyChange(string Email, string Username, string Name)
@@ -302,6 +308,24 @@ public class ProcessUsers
             output = "User(" + Usercode + ") has been enabled Successfully";
         }
         data.ChangeUserStatus(Usercode, status);
+        return output;
+
+    }
+    public string ChangeAccessLevelStatus(string levelid, string Status)
+    {
+        bool status;
+        string output = "";
+        if (Status == "True")
+        {
+            status = false;
+            output = "User(" + levelid + ") has been disabled Successfully";
+        }
+        else
+        {
+            status = true;
+            output = "User(" + levelid + ") has been enabled Successfully";
+        }
+        data.ChangeLevelStatus(levelid, status);
         return output;
 
     }

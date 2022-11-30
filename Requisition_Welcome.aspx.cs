@@ -21,8 +21,6 @@ public partial class Requisition_Welcome : System.Web.UI.Page
             lblWelcome.Text = "Welcome " + FullName;
 
             lblCostCenterInfo.Text = "You are currently logged in as " + Role + Environment.NewLine;
-            lblCostCenterInfo.Text += Environment.NewLine + " attached to Cost Center: " + CostCenter;
-
             lblUsage.Text = "Use the Links above to access your system functionalities";
         }
         else

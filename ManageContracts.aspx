@@ -152,128 +152,85 @@ Title="MANAGE ROLES" %>
                 </formview>
             </asp:View>
             <asp:View ID="View4" runat="server">
-                <table style="width: 100%">
-                    <tr>
-                        <td colspan="3" style="width: 100%; height: 21px; text-align: center"></td>
-                    </tr>
-                    <tr>
-                        <td class="InterFaceTableLeftRowUp" colspan="3" style="width: 100%; text-align: center">ATTACHMENT(S)</td>
-                    </tr>
-                    <tr>
-                        <td colspan="3"></td>
-                    </tr>
-                    <tr>
-                        <td colspan="3" style="width: 100%; text-align: center">
-                            <asp:Label ID="lblHeaderMsg" runat="server" Font-Bold="True" Font-Names="Cambria"
-                                Font-Size="11pt" ForeColor="Red"></asp:Label></td>
-                    </tr>
-                    <tr>
-                        <td style="vertical-align: top; width: 49%; text-align: center">
-                            <table align="center" cellpadding="0" cellspacing="0" style="width: 99%">
-                                <tr>
-                                    <td colspan="3">
-                                        <table align="center" cellpadding="0" cellspacing="0" style="width: 98%">
-                                            <tr>
-                                                <td class="InterfaceHeaderLabel3" style="height: 18px">New Attachments</td>
-                                            </tr>
-                                        </table>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3" style="height: 16px"></td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3" style="vertical-align: top; height: 19px; text-align: left">
-                                        <table align="center" cellpadding="0" cellspacing="0" style="border-right: #a4a2ca 1px solid; border-top: #a4a2ca 1px solid; border-left: #a4a2ca 1px solid; width: 90%; border-bottom: #a4a2ca 1px solid; background-color: #ffffff">
-                                            <tr>
-                                                <td style="height: 19px">
-                                                    <br />
-                                                    <p id="upload-area">
-                                                        <input id="FileField" runat="server" size="60" type="file" />
-                                                    </p>
-                                                    <p>
-                                                        <input id="ButtonAdd" onclick="addFileUploadBox()" type="button" value="Add a file" />
-                                                    </p>
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td style="width: 2%"></td>
-                        <td style="vertical-align: top; width: 49%; text-align: center">
-                            <table align="center" cellpadding="0" cellspacing="0" style="width: 99%">
-                                <tr>
-                                    <td colspan="3">
-                                        <table align="center" cellpadding="0" cellspacing="0" style="width: 98%">
-                                            <tr>
-                                                <td class="InterfaceHeaderLabel3" style="height: 18px">View Attachments</td>
-                                            </tr>
-                                        </table>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3" style="height: 16px"></td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3">
-                                        <asp:GridView ID="GridAttachments" runat="server" CssClass="gridgeneralstyle" DataKeyNames="FileID"
-                                            GridLines="None" HorizontalAlign="Center" OnRowCommand="GridAttachments_RowCommand"
-                                            PageSize="15" Width="98%">
-                                            <PagerSettings Mode="NumericFirstLast" Position="TopAndBottom" />
-                                            <RowStyle CssClass="gridRowStyle" />
-                                            <EmptyDataRowStyle Font-Bold="True" ForeColor="Red" HorizontalAlign="Center" />
-                                            <Columns>
-                                                <asp:ButtonField CommandName="ViewDetails" Text="View">
-                                                    <HeaderStyle CssClass="gridEditField" />
-                                                    <ItemStyle CssClass="gridEditField" ForeColor="#003399" HorizontalAlign="Center"
-                                                        Width="140px" />
-                                                </asp:ButtonField>
-                                                <asp:ButtonField CommandName="btnRemove" Text="Remove">
-                                                    <ItemStyle CssClass="gridEditField" ForeColor="#003399" />
-                                                </asp:ButtonField>
-                                            </Columns>
-                                            <HeaderStyle CssClass="gridHeaderStyle" HorizontalAlign="Left" />
-                                            <AlternatingRowStyle CssClass="gridAlternatingRowStyle" />
-                                        </asp:GridView>
-                                        <asp:Label ID="lblmsg" runat="server" Font-Names="Cambria" Font-Size="11pt" ForeColor="Red"
-                                            Text="NO ATTACHMENTS FOUND" Visible="False"></asp:Label></td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3" style="height: 16px"></td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="3" style="vertical-align: top; width: 100%; text-align: center">
-                            <asp:Label ID="Label2" runat="server" Text="0" Visible="False"></asp:Label><asp:Button
-                                ID="btnSaveFile" runat="server" Font-Bold="True" Font-Size="9pt" Height="23px"
-                                OnClick="btnSaveFile_Click" Text="SAVE " Width="80px" />
-                            <asp:Button ID="btnReturn" runat="server" Font-Bold="True" Font-Size="9pt" Height="23px"
-                                OnClick="btnReturn_Click" Text="RETURN" Width="80px" /></td>
-                    </tr>
-                </table>
+                <div class="form-group row">
+                    <div class="col-sm-1 mb-3 mb-sm-0"></div>
+                    <div class="col-sm-2 mb-3 mb-sm-0">New Attachments</div>
+                    <div class="col-sm-6 mb-3 mb-sm-0">
+                    </div>
+                    <div class="col-sm-2 mb-3 mb-sm-0">View Attachments</div>
+                    <div class="col-sm-3 mb-3 mb-sm-0">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-1 mb-3 mb-sm-0"></div>
+                    <div class="col-sm-2 mb-3 mb-sm-0">
+                        <br />
+                        <p id="upload-area">
+                            <input id="FileField" runat="server" size="60" type="file" />
+                        </p><br />
+                        <asp:Button ID="btnSaveFile" runat="server" OnClick="btnSaveFile_Click" class="btn btn-primary btn-user float-left" Text="SAVE FILE " />
+                    </div>
+                    <div class="col-sm-2 mb-3 mb-sm-0">
+                    </div>
+                    <div class="col-sm-6 mb-3 mb-sm-0">
+                        <asp:Label ID="lblmsg" runat="server" Font-Names="Cambria" Font-Size="11pt" ForeColor="Red"
+                                            Text="NO ATTACHMENTS FOUND" Visible="False"></asp:Label>
+                        <asp:DataGrid ID="DataGridAttachments" runat="server" AutoGenerateColumns="False" class="table table-striped table-bordered zero-configuration" OnItemCommand="DataGridAttachments_ItemCommand" HorizontalAlign="Center">
+                            <FooterStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
+                            <EditItemStyle BackColor="#999999" />
+                            <SelectedItemStyle BackColor="#E2DED6" Font-Bold="True" ForeColor="#333333" />
+                            <PagerStyle BackColor="#284775" ForeColor="White" HorizontalAlign="Center" />
+                            <AlternatingItemStyle BackColor="White" ForeColor="#284775" />
+                            <ItemStyle BackColor="#F7F6F3" ForeColor="#333333" HorizontalAlign="Left" />
+                            <Columns>
+                                <asp:BoundColumn DataField="FileID" HeaderText="FileID" Visible="false"></asp:BoundColumn>
+                                <asp:BoundColumn DataField="FileName" HeaderText="FileName"></asp:BoundColumn>
+                                <asp:ButtonColumn CommandName="btnRemove" HeaderText="Action" Text="Remove"></asp:ButtonColumn>
+                                <asp:ButtonColumn CommandName="btnEdit" HeaderText="Action" Text="View"></asp:ButtonColumn>
+                            </Columns>
+                            <HeaderStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" HorizontalAlign="Left" />
+                        </asp:DataGrid>
+                                        
+                    </div>
+                    <div class="col-sm-3 mb-3 mb-sm-0">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-1 mb-3 mb-sm-0"></div>
+                    <div class="col-sm-2 mb-3 mb-sm-0">
+                    </div>
+                    <div class="col-sm-2 mb-3 mb-sm-0">
+                    </div>
+                    <div class="col-sm-2 mb-3 mb-sm-0">
+                        <asp:Button ID="btnReturn" runat="server" class="btn btn-primary btn-user float-left" OnClick="btnReturn_Click" Text="RETURN" />
+                    </div>
+                    <div class="col-sm-3 mb-3 mb-sm-0">
+                    </div>
+                </div>
             </asp:View>
             <asp:View ID="View5" runat="server">
-                <table id="Table3" style="width: 98%">
-                    <tr>
-                        <td style="width: 100%; height: 21px; text-align: center"></td>
-                    </tr>
-                    <tr>
-                        <td class="InterFaceTableLeftRowUp" style="width: 100%; height: 21px; text-align: center">STAGES OF CONTRACT</td>
-                    </tr>
-                    <tr>
-                        <td class="InterFaceTableLeftRowUp" style="width: 100%; height: 21px; text-align: center">
-                            <asp:Button ID="Button5" runat="server" Text="Return" OnClick="btnCancel_Click" class="btn btn-primary btn-user btn-block float-right" /></td>
-                    </tr>
-                    <tr>
-                        <td style="width: 100%; text-align: right"></td>
-                    </tr>
-                    <tr>
-                        <td style="width: 100%; text-align: center">
-                            <asp:DataGrid ID="DataGrid2" runat="server" AutoGenerateColumns="False" CellPadding="4"
+                <div class="form-group row">
+                    <div class="col-sm-1 mb-3 mb-sm-0"></div>
+                    <div class="col-sm-4 mb-3 mb-sm-0">
+                    </div>
+                    <div class="col-sm-2 mb-3 mb-sm-0">
+                        STAGES OF CONTRACT
+                    </div>
+                    <div class="col-sm-2 mb-3 mb-sm-0">
+                       
+                    </div>
+                </div>
+                    <div class="form-group row">
+                        <div class="col-sm-1 mb-3 mb-sm-0"></div>
+                        <div class="col-sm-4 mb-3 mb-sm-0">
+                        </div>
+                        <div class="col-sm-3 mb-3 mb-sm-0">
+                            <asp:Button ID="Button5" runat="server" Text="Return" OnClick="btnCancel_Click" class="btn btn-primary btn-user btn-block" />
+                        </div>
+                        <div class="col-sm-2 mb-3 mb-sm-0">
+                        </div>
+                    </div>
+                    <asp:DataGrid ID="DataGrid2" runat="server" AutoGenerateColumns="False" CellPadding="4"
                                 Font-Names="Verdana" Font-Size="Small" ForeColor="#333333" GridLines="None" OnItemCommand="DataGrid1_ItemCommand" Style="text-align: justify"
                                 Width="100%">
                                 <FooterStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
@@ -293,62 +250,47 @@ Title="MANAGE ROLES" %>
                                     <asp:BoundColumn DataField="Level" HeaderText="System Level"></asp:BoundColumn>
                                 </Columns>
                                 <HeaderStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
-                            </asp:DataGrid></td>
-                    </tr>
-                    <tr>
-                        <td style="width: 100%; text-align: right"></td>
-                    </tr>
-                </table>
+                            </asp:DataGrid>
+                </div>
             </asp:View>
             <asp:View ID="View6" runat="server">
-                <table align="center" cellpadding="0" cellspacing="0" class="style12">
-                    <tr>
-                        <td colspan="2" style="vertical-align: top; text-align: center; height: 42px;">
-                            <table align="center" cellpadding="0" cellspacing="0" style="width: 60%">
-                                <tr>
-                                    <td class="InterfaceHeaderLabel3" style="height: 17px">Approve / Reject &nbsp;Requisition</td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: center; vertical-align: top; width: 50%;">
-                            <table align="center" cellpadding="0" cellspacing="0" style="width: 95%">
-                                <tr>
-                                    <asp:Label runat="server" ID="contid"></asp:Label>
-                                    <td class="InterFaceTableLeftRowUp">Approve Requisition</td>
-                                    <td class="InterFaceTableMiddleRowUp">&nbsp;</td>
-                                    <td class="InterFaceTableRightRowUp">
-                                        <asp:RadioButtonList ID="rbnApproval" runat="server" CssClass="InterfaceDropdownList" AutoPostBack="True" OnSelectedIndexChanged="rbnApproval_SelectedIndexChanged">
-                                            <asp:ListItem Value="1">Approve Requisition</asp:ListItem>
-                                            <asp:ListItem Value="2">Reject Requisition</asp:ListItem>
-                                        </asp:RadioButtonList></td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td style="text-align: center; vertical-align: top; width: 50%;">
-                            <table align="center" cellpadding="0" cellspacing="0" style="width: 95%">
-                            </table>
-                            <table align="center" cellpadding="0" cellspacing="0" style="width: 95%">
-                                <tr>
-                                    <td class="InterFaceTableLeftRowUp" style="height: 30px">Comment/Memo(If Required)</td>
-                                    <td class="InterFaceTableMiddleRowUp" style="height: 30px">&nbsp;</td>
-                                    <td class="InterFaceTableRightRowUp" style="height: 30px">
-                                        <asp:TextBox ID="txtComment" runat="server" CssClass="InterfaceTextboxMultiline" TextMode="MultiLine" Height="80px"></asp:TextBox></td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="2" style="vertical-align: top; text-align: center"></td>
-                    </tr>
-                </table>
-                </ContentTemplate>
-                                                    </ajaxToolkit:UpdatePanel>
-                                                    <br />
-                <asp:Button ID="btnSubmitRequistn" runat="server" class="btn btn-primary btn-user btn-block float-right" OnClick="btnSubmitRequistn_Click" Text="SUBMIT" />
-                <asp:Button ID="Button4" runat="server" Font-Bold="True" OnClick="btnCancel_Click" class="btn btn-primary btn-user btn-block float-right"
+                <div class="form-group row">
+                    <div class="col-sm-5 mb-3 mb-sm-0"></div>
+                    <div class="col-sm-5 mb-3 mb-sm-0">Approve / Reject Contract</div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-1 mb-3 mb-sm-0"></div>
+                    <div class="col-sm-2 mb-3 mb-sm-0">
+                        <asp:Label runat="server" ID="contid" Visible="false"></asp:Label>
+                        Approve Requisition
+                    </div>
+                    <div class="col-sm-2 mb-3 mb-sm-0">
+                        <asp:RadioButtonList ID="rbnApproval" runat="server" CssClass="InterfaceDropdownList" AutoPostBack="True" OnSelectedIndexChanged="rbnApproval_SelectedIndexChanged">
+                            <asp:ListItem Value="1">Approve Requisition</asp:ListItem>
+                            <asp:ListItem Value="2">Reject Requisition</asp:ListItem>
+                        </asp:RadioButtonList>
+                    </div>
+                    <div class="col-sm-2 mb-3 mb-sm-0">
+                        Comment/Memo(If Required)
+                    </div>
+                    <div class="col-sm-3 mb-3 mb-sm-0">
+                        <asp:TextBox ID="txtComment" runat="server" CssClass="InterfaceTextboxMultiline" TextMode="MultiLine" Height="80px"></asp:TextBox>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-2 mb-3 mb-sm-0"></div>
+                    <div class="col-sm-3 mb-3 mb-sm-0">
+                        <asp:Button ID="btnSubmitRequistn" runat="server" class="btn btn-primary btn-user btn-block float-right" OnClick="btnSubmitRequistn_Click" Text="SUBMIT" />
+                    </div>
+                    <div class="col-sm-1 mb-1 mb-sm-0"></div>
+                    <div class="col-sm-3 mb-3 mb-sm-0">
+                         <asp:Button ID="Button4" runat="server" Font-Bold="True" OnClick="btnCancel_Click" class="btn btn-primary btn-user btn-block float-right"
                     Text="CANCEL" />
+                    </div>
+                </div>
+                <br />
+                
+               
             </asp:View>
             <asp:View ID="View7" runat="server">
                 <asp:ScriptManager ID="ScriptManager1" AjaxFrameworkMode="Enabled" runat="server"></asp:ScriptManager>
@@ -365,7 +307,7 @@ Title="MANAGE ROLES" %>
                     <div class="col-sm-3 mb-3 mb-sm-0">
                         <asp:TextBox ID="milestonename" runat="server" Font-Bold="True" CssClass="form-control"></asp:TextBox>
                     </div>
-                    <div class="col-sm-2 mb-3 mb-sm-0">Date Required</div>
+                    <div class="col-sm-2 mb-3 mb-sm-0">Date of Completion</div>
                     <div class="col-sm-3 mb-3 mb-sm-0">
                         <asp:TextBox ID="milestondate" runat="server" Font-Bold="True" CssClass="form-control"></asp:TextBox>
                         <ajaxToolkit:CalendarExtender ID="CalendarExtender1" runat="server" CssClass="MyCalendar"
@@ -374,11 +316,17 @@ Title="MANAGE ROLES" %>
                 </div>
                 <div class="form-group row">
                     <div class="col-sm-1 mb-3 mb-sm-0"></div>
-                    <div class="col-sm-2 mb-3 mb-sm-0">Certificate of Completion</div>
+                    <div class="col-sm-2 mb-3 mb-sm-0"><asp:Label runat="server" ID="lblcompletion" Visible="false">Proof of Completion</asp:Label> </div>
                     <div class="col-sm-3 mb-3 mb-sm-0">
                         <p id="upload2-area">
                             <input id="File1" runat="server" size="60" type="file" visible="false" />
                         </p>
+                    </div>
+                    <div class="col-sm-2 mb-3 mb-sm-0"><asp:label runat="server" ID="lblcompletiondate" Visible="false">Date of Completed</asp:label></div>
+                    <div class="col-sm-3 mb-3 mb-sm-0">
+                        <asp:TextBox ID="txtcompletiondate" runat="server" Font-Bold="True" CssClass="form-control" Visible="false"></asp:TextBox>
+                        <ajaxToolkit:CalendarExtender ID="CalendarExtender2" runat="server" CssClass="MyCalendar"
+                            Format="MMMM d, yyyy" PopupPosition="TopLeft" TargetControlID="txtcompletiondate"></ajaxToolkit:CalendarExtender>
                     </div>
                 </div>
                 <div class="form-group row">
@@ -401,9 +349,9 @@ Title="MANAGE ROLES" %>
                                 <asp:BoundColumn DataField="Milestone" HeaderText="Milestone"></asp:BoundColumn>
                                 <asp:BoundColumn DataField="DateRequired" HeaderText="Date Required"></asp:BoundColumn>
                                 <asp:BoundColumn DataField="CreationDate" HeaderText="Creation Date"></asp:BoundColumn>
-                                <asp:BoundColumn DataField="Active" HeaderText="IsComplete"></asp:BoundColumn>
-                                
-                                <asp:ButtonColumn CommandName="btnCompleteMilestone" HeaderText="Add File" Text="Upload Certificate"></asp:ButtonColumn>
+                                <asp:BoundColumn DataField="Active" HeaderText="Status"></asp:BoundColumn>
+                                <asp:ButtonColumn CommandName="btnCompleteMilestone" HeaderText="Add File" Text="Complete Milestone"></asp:ButtonColumn>
+                                <asp:ButtonColumn CommandName="btnEdit" HeaderText="Edit Milestone" Text="Edit"></asp:ButtonColumn>
                             </Columns>
                             <HeaderStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" HorizontalAlign="Left" />
                         </asp:DataGrid>

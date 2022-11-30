@@ -28,7 +28,6 @@ public partial class CreateUser : System.Web.UI.Page
             {
                 LoadAccessLevels();
                 LoadAreas();
-                chkModule.Items.Clear();
             }
         }
         catch (Exception ex)
@@ -94,10 +93,6 @@ public partial class CreateUser : System.Web.UI.Page
     {
         string Access = cboAccessLevel.SelectedItem.ToString();
         dataTable = data.GetSystemModules(Access);
-        chkModule.DataSource = dataTable;
-        chkModule.DataTextField = "ModuleName";
-        chkModule.DataValueField = "ModuleID";
-        chkModule.DataBind();
     }
     protected void btnReturn_Click(object sender, EventArgs e)
     {
@@ -107,7 +102,7 @@ public partial class CreateUser : System.Web.UI.Page
     {
         try
         {
-            string ModArray = GetSelectedModules();
+            string ModArray = "";
             string FName = TxtFname.Text.Trim();
             string MName = txtMiddleName.Text.Trim();
             string LName = txtLname.Text.Trim();
@@ -118,7 +113,8 @@ public partial class CreateUser : System.Web.UI.Page
             int AccessLevelID = Convert.ToInt32(cboAccessLevel.SelectedValue);
             int CostCenter = 1;//Convert.ToInt32(cboCostCenter.SelectedValue);
             int Capturedby = Convert.ToInt32(Session["UserID"]);
-            bool IsPDUMember = chkIsPDUMember.Checked; bool IsPDUSupervisor = chkIsPDUSupervisor.Checked;
+            bool IsPDUMember = true; 
+            bool IsPDUSupervisor = true;
             FileUpload Sign = imgUpload;
             try
             {
@@ -154,13 +150,10 @@ public partial class CreateUser : System.Web.UI.Page
         {
             if (cboAccessLevel.SelectedValue != "0")
             {
-                chkModule.Enabled = true;
-                LoadModules();
+               
             }
             else
             {
-                chkModule.Enabled = false;
-                chkModule.Items.Clear();
             }
 
         }
@@ -168,20 +161,6 @@ public partial class CreateUser : System.Web.UI.Page
         {
             ShowMessage(ex.Message);
         }
-    }
-    private string GetSelectedModules()
-    {
-        string values = "";
-        for (int i = 0; i < chkModule.Items.Count; i++)
-        {
-            if (chkModule.Items[i].Selected)
-            {
-                values += chkModule.Items[i].Value + ",";
-            }
-        }
-
-        values = values.TrimEnd(',');
-        return values;
     }
     protected void cboAreas_DataBound(object sender, EventArgs e)
     {
@@ -211,17 +190,9 @@ public partial class CreateUser : System.Web.UI.Page
         txtLname.Text = "";
         txtMiddleName.Text = "";
         txtphone.Text = "";
-        chkModule.Items.Clear();
         //cboAreas.SelectedIndex = cboAreas.Items.IndexOf(cboAreas.Items.FindByValue("0"));
         //cboCostCenter.SelectedIndex = cboCostCenter.Items.IndexOf(cboCostCenter.Items.FindByValue("0"));
         cboAccessLevel.SelectedIndex = cboAccessLevel.Items.IndexOf(cboAccessLevel.Items.FindByValue("0"));
 
-    }
-    protected void chkIsPDUMember_CheckedChanged(object sender, EventArgs e)
-    {
-        if (chkIsPDUMember.Checked == true)
-            chkIsPDUSupervisor.Visible = true;
-        else
-            chkIsPDUSupervisor.Visible = false;
     }
 }

@@ -16,14 +16,15 @@ Title="MANAGE ROLES" Culture="auto" UICulture="auto" %>
                     </div>
                 </div>
                 <div class="form-group row">
-                    <div class="col-sm-3 mb-3 mb-sm-0"></div>
+                    <div class="col-sm-5 mb-3 mb-sm-0"></div>
                     <div class="col-sm-6">
-                        <label class="btn btn-primary btn-user btn-block float-right">Configured Contracts</label>
+                        <div class="bootstrap-label">
+                            <span class="label label-secondary">Configured Contracts</span>
+                        </div>
                     </div>
                 </div>
-
                 <div class="card-body">
-                    <asp:DataGrid ID="DataGrid1" runat="server" DataKeyField="ContractId" AllowPaging="True" OnPageIndexChanged="DataGrid1_PageIndexChanged" AutoGenerateColumns="False" class="table table-striped table-bordered zero-configuration" OnItemCommand="DataGrid2_ItemCommand" HorizontalAlign="Center">
+                    <asp:DataGrid ID="DataGrid1" runat="server" DataKeyField="ContractId" AllowPaging="True" OnPageIndexChanged="DataGrid1_PageIndexChanged" AutoGenerateColumns="False" class="table table-striped zero-configuration" OnItemCommand="DataGrid2_ItemCommand" HorizontalAlign="Center">
                         <PagerStyle Mode="NumericPages" />
                 <FooterStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
                 <EditItemStyle BackColor="#999999" />
@@ -38,7 +39,8 @@ Title="MANAGE ROLES" Culture="auto" UICulture="auto" %>
                     <asp:BoundColumn DataField="WorkFlowName" HeaderText="WorkFlowName"></asp:BoundColumn>
                     <asp:BoundColumn DataField="IsActive" HeaderText="IsActive"></asp:BoundColumn>
                     <asp:BoundColumn DataField="DateCreated" HeaderText="DateCreated"></asp:BoundColumn>
-                    <asp:ButtonColumn CommandName="btnEdit" HeaderText="Action" Text="UploadContract"></asp:ButtonColumn>
+                    <asp:ButtonColumn CommandName="btnEdit" HeaderText="Action" Text="UploadContract">
+                    </asp:ButtonColumn>
                 </Columns>
                 <HeaderStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" HorizontalAlign="Left" />
             </asp:DataGrid>

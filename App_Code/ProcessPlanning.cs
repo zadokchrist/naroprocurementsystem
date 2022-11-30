@@ -630,9 +630,9 @@ public class ProcessPlanning
         data.SavePlanDoc(PlanCode, FilePath, FileName, Requisition);
     }
 
-    public void SaveMileStoneDocuments(string milestoneid, string FilePath, string FileName)
+    public void SaveMileStoneDocuments(string milestoneid, string FilePath, string FileName,string completeddate)
     {
-        data.SaveMileStoneDocuments(milestoneid, FilePath, FileName);
+        data.SaveMileStoneDocuments(milestoneid, FilePath, FileName, completeddate);
     }
 
     private string GetBudgetCostCenter(string BudgetCostCenter)

@@ -82,10 +82,8 @@ public partial class ManageContracts : System.Web.UI.Page
             bool Active = CheckBox1.Checked;
             string flowid = workflowid.Text;
             Process.UpdateWorkFlowDetails(Name, Active, flowid);
-
             ShowMessage("Workflow (" + Name + ") has been updated successfull......");
             clearControls();
-            //}
         }
         catch (Exception ex)
         {
@@ -100,8 +98,6 @@ public partial class ManageContracts : System.Web.UI.Page
             string CostCenterCode = txtCcCode.Text.Trim();
             string compareCode = lblCcCode.Text.Trim();
             string compareInitials = lblInitials.Text.Trim();
-
-
         }
         catch (Exception ex)
         {
@@ -149,6 +145,7 @@ public partial class ManageContracts : System.Web.UI.Page
             string flowid = e.Item.Cells[1].Text;
             if (e.CommandName == "btnFiles")
             {
+                contid.Text = contractid;
                 LoadDocuments(contractid);
             }
             else if (e.CommandName == "btnStatus")
@@ -217,15 +214,15 @@ public partial class ManageContracts : System.Web.UI.Page
         dataTable = ProcessOthers.GetPlanDocuments("", PDCode);
         if (dataTable.Rows.Count > 0)
         {
-            GridAttachments.DataSource = dataTable;
-            GridAttachments.DataBind();
-            GridAttachments.Visible = true;
+            DataGridAttachments.DataSource = dataTable;
+            DataGridAttachments.DataBind();
+            DataGridAttachments.Visible = true;
             lblmsg.Visible = false;
         }
         else
         {
             lblmsg.Visible = true;
-            GridAttachments.Visible = false;
+            DataGridAttachments.Visible = false;
         }
     }
 
@@ -237,7 +234,7 @@ public partial class ManageContracts : System.Web.UI.Page
         try
         {
             //string Plancode = lblPlanCode.Text.Trim();
-            string PD_Code = workflowid.Text.Trim();
+            string PD_Code = contid.Text.Trim();
             UploadFiles(PD_Code);
             LoadDocuments(PD_Code);
         }
@@ -256,14 +253,25 @@ public partial class ManageContracts : System.Web.UI.Page
     {
         try
         {
+
             string userid = Session["UserID"].ToString();
             string description = txtComment.Text;
             dataTable = data.GetStatusesByWorkflowid(workflowid.Text);
             string currentstatus = dataTable.Rows[0]["StatusID"].ToString();
             var rows = dataTable.Select("StatusID="+ currentstatus);
             var indexOfRow = dataTable.Rows.IndexOf(rows[0]);
-            string nextStatus = dataTable.Rows[indexOfRow + 1]["StatusID"].ToString();
+            string nextStatus = "";
+            if (rbnApproval.SelectedIndex==0)
+            {
+                nextStatus = dataTable.Rows[indexOfRow + 1]["StatusID"].ToString();
+            }
+            else
+            {
+                nextStatus = dataTable.Rows[indexOfRow - 1]["StatusID"].ToString();
+            }
+            
             data.NextContractStatus(contid.Text, workflowid.Text, description, userid, nextStatus);
+            txtComment.Text = "";
             ShowMessage("Contract Moved to the next stage");
             MultiView1.ActiveViewIndex = 0;
         }
@@ -335,22 +343,19 @@ public partial class ManageContracts : System.Web.UI.Page
             ShowMessage(ex.Message);
         }
     }
-    protected void GridAttachments_RowCommand(object sender, GridViewCommandEventArgs e)
+
+    protected void DataGridAttachments_ItemCommand(object source, DataGridCommandEventArgs e)
     {
         try
         {
+            string FileCode = e.Item.Cells[0].Text;
             if (e.CommandName == "btnRemove")
             {
-                int intIndex = Convert.ToInt32(e.CommandArgument);
-                string FileCode = Convert.ToString(GridAttachments.DataKeys[intIndex].Value);
                 ProcessOthers.RemoveDocument(FileCode);
-                LoadDocuments(workflowid.Text);
+                LoadDocuments(contid.Text);
             }
             else
             {
-                // View 
-                int intIndex = Convert.ToInt32(e.CommandArgument);
-                string FileCode = Convert.ToString(GridAttachments.DataKeys[intIndex].Value);
                 string Path = ProcessOthers.GetDocumentPath(FileCode);
                 DownloadFile(Path, true);
             }
@@ -360,6 +365,8 @@ public partial class ManageContracts : System.Web.UI.Page
             ShowMessage(ex.Message);
         }
     }
+
+
 
     private void DownloadFile(string path, bool forceDownload)
     {
@@ -511,6 +518,9 @@ public partial class ManageContracts : System.Web.UI.Page
                     milestondate.Text = milestonedetails.Rows[0]["DateRequired"].ToString();
                     milestondate.Enabled = false;
                     File1.Visible = true;
+                    lblcompletion.Visible = true;
+                    txtcompletiondate.Visible = true;
+                    lblcompletiondate.Visible = true;
                     btnAddMilestone.Text = "Complete Milestone";
                     milestoneid.Text = RecordID;
                 }
@@ -519,8 +529,15 @@ public partial class ManageContracts : System.Web.UI.Page
                     ShowMessage("Certificate of completion was already uploaded. ");
                 }
             }
-            else if (e.CommandName == "btnStatus")
+            else if (e.CommandName == "btnEdit")
             {
+                DataTable milestonedetails = data.GetMilestonById(RecordID);
+                milestonename.Text = milestonedetails.Rows[0]["Milestone"].ToString();
+                milestonename.Enabled = true;
+                milestondate.Text = milestonedetails.Rows[0]["DateRequired"].ToString();
+                milestondate.Enabled = true;
+                btnAddMilestone.Text = "Update Milestone";
+                milestoneid.Text = RecordID;
             }
         }
         catch (Exception ex)
@@ -550,14 +567,36 @@ public partial class ManageContracts : System.Web.UI.Page
                     string milstonename = milestonename.Text;
                     string daterequired = milestondate.Text;
                     milestones = data.SaveMileStone(contractid, milstonename, daterequired);
+                    ShowMessage("Milestone saved successfully");
                     DataGrid3.DataSource = milestones;
                     DataGrid3.DataBind();
                 }
             }
+            else if (btnAddMilestone.Text.Equals("Update Milestone"))
+            {
+                string contractid = contraid.Text;
+                string stoneid = milestoneid.Text;
+                string milstonename = milestonename.Text;
+                string daterequired = milestondate.Text;
+                milestones = data.UpdateMileStone(stoneid, milstonename, daterequired, contractid);
+                ShowMessage("Milestone updated successfully");
+                DataGrid3.DataSource = milestones;
+                DataGrid3.DataBind();
+            }
             else
             {
                 string milestonid = milestoneid.Text;
-                UploadFilesMileStones(milestonid);
+                string completeddate = txtcompletiondate.Text;
+                if (string.IsNullOrEmpty(completeddate))
+                {
+                    ShowMessage("Please enter date completed");
+                }
+                else
+                {
+                    UploadFilesMileStones(milestonid, completeddate);
+                    ShowMessage("Milestone Completed successfully");
+                }
+                
             }
             
         }
@@ -567,7 +606,7 @@ public partial class ManageContracts : System.Web.UI.Page
         }
     }
 
-    private void UploadFilesMileStones(string PlanCode)
+    private void UploadFilesMileStones(string PlanCode,string completeddate)
     {
         HttpFileCollection uploads;
         uploads = HttpContext.Current.Request.Files;
@@ -580,7 +619,7 @@ public partial class ManageContracts : System.Web.UI.Page
                 string cNoSpace = c.Replace(" ", "-");
                 string c1 = PlanCode + "_" + (countfiles + i + 1) + "_" + cNoSpace;
                 File1.PostedFile.SaveAs("D:\\NaroContracts\\UploadedContracts\\MileStones" + c1);
-                ProcessOthers.SaveMileStoneDocuments(PlanCode, ("D:\\NaroContracts\\UploadedContracts\\MileStones" + c1), c);
+                ProcessOthers.SaveMileStoneDocuments(PlanCode, ("D:\\NaroContracts\\UploadedContracts\\MileStones" + c1), c, completeddate);
             }
         }
     }

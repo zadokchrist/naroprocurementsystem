@@ -124,6 +124,19 @@ public class DataLogin
             throw ex;
         }
     }
+
+    internal void UpdateAccessLevelDetails(string levelid, string levelName, string description, bool active)
+    {
+        mycommand = Proc_DB.GetStoredProcCommand("UpdateAccessLevelDetails", levelid, levelName, description, active);
+        Proc_DB.ExecuteNonQuery(mycommand);
+    }
+
+    internal void SaveAccessLevel(string levelName, string description, bool active)
+    {
+        mycommand = Proc_DB.GetStoredProcCommand("SaveAccessLevel", levelName, description, active);
+        Proc_DB.ExecuteNonQuery(mycommand);
+    }
+
     public DataTable GetSystemModules(string AccessLevel)
     {
         try
@@ -225,6 +238,14 @@ public class DataLogin
             throw ex;
         }
     }
+
+    public DataTable GetAccessLevelsByID(string levelid)
+    {
+        mycommand = Proc_DB.GetStoredProcCommand("GetAccessLevelsByID", levelid);
+        returnDatatable = Proc_DB.ExecuteDataSet(mycommand).Tables[0];
+        return returnDatatable;
+    }
+
     public DataTable GetOtherModules(int UserID, int LevelID)
     {
 
@@ -672,6 +693,13 @@ public class DataLogin
         return returnDatatable;
     }
 
+    public DataTable UpdateMileStone(string milestoneid, string milstonename, string daterequired,string contractid)
+    {
+        mycommand = Proc_DB.GetStoredProcCommand("UpdateMileStone", milestoneid, milstonename, daterequired, contractid);
+        returnDatatable = Proc_DB.ExecuteDataSet(mycommand).Tables[0];
+        return returnDatatable;
+    }
+
     #endregion
     #region DataInsertions
     public string SaveUserDetails(string FirstName, string MiddleName, string LastName,
@@ -772,6 +800,19 @@ public class DataLogin
         try
         {
             mycommand = Proc_DB.GetStoredProcCommand("Proc_GeneralChangeUserStatus", Usercode, Status);
+            Proc_DB.ExecuteNonQuery(mycommand);
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+
+    public void ChangeLevelStatus(string LevelId, bool Status)
+    {
+        try
+        {
+            mycommand = Proc_DB.GetStoredProcCommand("Proc_GeneralChangeLevelStatus", LevelId, Status);
             Proc_DB.ExecuteNonQuery(mycommand);
         }
         catch (Exception ex)

@@ -651,11 +651,11 @@ public class DataPlanning
         }
     }
 
-    public void SaveMileStoneDocuments(string PlanCode, string FilePath, string FileName)
+    public void SaveMileStoneDocuments(string PlanCode, string FilePath, string FileName,string completeddate)
     {
         try
         {
-            mycommand = Proc_DB.GetStoredProcCommand("SaveMileStoneDocuments", PlanCode, FilePath, FileName);
+            mycommand = Proc_DB.GetStoredProcCommand("SaveMileStoneDocuments", PlanCode, FilePath, FileName, completeddate);
             Proc_DB.ExecuteNonQuery(mycommand);
         }
         catch (Exception ex)

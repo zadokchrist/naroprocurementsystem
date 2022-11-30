@@ -57,23 +57,16 @@ Title="NEW SYSTEM USER" Culture="auto" UICulture="auto" %>
                <asp:TextBox ID="txtemail" runat="server" CssClass="form-control"></asp:TextBox>
             </div>
             <div class="col-sm-1 mb-3 mb-sm-0">
-                Access Level
-            </div>
-            <div class="col-sm-3 mb-3 mb-sm-0">
-                <asp:CheckBox ID="chkIsPDUMember" runat="server" AutoPostBack="True" OnCheckedChanged="chkIsPDUMember_CheckedChanged"
-                                                    Text="Is PDU Member" /><br />
-                                                <asp:CheckBox ID="chkIsPDUSupervisor" runat="server" Text="Is Procurement Supervisor" Visible="False" />
-            </div>
-        </div>
-        <div class="form-group row">
-            <div class="col-sm-1 mb-3 mb-sm-0"></div>
-            <div class="col-sm-2 mb-3 mb-sm-0">
                 Phone
             </div>
             <div class="col-sm-3 mb-3 mb-sm-0">
                <asp:TextBox ID="txtphone" runat="server" CssClass="form-control"></asp:TextBox>
             </div>
-            <div class="col-sm-1 mb-3 mb-sm-0">
+        </div>
+        <div class="form-group row">
+            <div class="col-sm-1 mb-3 mb-sm-0"></div>
+            
+            <div class="col-sm-2 mb-3 mb-sm-0">
                 Title / Designation
             </div>
             <div class="col-sm-3 mb-3 mb-sm-0">
@@ -95,28 +88,6 @@ Title="NEW SYSTEM USER" Culture="auto" UICulture="auto" %>
             </div>
             <div class="col-sm-3 mb-3 mb-sm-0">
                 <asp:Image ID="Image1" runat="server" Height="50px" Style="width: 200px" />
-            </div>
-        </div>
-        <div class="form-group row">
-            <div class="col-sm-3 mb-3 mb-sm-0"></div>
-            <div class="col-sm-6 mb-3 mb-sm-0">
-                System Modules
-            </div>
-        </div>
-        <div class="form-group row">
-            <div class="col-sm-1 mb-3 mb-sm-0"></div>
-            <div class="col-sm-9 mb-3 mb-sm-0">
-                <asp:UpdatePanel ID="UpdatePanel1" runat="server">
-                    <ContentTemplate>
-                        <div class="form-row">
-                            <asp:CheckBoxList ID="chkModule" runat="server" CssClass="form-check"  Enabled="False" Font-Bold="True">
-                                <asp:ListItem Value="2">Planning Module</asp:ListItem>
-                                <asp:ListItem Value="3">Requisition Module</asp:ListItem>
-                                <asp:ListItem Value="4">Bidding and Evaluation Module</asp:ListItem>
-                            </asp:CheckBoxList>
-                        </div>
-                    </ContentTemplate>
-                </asp:UpdatePanel>
             </div>
         </div>
         <div class="form-group row">

@@ -25,7 +25,7 @@ public partial class AddWorkFlow : System.Web.UI.Page
             if (!Page.IsPostBack)
             {
                 MultiView1.ActiveViewIndex = 0;
-               
+                LoadWorkFlows();
                 LoadConfiguredContracts();
             }
         }

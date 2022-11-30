@@ -14,7 +14,6 @@
     <link href="content2/css/style.css" rel="stylesheet">
 </head>
 <body class="h-100">
-
     <!--*******************
         Preloader start
     ********************-->
@@ -36,7 +35,7 @@
                         <div class="card login-form mb-0">
                             <div class="card-body pt-5">
                                 <a class="text-center" href="index.html">
-                                    <h4>NARO PROCUREMENT SYSTEM</h4>
+                                    <h4>NARO CMS</h4>
                                 </a>
 
                                 <form class="mt-5 mb-5 login-input" runat="server">
