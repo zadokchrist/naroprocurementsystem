@@ -71,10 +71,10 @@
                 </div>
             </div>
             <div class="form-group row">
-                <div class="col-sm-3 mb-3 mb-sm-0"></div>
+                <div class="col-sm-4 mb-3 mb-sm-0"></div>
                 <div class="col-sm-3 mb-3 mb-sm-0">
                     <br />
-                    &nbsp;<asp:Button ID="btnAddItem" runat="server" OnClick="btnAddItem_Click" Text="Add Step" />
+                    &nbsp;<asp:Button ID="btnAddItem" runat="server" CssClass="btn btn-primary btn-block" OnClick="btnAddItem_Click" Text="Add Step" />
                 </div>
             </div>
 
@@ -160,20 +160,6 @@
         </tr>
         <tr>
             <td colspan="3" style="vertical-align: top; text-align: center">
-                </td>
-        </tr>
-        <tr>
-            <td colspan="3" style="vertical-align: top; text-align: center">
-                <asp:Button ID="Button1" runat="server" Text="Submit" Font-Bold="True" OnClick="Button1_Click" />
-                <asp:Button ID="Button2" runat="server" Text="Cancel" Font-Bold="True" OnClick="Button2_Click" /></td>
-        </tr>
-        <tr>
-            <td colspan="3" style="vertical-align: top; text-align: center">
-                &nbsp;
-            </td>
-        </tr>
-        <tr>
-            <td colspan="3" style="vertical-align: top; text-align: center">
                 
                 <asp:Label ID="lblRecordCode" runat="server" Text="0" Visible="False"></asp:Label>
                 <asp:Label ID="lblItemID" runat="server" Text="0" Visible="False"></asp:Label>
@@ -184,6 +170,15 @@
                 <asp:Label ID="lblPlanCode" runat="server" Text="0" Visible="False"></asp:Label></td>
         </tr>
     </table>
+             <div class="form-group row">
+                <div class="col-sm-3 mb-3 mb-sm-0"></div>
+                <div class="col-sm-3 mb-3 mb-sm-0">
+                    <asp:Button ID="Button1" runat="server" Text="Submit" Font-Bold="True" CssClass="btn btn-primary btn-block" OnClick="Button1_Click" />
+                </div>
+                 <div class="col-sm-3 mb-3 mb-sm-0">
+                     <asp:Button ID="Button2" runat="server" Text="Cancel" Font-Bold="True" CssClass="btn btn-primary btn-block" OnClick="Button2_Click" /></td>
+                 </div>
+            </div>
         </asp:View>
         <asp:View ID="View2" runat="server">
             <table id="Table2" onclick="return TABLE1_onclick()" style="width: 100%">
