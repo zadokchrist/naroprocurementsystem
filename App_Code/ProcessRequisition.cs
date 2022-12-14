@@ -345,6 +345,11 @@ public class ProcessRequisition
         dTable = data.GetUploadedContractsForApproval(contracttype, fromdate, todate);
         return dTable;
     }
+    public DataTable GetUploadedContractsRejected(string contracttype, string fromdate, string todate)
+    {
+        dTable = data.GetUploadedContractsRejected(contracttype, fromdate, todate);
+        return dTable;
+    }
     public DataTable GetUploadedContractsForApprovalById(string contractid)
     {
         dTable = data.GetUploadedContractsForApprovalById(contractid);

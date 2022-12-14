@@ -1,4 +1,4 @@
-<%@ Page Language="C#" MasterPageFile="~/GenericMasterPage.master" AutoEventWireup="true" EnableEventValidation="false"  CodeFile="ManageContracts.aspx.cs" Inherits="ManageContracts" 
+<%@ Page Language="C#" MasterPageFile="~/GenericMasterPage.master" AutoEventWireup="true" EnableEventValidation="false"  CodeFile="ManageRejectedContracts.aspx.cs" Inherits="ManageRejectedContracts" 
 Title="MANAGE ROLES" %>
  <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
  <%@ Import Namespace="System.Threading" %>
@@ -265,7 +265,7 @@ Title="MANAGE ROLES" %>
                         Approve Requisition
                     </div>
                     <div class="col-sm-2 mb-3 mb-sm-0">
-                        <asp:RadioButtonList ID="rbnApproval" runat="server" CssClass="InterfaceDropdownList" AutoPostBack="True" OnSelectedIndexChanged="rbnApproval_SelectedIndexChanged">
+                        <asp:RadioButtonList ID="rbnApproval" runat="server" CssClass="InterfaceDropdownList" AutoPostBack="True">
                             <asp:ListItem Value="1">Approve Requisition</asp:ListItem>
                             <asp:ListItem Value="2">Reject Requisition</asp:ListItem>
                         </asp:RadioButtonList>
@@ -275,17 +275,6 @@ Title="MANAGE ROLES" %>
                     </div>
                     <div class="col-sm-3 mb-3 mb-sm-0">
                         <asp:TextBox ID="txtComment" runat="server" CssClass="InterfaceTextboxMultiline" TextMode="MultiLine" Height="80px"></asp:TextBox>
-                    </div>
-                </div>
-
-                <div class="form-group row">
-                    <div class="col-sm-1 mb-3 mb-sm-0"></div>
-                    <div class="col-sm-2 mb-3 mb-sm-0">
-                        <asp:Label runat="server" ID="Label2" Visible="false">Send to</asp:Label>
-                    </div>
-                    <div class="col-sm-2 mb-3 mb-sm-0">
-                        <asp:DropDownList ID="cboAccessLevel" runat="server" Visible="false" AutoPostBack="True" OnDataBound="cboAccessLevel_DataBound" CssClass="form-control">
-                </asp:DropDownList>
                     </div>
                 </div>
                 <div class="form-group row">

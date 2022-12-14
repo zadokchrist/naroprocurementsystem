@@ -10,7 +10,7 @@ using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using System.IO;
 
-public partial class ManageContracts : System.Web.UI.Page
+public partial class ManageRejectedContracts : System.Web.UI.Page
 {
     ProcessUsers Process = new ProcessUsers();
     ProcessRequisition ProcessREQ = new ProcessRequisition();
@@ -28,7 +28,6 @@ public partial class ManageContracts : System.Web.UI.Page
             {
                 MultiView1.ActiveViewIndex = 0;
                 LoadItems();
-                LoadAccessLevels();
                 //LoadWorkFlows();
             }
         }
@@ -54,9 +53,7 @@ public partial class ManageContracts : System.Web.UI.Page
         {
             EndDate = DateTime.Parse("01/11/2025").ToString();
         }
-        dataTable = Process2.GetUploadedContractsForApproval(contractype, StartDate, EndDate);
-        //GridWorkFLow.DataSource = dataTable;
-        //GridWorkFLow.DataBind();
+        dataTable = Process2.GetUploadedContractsRejected(contractype, StartDate, EndDate);
         DataGrid1.DataSource = dataTable;
         DataGrid1.DataBind();
     }
@@ -66,11 +63,9 @@ public partial class ManageContracts : System.Web.UI.Page
         dataTable = data.GetAllWorkFlows("0");
         GridWorkFLow.DataSource = dataTable;
         GridWorkFLow.DataBind();
-
     }
     protected void cboCCcategory_DataBound(object sender, EventArgs e)
     {
-
     }
 
 
@@ -227,17 +222,6 @@ public partial class ManageContracts : System.Web.UI.Page
         }
     }
 
-    protected void rbnApproval_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        if (rbnApproval.SelectedIndex == 0)
-        {
-            cboAccessLevel.Visible = false;
-        }
-        else
-        {
-            cboAccessLevel.Visible = true;
-        }
-    }
     protected void btnSaveFile_Click(object sender, EventArgs e)
     {
         try
@@ -266,30 +250,19 @@ public partial class ManageContracts : System.Web.UI.Page
             string userid = Session["UserID"].ToString();
             string description = txtComment.Text;
             dataTable = data.GetStatusesByWorkflowid(workflowid.Text);
-            string currentstatus = data.GetContractStatus(contid.Text).Rows[0]["StatusId"].ToString();//dataTable.Rows[0]["StatusID"].ToString();
+            string currentstatus = dataTable.Rows[0]["StatusID"].ToString();
             var rows = dataTable.Select("StatusID="+ currentstatus);
             var indexOfRow = dataTable.Rows.IndexOf(rows[0]);
             string nextStatus = "";
             if (rbnApproval.SelectedIndex==0)
             {
-                nextStatus = dataTable.Rows[indexOfRow + 1]["StatusID"].ToString();
+                nextStatus = data.GetRejectedPrevStatus(contid.Text).Rows[0]["PrevStatus"].ToString();
             }
             else
             {
-                if (cboAccessLevel.SelectedIndex.Equals(0))
-                {
-                    ShowMessage("Please select access level to send to");
-                }
-                else
-                {
-                    data.UpdateRejectedContract(contid.Text, currentstatus, cboAccessLevel.SelectedValue);
-                }
-                nextStatus = "12";//dataTable.Rows[indexOfRow - 1]["StatusID"].ToString();
-                
             }
-            
-            
             data.NextContractStatus(contid.Text, workflowid.Text, description, userid, nextStatus);
+            data.RemoveRejection(contid.Text);
             txtComment.Text = "";
             ShowMessage("Contract Moved to the next stage");
             MultiView1.ActiveViewIndex = 0;
@@ -643,17 +616,5 @@ public partial class ManageContracts : System.Web.UI.Page
         }
     }
 
-    private void LoadAccessLevels()
-    {
-        dataTable = data.GetAccessLevels();
-        cboAccessLevel.DataSource = dataTable;
-        cboAccessLevel.DataValueField = "LevelID";
-        cboAccessLevel.DataTextField = "LevelName";
-        cboAccessLevel.DataBind();
-    }
 
-    protected void cboAccessLevel_DataBound(object sender, EventArgs e)
-    {
-        cboAccessLevel.Items.Insert(0, new ListItem("- - Select Access Level - -", "0"));
-    }
 }

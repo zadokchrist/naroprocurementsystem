@@ -406,6 +406,13 @@ public class DataRequisition
         return returnDatatable;
     }
 
+    internal DataTable GetUploadedContractsRejected(string contracttype, string fromdate, string todate)
+    {
+        mycommand = Proc_DB.GetStoredProcCommand("GetUploadedContractsRejected", fromdate, todate, contracttype);
+        returnDatatable = Proc_DB.ExecuteDataSet(mycommand).Tables[0];
+        return returnDatatable;
+    }
+
     public DataTable GetAreaThresholds(int AreaID)
     {
         try

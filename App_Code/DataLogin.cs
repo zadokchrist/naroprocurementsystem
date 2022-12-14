@@ -287,11 +287,30 @@ public class DataLogin
         }
     }
 
+    public void RemoveRejection(string contractid)
+    {
+        mycommand = Proc_DB.GetStoredProcCommand("RemoveRejection", contractid);
+        Proc_DB.ExecuteDataSet(mycommand);
+    }
+
+    public DataTable GetRejectedPrevStatus(string contractid)
+    {
+        mycommand = Proc_DB.GetStoredProcCommand("GetRejectedPrevStatus", contractid);
+        returnDatatable = Proc_DB.ExecuteDataSet(mycommand).Tables[0];
+        return returnDatatable;
+    }
+
     public DataTable GetContractStatus(string pDCode)
     {
         mycommand = Proc_DB.GetStoredProcCommand("GetUploadedContractbyId", pDCode);
         returnDatatable = Proc_DB.ExecuteDataSet(mycommand).Tables[0];
         return returnDatatable;
+    }
+
+    public void UpdateRejectedContract(string contractid, string currentstatus, string level)
+    {
+        mycommand = Proc_DB.GetStoredProcCommand("RejectContracts", contractid, currentstatus, level);
+        Proc_DB.ExecuteDataSet(mycommand);
     }
 
     public DataTable GetModules()
