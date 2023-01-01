@@ -185,7 +185,7 @@ Title="MANAGE ROLES" %>
                             <Columns>
                                 <asp:BoundColumn DataField="FileID" HeaderText="FileID" Visible="false"></asp:BoundColumn>
                                 <asp:BoundColumn DataField="FileName" HeaderText="FileName"></asp:BoundColumn>
-                                <asp:ButtonColumn CommandName="btnRemove" HeaderText="Action" Text="Remove"></asp:ButtonColumn>
+                                <%--<asp:ButtonColumn CommandName="btnRemove" HeaderText="Action" Text="Remove"></asp:ButtonColumn>--%>
                                 <asp:ButtonColumn CommandName="btnEdit" HeaderText="Action" Text="View"></asp:ButtonColumn>
                             </Columns>
                             <HeaderStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" HorizontalAlign="Left" />
