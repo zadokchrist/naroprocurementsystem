@@ -185,6 +185,8 @@ Title="MANAGE ROLES" %>
                             <Columns>
                                 <asp:BoundColumn DataField="FileID" HeaderText="FileID" Visible="false"></asp:BoundColumn>
                                 <asp:BoundColumn DataField="FileName" HeaderText="FileName"></asp:BoundColumn>
+                                <asp:BoundColumn DataField="UploadedBy" HeaderText="UploadedBy"></asp:BoundColumn>
+                                <asp:BoundColumn DataField="CreationDate" HeaderText="Upload Date"></asp:BoundColumn>
                                 <%--<asp:ButtonColumn CommandName="btnRemove" HeaderText="Action" Text="Remove"></asp:ButtonColumn>--%>
                                 <asp:ButtonColumn CommandName="btnEdit" HeaderText="Action" Text="View"></asp:ButtonColumn>
                             </Columns>
@@ -214,7 +216,7 @@ Title="MANAGE ROLES" %>
                     <div class="col-sm-4 mb-3 mb-sm-0">
                     </div>
                     <div class="col-sm-2 mb-3 mb-sm-0">
-                        STAGES OF CONTRACT
+                        CONTRACT STAGES
                     </div>
                     <div class="col-sm-2 mb-3 mb-sm-0">
                        
@@ -262,12 +264,13 @@ Title="MANAGE ROLES" %>
                     <div class="col-sm-1 mb-3 mb-sm-0"></div>
                     <div class="col-sm-2 mb-3 mb-sm-0">
                         <asp:Label runat="server" ID="contid" Visible="false"></asp:Label>
-                        Approve Requisition
+                        Approve Contract
                     </div>
                     <div class="col-sm-2 mb-3 mb-sm-0">
                         <asp:RadioButtonList ID="rbnApproval" runat="server" CssClass="InterfaceDropdownList" AutoPostBack="True" OnSelectedIndexChanged="rbnApproval_SelectedIndexChanged">
-                            <asp:ListItem Value="1">Approve Requisition</asp:ListItem>
-                            <asp:ListItem Value="2">Reject Requisition</asp:ListItem>
+                            <asp:ListItem Value="1">Approve Contract</asp:ListItem>
+                            <asp:ListItem Value="2">Reject Contract</asp:ListItem>
+                            <asp:ListItem Value="3">Submit to Same Stage</asp:ListItem>
                         </asp:RadioButtonList>
                     </div>
                     <div class="col-sm-2 mb-3 mb-sm-0">

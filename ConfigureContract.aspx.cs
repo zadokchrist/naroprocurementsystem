@@ -31,7 +31,7 @@ public partial class AddWorkFlow : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            ShowMessage(ex.Message);
+            ShowMessage(ex.Message,true);
         }
     }
 
@@ -68,13 +68,13 @@ public partial class AddWorkFlow : System.Web.UI.Page
             string flowid = workflowid.Text;
             Process.UpdateWorkFlowDetails(Name, Active, flowid);
 
-            ShowMessage("Workflow (" + Name + ") has been updated successfull......");
+            ShowMessage("Workflow (" + Name + ") has been updated successfull......",false);
             clearControls();
             //}
         }
         catch (Exception ex)
         {
-            ShowMessage(ex.Message);
+            ShowMessage(ex.Message, true);
         }
     }
     private void saveDetails()
@@ -90,7 +90,7 @@ public partial class AddWorkFlow : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            ShowMessage(ex.Message);
+            ShowMessage(ex.Message, true);
         }
     }
 
@@ -120,9 +120,17 @@ public partial class AddWorkFlow : System.Web.UI.Page
     {
 
     }
-    private void ShowMessage(string Message)
+    private void ShowMessage(string Message, bool Color)
     {
         Label msg = (Label)Master.FindControl("lblmsg");
+        if (Color)
+        {
+            msg.ForeColor = System.Drawing.Color.Red;
+        }
+        else
+        {
+            msg.ForeColor = System.Drawing.Color.Green;
+        }
         if (Message == ".")
         {
             msg.Text = ".";
@@ -158,7 +166,7 @@ public partial class AddWorkFlow : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            ShowMessage(ex.Message);
+            ShowMessage(ex.Message, true);
         }
     }
     protected void Button2_Click(object sender, EventArgs e)
@@ -182,12 +190,12 @@ public partial class AddWorkFlow : System.Web.UI.Page
             bool Active = CheckBox2.Checked;
             Process.ConfigureContract(Contractname, contracttpe, workflow, Active);//SaveWorkFlowDetails(Name, Active);
 
-            ShowMessage("Contract (" + Contractname + ") has been configured successfull......");
+            ShowMessage("Contract (" + Contractname + ") has been configured successfull......",false);
             clearControls();
         }
         catch (Exception ex)
         {
-            ShowMessage(ex.Message);
+            ShowMessage(ex.Message, true);
         }
     }
 
@@ -215,7 +223,7 @@ public partial class AddWorkFlow : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            ShowMessage(ex.Message);
+            ShowMessage(ex.Message, true);
         }
     }
     protected void DataGrid1_PageIndexChanged(object source, DataGridPageChangedEventArgs e)

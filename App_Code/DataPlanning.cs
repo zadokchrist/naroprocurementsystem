@@ -638,11 +638,11 @@ public class DataPlanning
         }
 
     }
-    public void SavePlanDoc(string PlanCode, string FilePath, string FileName, bool Requisition)
+    public void SavePlanDoc(string PlanCode, string FilePath, string FileName, bool Requisition,string uploadedby)
     {
         try
         {
-            mycommand = Proc_DB.GetStoredProcCommand("Proc_Planning_SavePlanDoc", PlanCode, FilePath, FileName, Requisition);
+            mycommand = Proc_DB.GetStoredProcCommand("Proc_Planning_SavePlanDoc", PlanCode, FilePath, FileName, Requisition, uploadedby);
             Proc_DB.ExecuteNonQuery(mycommand);
         }
         catch (Exception ex)

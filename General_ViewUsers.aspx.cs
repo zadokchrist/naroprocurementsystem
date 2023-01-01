@@ -27,19 +27,19 @@ public partial class General_ViewUsers : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            ShowMessage(ex.Message);
+            ShowMessage(ex.Message, true);
         }
     }
     protected void btnOK_Click(object sender, EventArgs e)
     {
         try
         {
-            ShowMessage(".");
+            ShowMessage(".",false);
             LoadUsers();
         }
         catch (Exception ex)
         {
-            ShowMessage(ex.Message);
+            ShowMessage(ex.Message, true);
         }
     }
 
@@ -66,20 +66,28 @@ public partial class General_ViewUsers : System.Web.UI.Page
             {
                 string Status = e.Item.Cells[5].Text;
                 string returned = Process.ChangeUserStatus(code, Status);
-                ShowMessage(returned);
+                ShowMessage(returned,false);
                 LoadUsers();
             }
         }
         catch (Exception ex)
         {
-            ShowMessage(ex.Message);
+            ShowMessage(ex.Message,true);
         }
     }
 
 
-    private void ShowMessage(string Message)
+    private void ShowMessage(string Message, bool Color)
     {
         Label msg = (Label)Master.FindControl("lblmsg");
+        if (Color)
+        {
+            msg.ForeColor = System.Drawing.Color.Red;
+        }
+        else
+        {
+            msg.ForeColor = System.Drawing.Color.Green;
+        }
         if (Message == ".")
         {
             msg.Text = ".";
@@ -109,7 +117,7 @@ public partial class General_ViewUsers : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            ShowMessage(ex.Message);
+            ShowMessage(ex.Message, true);
         }
     }
 

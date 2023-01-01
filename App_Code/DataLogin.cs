@@ -185,6 +185,13 @@ public class DataLogin
         return returnDatatable;
     }
 
+    public DataTable GetLevelAt(string contractid)
+    {
+        mycommand = Proc_DB.GetStoredProcCommand("GetAccessLevelforContract", contractid);
+        returnDatatable = Proc_DB.ExecuteDataSet(mycommand).Tables[0];
+        return returnDatatable;
+    }
+
     public DataTable GetLastAccessedModule(int UserID)
     {
         try
@@ -307,6 +314,11 @@ public class DataLogin
         return returnDatatable;
     }
 
+    public void UpdateContractLog(string uploadedContract, string Workflowid, string Remark, string UserID, string statusID)
+    {
+        mycommand = Proc_DB.GetStoredProcCommand("UpdateContractLog", uploadedContract, Workflowid, Remark, UserID, statusID);
+        Proc_DB.ExecuteNonQuery(mycommand);
+    }
     public void UpdateRejectedContract(string contractid, string currentstatus, string level)
     {
         mycommand = Proc_DB.GetStoredProcCommand("RejectContracts", contractid, currentstatus, level);

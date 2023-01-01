@@ -60,7 +60,7 @@ public partial class AddWorkflowSteps : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            ShowMessage(ex.Message);
+            ShowMessage(ex.Message,true);
         }
        
     }
@@ -70,9 +70,17 @@ public partial class AddWorkflowSteps : System.Web.UI.Page
         btnAddItem.Attributes.Add("onclick", strProcessScript + ClientScript.GetPostBackEventReference(btnAddItem, "").ToString());
         Button1.Attributes.Add("onclick", strProcessScript + ClientScript.GetPostBackEventReference(Button1, "").ToString());
     }
-    private void ShowMessage(string Message)
+    private void ShowMessage(string Message, bool Color)
     {
         Label msg = (Label)Master.FindControl("lblmsg");
+        if (Color)
+        {
+            msg.ForeColor = System.Drawing.Color.Red;
+        }
+        else
+        {
+            msg.ForeColor = System.Drawing.Color.Green;
+        }
         if (Message == ".")
         {
             msg.Text = ".";
@@ -107,7 +115,7 @@ public partial class AddWorkflowSteps : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            ShowMessage(ex.Message);
+            ShowMessage(ex.Message, true);
         }
     }
 
@@ -238,12 +246,12 @@ public partial class AddWorkflowSteps : System.Web.UI.Page
             string PD_Code = lblPDCode.Text.Trim();
             Process.LogandCommitRequisition(PD_Code, 11, "");
             AlertManager(PD_Code);
-            ShowMessage("Requisition on Item " + PlanCode + " has been Captured and Submitted Successfully");
+            ShowMessage("Requisition on Item " + PlanCode + " has been Captured and Submitted Successfully",false);
             ClearMajorControls();
         }
         catch (Exception ex)
         {
-            ShowMessage(ex.Message);
+            ShowMessage(ex.Message, true);
         }
 
     }
@@ -254,7 +262,7 @@ public partial class AddWorkflowSteps : System.Web.UI.Page
     {
         try
         {
-            ShowMessage(".");
+            ShowMessage(".", false);
             ValidateRequisition();
             MultiView1.ActiveViewIndex = 0;
             lblGroupRequisition.Visible = false;
@@ -264,7 +272,7 @@ public partial class AddWorkflowSteps : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            ShowMessage(ex.Message);
+            ShowMessage(ex.Message, true);
         }
     }
     private bool IsFrameWorkContract()
@@ -283,7 +291,7 @@ public partial class AddWorkflowSteps : System.Web.UI.Page
         uploads = HttpContext.Current.Request.Files;
         if (dtUpdate.Rows.Count == 0)
         {
-            ShowMessage("Please Add Steps To the workflow");
+            ShowMessage("Please Add Steps To the workflow", true);
         }
         else
         {
@@ -321,7 +329,7 @@ public partial class AddWorkflowSteps : System.Web.UI.Page
     {
         LoadControls();
         ClearMajorControls();
-        ShowMessage("Workflow steps for ( " + workflowname.SelectedItem + " ) has been saved successfully ");
+        ShowMessage("Workflow steps for ( " + workflowname.SelectedItem + " ) has been saved successfully ",false);
         dtUpdate.Clear();
         //Response.Redirect("AddWorkflowSteps.aspx", true);
     }
@@ -379,6 +387,7 @@ public partial class AddWorkflowSteps : System.Web.UI.Page
 
     private void UploadFiles(string PlanCode)
     {
+        string uploadedby = Session["FullName"].ToString();
         HttpFileCollection uploads;
         uploads = HttpContext.Current.Request.Files;
         int countfiles = 0;
@@ -391,7 +400,7 @@ public partial class AddWorkflowSteps : System.Web.UI.Page
                 string c1 = PlanCode + "_" + (countfiles + i + 1) + "_" + cNoSpace;
                 string Path = Process.GetDocPath();
                
-                ProcessOther.SavePlanDocuments(PlanCode, (Path + "" + c1), c, false);
+                ProcessOther.SavePlanDocuments(PlanCode, (Path + "" + c1), c, false, uploadedby);
 
             }
         }
@@ -466,7 +475,7 @@ public partial class AddWorkflowSteps : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            ShowMessage(ex.Message);
+            ShowMessage(ex.Message, true);
         }
     }
 
@@ -523,7 +532,7 @@ public partial class AddWorkflowSteps : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            ShowMessage(ex.Message);
+            ShowMessage(ex.Message, true);
         }
     }
 

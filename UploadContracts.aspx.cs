@@ -31,7 +31,7 @@ public partial class AddWorkFlow : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            ShowMessage(ex.Message);
+            ShowMessage(ex.Message, true);
         }
     }
 
@@ -71,7 +71,7 @@ public partial class AddWorkFlow : System.Web.UI.Page
             
             if (string.IsNullOrEmpty(subject))   
             {
-                ShowMessage("Please Enter Contract subject");
+                ShowMessage("Please Enter Contract subject", true);
             }
             else
             {
@@ -84,13 +84,13 @@ public partial class AddWorkFlow : System.Web.UI.Page
                 string remark = dataTable.Rows[0]["Description"].ToString();
                 data.NextContractStatus(uploadedcontid, workflowid, remark, userid, status);
                 UploadFiles(code);
-                ShowMessage("Contract Uploaded and forwarded to the next step for processing......");
+                ShowMessage("Contract Uploaded and forwarded to the next step for processing......",false);
             }
             
         }
         catch (Exception ex)
         {
-            ShowMessage(ex.Message);
+            ShowMessage(ex.Message, true);
         }
     }
     private void saveDetails()
@@ -106,7 +106,7 @@ public partial class AddWorkFlow : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            ShowMessage(ex.Message);
+            ShowMessage(ex.Message, true);
         }
     }
 
@@ -129,9 +129,17 @@ public partial class AddWorkFlow : System.Web.UI.Page
     {
 
     }
-    private void ShowMessage(string Message)
+    private void ShowMessage(string Message, bool Color)
     {
         Label msg = (Label)Master.FindControl("lblmsg");
+        if (Color)
+        {
+            msg.ForeColor = System.Drawing.Color.Red;
+        }
+        else
+        {
+            msg.ForeColor = System.Drawing.Color.Green;
+        }
         if (Message == ".")
         {
             msg.Text = ".";
@@ -167,7 +175,7 @@ public partial class AddWorkFlow : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            ShowMessage(ex.Message);
+            ShowMessage(ex.Message, true);
         }
     }
     protected void Button2_Click(object sender, EventArgs e)
@@ -181,25 +189,33 @@ public partial class AddWorkFlow : System.Web.UI.Page
 
     private void UploadFiles(string PlanCode)
     {
-
-        ProcessRequisition processdoc = new ProcessRequisition();
-        ProcessPlanning ProcessOther = new ProcessPlanning();
-        HttpFileCollection uploads;
-        uploads = HttpContext.Current.Request.Files;
-        int countfiles = 0;
-        for (int i = 0; i <= (uploads.Count - 1); i++)
+        try
         {
-            if (uploads[i].ContentLength > 0)
+            string uploadedby = Session["FullName"].ToString();
+            ProcessRequisition processdoc = new ProcessRequisition();
+            ProcessPlanning ProcessOther = new ProcessPlanning();
+            HttpFileCollection uploads;
+            uploads = HttpContext.Current.Request.Files;
+            int countfiles = 0;
+            for (int i = 0; i <= (uploads.Count - 1); i++)
             {
-                string c = System.IO.Path.GetFileName(uploads[i].FileName);
-                string cNoSpace = c.Replace(" ", "-");
-                string c1 = PlanCode + "_" + (countfiles + i + 1) + "_" + cNoSpace;
-                string Path = processdoc.GetDocPath();
-                FileField.PostedFile.SaveAs(Path + "" + c1);
-                ProcessOther.SavePlanDocuments(PlanCode, (Path + "" + c1), c, false);
+                if (uploads[i].ContentLength > 0)
+                {
+                    string c = System.IO.Path.GetFileName(uploads[i].FileName);
+                    string cNoSpace = c.Replace(" ", "-");
+                    string c1 = PlanCode + "_" + (countfiles + i + 1) + "_" + cNoSpace;
+                    string Path = processdoc.GetDocPath();
+                    FileField.PostedFile.SaveAs(Path + "" + c1);
+                    ProcessOther.SavePlanDocuments(PlanCode, (Path + "" + c1), c, false, uploadedby);
 
+                }
             }
         }
+        catch (Exception ex)
+        {
+            ShowMessage(ex.Message, true);
+        } 
+        
     }
 
     protected void Button2_Click1(object sender, EventArgs e)
@@ -212,12 +228,12 @@ public partial class AddWorkFlow : System.Web.UI.Page
             bool Active = CheckBox2.Checked;
             Process.ConfigureContract(Contractname, contracttpe, workflow, Active);//SaveWorkFlowDetails(Name, Active);
 
-            ShowMessage("Contract (" + Contractname + ") has been configured successfull......");
+            ShowMessage("Contract (" + Contractname + ") has been configured successfull......",false);
             clearControls();
         }
         catch (Exception ex)
         {
-            ShowMessage(ex.Message);
+            ShowMessage(ex.Message, true);
         }
     }
 
@@ -245,7 +261,7 @@ public partial class AddWorkFlow : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            ShowMessage(ex.Message);
+            ShowMessage(ex.Message,true);
         }
     }
 

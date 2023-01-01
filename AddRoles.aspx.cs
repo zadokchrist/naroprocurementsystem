@@ -30,7 +30,7 @@ public partial class AddRoles : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            ShowMessage(ex.Message);
+            ShowMessage(ex.Message,true);
         }
     }
     private void LoadAccessLevels()
@@ -55,16 +55,16 @@ public partial class AddRoles : System.Web.UI.Page
             bool Active = CheckEditActive.Checked;
             if (string.IsNullOrEmpty(LevelName))
             {
-                ShowMessage("Please Enter Level Name");
+                ShowMessage("Please Enter Level Name", true);
             }
             else if (string.IsNullOrEmpty(description))
             {
-                ShowMessage("Please Enter Description");
+                ShowMessage("Please Enter Description", true);
             }
             else
             {
                 Process.UpdateAccessLevelDetails(lblLevelid.Text, LevelName, description, Active);
-                ShowMessage("Access Level (" + LevelName + ") has been updated successfull......");
+                ShowMessage("Access Level (" + LevelName + ") has been updated successfull......",false);
                 clearControls();
             }
             
@@ -72,16 +72,24 @@ public partial class AddRoles : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            ShowMessage(ex.Message);
+            ShowMessage(ex.Message, true);
         }
     }
     protected void GridCCenter_RowCreated(object sender, GridViewRowEventArgs e)
     {
 
     }
-    private void ShowMessage(string Message)
+    private void ShowMessage(string Message, bool Color)
     {
         Label msg = (Label)Master.FindControl("lblmsg");
+        if (Color)
+        {
+            msg.ForeColor = System.Drawing.Color.Red;
+        }
+        else
+        {
+            msg.ForeColor = System.Drawing.Color.Green;
+        }
         if (Message == ".")
         {
             msg.Text = ".";
@@ -126,22 +134,22 @@ public partial class AddRoles : System.Web.UI.Page
             bool Active = CheckBox2.Checked;
             if (string.IsNullOrEmpty(LevelName))
             {
-                ShowMessage("Please Enter Level Name");
+                ShowMessage("Please Enter Level Name", true);
             }
             else if (string.IsNullOrEmpty(description))
             {
-                ShowMessage("Please Enter Description");
+                ShowMessage("Please Enter Description", true);
             }
             else
             {
                 Process.SaveAccessLevel(LevelName, description, Active);
-                ShowMessage("Access Level (" + LevelName + ") has been added successfull......");
+                ShowMessage("Access Level (" + LevelName + ") has been added successfull......",false);
                 clearControls();
             }
         }
         catch (Exception ex)
         {
-            ShowMessage(ex.Message);
+            ShowMessage(ex.Message, true);
         }
     }
 
@@ -177,13 +185,13 @@ public partial class AddRoles : System.Web.UI.Page
                 string code = e.Item.Cells[0].Text;
                 string Status = e.Item.Cells[3].Text;
                 string returned = Process.ChangeAccessLevelStatus(code, Status);
-                ShowMessage(returned);
+                ShowMessage(returned,false);
                 LoadAccessLevels();
             }
         }
         catch (Exception ex)
         {
-            ShowMessage(ex.Message);
+            ShowMessage(ex.Message, true);
         }
     }
     protected void DataGrid1_PageIndexChanged(object source, DataGridPageChangedEventArgs e)

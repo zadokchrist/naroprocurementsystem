@@ -32,7 +32,7 @@ public partial class CreateUser : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            ShowMessage(ex.Message);
+            ShowMessage(ex.Message,true);
         }
     }
 
@@ -53,9 +53,17 @@ public partial class CreateUser : System.Web.UI.Page
         //Display the Picture in Image control.
         Image1.ImageUrl = "~/Files/" + Path.GetFileName(imgUpload.FileName);
     }
-    private void ShowMessage(string Message)
+    private void ShowMessage(string Message, bool Color)
     {
         Label msg = (Label)Master.FindControl("lblmsg");
+        if (Color)
+        {
+            msg.ForeColor = System.Drawing.Color.Red;
+        }
+        else
+        {
+            msg.ForeColor = System.Drawing.Color.Green;
+        }
         if (Message == ".")
         {
             msg.Text = ".";
@@ -122,22 +130,22 @@ public partial class CreateUser : System.Web.UI.Page
                                   IsPDUMember, IsPDUSupervisor, AccessLevelID, ModArray, Capturedby, Sign);
                 if (returned.Contains("successfully"))
                 {
-                    ShowMessage(returned);
+                    ShowMessage(returned,false);
                     ClearControls();
                 }
                 else
-                    ShowMessage(returned);
+                    ShowMessage(returned,false);
             }
             catch (Exception ex)
             {
                 if (ex.Message.Contains("No such user"))
-                    ShowMessage("User's Email Address wasn't found. Please rectify...");
+                    ShowMessage("User's Email Address wasn't found. Please rectify...", true);
             }
 
         }
         catch (Exception exc)
         {
-            ShowMessage(exc.Message);
+            ShowMessage(exc.Message, true);
         }
     }
     protected void cboAccessLevel_DataBound(object sender, EventArgs e)
@@ -159,7 +167,7 @@ public partial class CreateUser : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            ShowMessage(ex.Message);
+            ShowMessage(ex.Message, true);
         }
     }
     protected void cboAreas_DataBound(object sender, EventArgs e)
@@ -179,7 +187,7 @@ public partial class CreateUser : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            ShowMessage(ex.Message);
+            ShowMessage(ex.Message, true);
         }
     }
     private void ClearControls()

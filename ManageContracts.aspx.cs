@@ -34,7 +34,7 @@ public partial class ManageContracts : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            ShowMessage(ex.Message);
+            ShowMessage(ex.Message, true);
         }
     }
 
@@ -83,12 +83,12 @@ public partial class ManageContracts : System.Web.UI.Page
             bool Active = CheckBox1.Checked;
             string flowid = workflowid.Text;
             Process.UpdateWorkFlowDetails(Name, Active, flowid);
-            ShowMessage("Workflow (" + Name + ") has been updated successfull......");
+            ShowMessage("Workflow (" + Name + ") has been updated successfull......", false);
             clearControls();
         }
         catch (Exception ex)
         {
-            ShowMessage(ex.Message);
+            ShowMessage(ex.Message, true);
         }
     }
     private void saveDetails()
@@ -102,7 +102,7 @@ public partial class ManageContracts : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            ShowMessage(ex.Message);
+            ShowMessage(ex.Message, true);
         }
     }
 
@@ -142,6 +142,7 @@ public partial class ManageContracts : System.Web.UI.Page
     {
         try
         {
+            string accesslevel = Session["AccessLevelID"].ToString();
             string contractid = e.Item.Cells[0].Text;
             string flowid = e.Item.Cells[1].Text;
             if (e.CommandName == "btnFiles")
@@ -157,7 +158,16 @@ public partial class ManageContracts : System.Web.UI.Page
             {
                 workflowid.Text = flowid;
                 contid.Text = contractid;
-                MultiView1.ActiveViewIndex = 5;
+                if (HasPermission(contractid, accesslevel))
+                {
+                    MultiView1.ActiveViewIndex = 5;
+                }
+                else
+                {
+                    ShowMessage("You dont have permission to perform for this at this level", true);
+                }
+                
+                
             }
             else if (e.CommandName.Equals("btnMileStones"))
             {
@@ -169,9 +179,24 @@ public partial class ManageContracts : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            ShowMessage(ex.Message);
+            ShowMessage(ex.Message, true);
         }
     }
+
+    private bool HasPermission(string contractid, string accesslevel)
+    {
+        dataTable = data.GetLevelAt(contractid);
+        string levelat = dataTable.Rows[0]["levelId"].ToString();
+        if (accesslevel.Equals(levelat)|| accesslevel.Equals("1"))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     protected void GridWorkFlow_RowCommand(object sender, GridViewCommandEventArgs e)
     {
         try
@@ -205,7 +230,7 @@ public partial class ManageContracts : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            ShowMessage(ex.Message);
+            ShowMessage(ex.Message, true);
         }
     }
     private void LoadDocuments(string PDCode)
@@ -249,7 +274,7 @@ public partial class ManageContracts : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            ShowMessage(ex.Message);
+            ShowMessage(ex.Message, true);
         }
     }
 
@@ -274,29 +299,33 @@ public partial class ManageContracts : System.Web.UI.Page
             {
                 nextStatus = dataTable.Rows[indexOfRow + 1]["StatusID"].ToString();
             }
+            else if (rbnApproval.SelectedIndex == 2)
+            {
+                data.UpdateContractLog(contid.Text, workflowid.Text, description, userid, currentstatus);
+            }
             else
             {
                 if (cboAccessLevel.SelectedIndex.Equals(0))
                 {
-                    ShowMessage("Please select access level to send to");
+                    ShowMessage("Please select access level to send to", true);
                 }
                 else
                 {
                     data.UpdateRejectedContract(contid.Text, currentstatus, cboAccessLevel.SelectedValue);
                 }
                 nextStatus = "12";//dataTable.Rows[indexOfRow - 1]["StatusID"].ToString();
-                
+                data.NextContractStatus(contid.Text, workflowid.Text, description, userid, nextStatus);
+                txtComment.Text = "";
+                ShowMessage("Contract Moved to the next stage", false);
             }
             
             
-            data.NextContractStatus(contid.Text, workflowid.Text, description, userid, nextStatus);
-            txtComment.Text = "";
-            ShowMessage("Contract Moved to the next stage");
+            
             MultiView1.ActiveViewIndex = 0;
         }
         catch (Exception ex)
         {
-            ShowMessage(ex.Message);
+            ShowMessage(ex.Message, true);
 
         }
 
@@ -325,11 +354,12 @@ public partial class ManageContracts : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            ShowMessage(ex.Message);
+            ShowMessage(ex.Message, true);
         }
     }
     private void UploadFiles(string PlanCode)
     {
+        string uploadedby = Session["FullName"].ToString();
         HttpFileCollection uploads;
         uploads = HttpContext.Current.Request.Files;
         int countfiles = 0;
@@ -341,7 +371,7 @@ public partial class ManageContracts : System.Web.UI.Page
                 string cNoSpace = c.Replace(" ", "-");
                 string c1 = PlanCode + "_" + (countfiles + i + 1) + "_" + cNoSpace;
                 FileField.PostedFile.SaveAs("D:\\NaroContracts\\UploadedContracts\\" + c1);
-                ProcessOthers.SavePlanDocuments(PlanCode, ("D:\\NaroContracts\\UploadedContracts\\" + c1), c, false);
+                ProcessOthers.SavePlanDocuments(PlanCode, ("D:\\NaroContracts\\UploadedContracts\\" + c1), c, false, uploadedby);
             }
         }
     }
@@ -359,7 +389,7 @@ public partial class ManageContracts : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            ShowMessage(ex.Message);
+            ShowMessage(ex.Message, true);
         }
     }
 
@@ -381,7 +411,7 @@ public partial class ManageContracts : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            ShowMessage(ex.Message);
+            ShowMessage(ex.Message, true);
         }
     }
 
@@ -429,9 +459,17 @@ public partial class ManageContracts : System.Web.UI.Page
         Response.WriteFile(path);
         Response.End();
     }
-    private void ShowMessage(string Message)
+    private void ShowMessage(string Message,bool Color)
     {
         Label msg = (Label)Master.FindControl("lblmsg");
+        if (Color)
+        {
+            msg.ForeColor = System.Drawing.Color.Red;
+        }
+        else
+        {
+            msg.ForeColor = System.Drawing.Color.Green;
+        }
         if (Message == ".")
         {
             msg.Text = ".";
@@ -469,7 +507,7 @@ public partial class ManageContracts : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            ShowMessage(ex.Message);
+            ShowMessage(ex.Message,true);
         }
     }
 
@@ -481,7 +519,7 @@ public partial class ManageContracts : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            ShowMessage(ex.Message);
+            ShowMessage(ex.Message,true);
         }
     }
     protected void Button2_Click(object sender, EventArgs e)
@@ -504,12 +542,12 @@ public partial class ManageContracts : System.Web.UI.Page
             bool Active = CheckBox2.Checked;
             Process.SaveWorkFlowDetails(Name, Active);
 
-            ShowMessage("Workflow (" + Name + ") has been added successfull......");
+            ShowMessage("Workflow (" + Name + ") has been added successfull......",false);
             clearControls();
         }
         catch (Exception ex)
         {
-            ShowMessage(ex.Message);
+            ShowMessage(ex.Message,true);
         }
     }
 
@@ -545,7 +583,7 @@ public partial class ManageContracts : System.Web.UI.Page
                 }
                 else
                 {
-                    ShowMessage("Certificate of completion was already uploaded. ");
+                    ShowMessage("Certificate of completion was already uploaded. ",true);
                 }
             }
             else if (e.CommandName == "btnEdit")
@@ -561,7 +599,7 @@ public partial class ManageContracts : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            ShowMessage(ex.Message);
+            ShowMessage(ex.Message,true);
         }
     }
 
@@ -574,11 +612,11 @@ public partial class ManageContracts : System.Web.UI.Page
             {
                 if (string.IsNullOrEmpty(milestonename.Text))
                 {
-                    ShowMessage("Please Enter Milestone");
+                    ShowMessage("Please Enter Milestone",true);
                 }
                 else if (string.IsNullOrEmpty(milestondate.Text))
                 {
-                    ShowMessage("Date Required cannot be empty");
+                    ShowMessage("Date Required cannot be empty", true);
                 }
                 else
                 {
@@ -586,7 +624,7 @@ public partial class ManageContracts : System.Web.UI.Page
                     string milstonename = milestonename.Text;
                     string daterequired = milestondate.Text;
                     milestones = data.SaveMileStone(contractid, milstonename, daterequired);
-                    ShowMessage("Milestone saved successfully");
+                    ShowMessage("Milestone saved successfully",false);
                     DataGrid3.DataSource = milestones;
                     DataGrid3.DataBind();
                 }
@@ -598,7 +636,7 @@ public partial class ManageContracts : System.Web.UI.Page
                 string milstonename = milestonename.Text;
                 string daterequired = milestondate.Text;
                 milestones = data.UpdateMileStone(stoneid, milstonename, daterequired, contractid);
-                ShowMessage("Milestone updated successfully");
+                ShowMessage("Milestone updated successfully",false);
                 DataGrid3.DataSource = milestones;
                 DataGrid3.DataBind();
             }
@@ -608,12 +646,12 @@ public partial class ManageContracts : System.Web.UI.Page
                 string completeddate = txtcompletiondate.Text;
                 if (string.IsNullOrEmpty(completeddate))
                 {
-                    ShowMessage("Please enter date completed");
+                    ShowMessage("Please enter date completed", true);
                 }
                 else
                 {
                     UploadFilesMileStones(milestonid, completeddate);
-                    ShowMessage("Milestone Completed successfully");
+                    ShowMessage("Milestone Completed successfully",false);
                 }
                 
             }
@@ -621,7 +659,7 @@ public partial class ManageContracts : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            ShowMessage(ex.Message);
+            ShowMessage(ex.Message, true);
         }
     }
 
