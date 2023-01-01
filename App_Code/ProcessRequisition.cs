@@ -216,7 +216,7 @@ public class ProcessRequisition
     }
     public string GetDocPath()
     {
-        string Path = "D:\\NaroContracts\\UploadedContracts\\";
+        string Path = "C:\\NaroContracts\\UploadedContracts\\";
         dTable = main.GetConfiguration(1);
         if (dTable.Rows.Count > 0)
         {
