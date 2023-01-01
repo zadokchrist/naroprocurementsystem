@@ -260,7 +260,7 @@ public partial class Requisition_RBMViewItems : System.Web.UI.Page
                 string cNoSpace = c.Replace(" ", "-");
                 string c1 = PlanCode + "_" + (countfiles + i + 1) + "_" + cNoSpace;
                 FileField.PostedFile.SaveAs("D:\\Reports\\ProcurementAttachments\\" + c1);
-                ProcessOthers.SavePlanDocuments(PlanCode, ("D:\\Reports\\ProcurementAttachments\\" + c1), c, false);
+                ProcessOthers.SavePlanDocuments(PlanCode, ("D:\\Reports\\ProcurementAttachments\\" + c1), c, false,Session["FullName"].ToString());
             }
         }
     }

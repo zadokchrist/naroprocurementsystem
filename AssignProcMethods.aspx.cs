@@ -444,7 +444,7 @@ public partial class Requisition_Approval : System.Web.UI.Page
                 string c1 = PlanCode + "_" + (countfiles + i + 1) + "_" + cNoSpace;
                 string Path = Process.GetDocPath();
                 FileField.PostedFile.SaveAs(Path + "" + c1);
-                ProcessOthers.SavePlanDocuments(PlanCode, (Path + "" + c1), c, false);
+                ProcessOthers.SavePlanDocuments(PlanCode, (Path + "" + c1), c, false, Session["FullName"].ToString());
 
             }
         }

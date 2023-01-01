@@ -455,7 +455,7 @@ public partial class Requisition_NewGroupRequisition : System.Web.UI.Page
     //            string c1 = PlanCode + "_" + (countfiles + i + 1) + "_" + cNoSpace;
     //            string Path = Process.GetDocPath();
     //            FileField.PostedFile.SaveAs(Path + "" + c1);
-    //            ProcessOther.SavePlanDocuments(PlanCode, (Path + "" + c1), c, false);
+    //           ProcessOther.SavePlanDocuments(PlanCode, (Path + "" + c1), c, false,Session["FullName"].ToString());
 
     //        }
     //    }

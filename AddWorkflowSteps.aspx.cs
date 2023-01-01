@@ -329,7 +329,7 @@ public partial class AddWorkflowSteps : System.Web.UI.Page
     {
         LoadControls();
         ClearMajorControls();
-        ShowMessage("Workflow steps for ( " + workflowname.SelectedItem + " ) has been saved successfully ",false);
+        ShowMessage("Workflow steps for  have been saved successfully ",false);
         dtUpdate.Clear();
         //Response.Redirect("AddWorkflowSteps.aspx", true);
     }

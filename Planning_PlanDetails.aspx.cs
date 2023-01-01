@@ -263,6 +263,7 @@ public partial class Planning_PlanDetails : System.Web.UI.Page
 
     private void UploadFiles(string PlanCode)
     {
+        string uploadedby = Session["FullName"].ToString();
         HttpFileCollection uploads;
         uploads = HttpContext.Current.Request.Files;
         int countfiles = 0;
@@ -275,7 +276,7 @@ public partial class Planning_PlanDetails : System.Web.UI.Page
                 string c1 = PlanCode + "_" + (countfiles + i + 1) + "_" + cNoSpace;
                 string Path = Process.GetDocPath();
                 FileField.PostedFile.SaveAs(Path + "" + c1);
-                Process.SavePlanDocuments(PlanCode, (Path + "" + c1), c, false);
+                Process.SavePlanDocuments(PlanCode, (Path + "" + c1), c, false, Session["FullName"].ToString());
             }
         }
     }
