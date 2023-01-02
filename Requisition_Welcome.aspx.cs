@@ -13,7 +13,8 @@ public partial class Requisition_Welcome : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        if (Session["FullName"].ToString() != null)
+        //if (Session["FullName"].ToString() != null)
+        if(!string.IsNullOrEmpty(Session["FullName"] as string))
         {
             string FullName = Session["FullName"].ToString();
             string CostCenter = Session["CostCenterName"].ToString();

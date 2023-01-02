@@ -148,7 +148,14 @@ public partial class ManageContracts : System.Web.UI.Page
             if (e.CommandName == "btnFiles")
             {
                 contid.Text = contractid;
-                LoadDocuments(contractid);
+                if (HasPermission(contractid, accesslevel, "files"))
+                {
+                    LoadDocuments(contractid);
+                }
+                else
+                {
+                    ShowMessage("You dont have permission to perform for this at this level", true);
+                }
             }
             else if (e.CommandName == "btnStatus")
             {
@@ -158,7 +165,7 @@ public partial class ManageContracts : System.Web.UI.Page
             {
                 workflowid.Text = flowid;
                 contid.Text = contractid;
-                if (HasPermission(contractid, accesslevel))
+                if (HasPermission(contractid, accesslevel, "approval"))
                 {
                     MultiView1.ActiveViewIndex = 5;
                 }
@@ -171,10 +178,18 @@ public partial class ManageContracts : System.Web.UI.Page
             }
             else if (e.CommandName.Equals("btnMileStones"))
             {
-                MultiView1.ActiveViewIndex = 6;
-                contraid.Text = contractid;
-                DataGrid3.DataSource = data.GetMileStonesByContractId(contractid);
-                DataGrid3.DataBind();
+                if (HasPermission(contractid, accesslevel, "milestone"))
+                {
+                    MultiView1.ActiveViewIndex = 6;
+                    contraid.Text = contractid;
+                    DataGrid3.DataSource = data.GetMileStonesByContractId(contractid);
+                    DataGrid3.DataBind();
+                }
+                else
+                {
+                    ShowMessage("You dont have permission to perform for this at this level", true);
+                }
+                
             }
         }
         catch (Exception ex)
@@ -183,12 +198,23 @@ public partial class ManageContracts : System.Web.UI.Page
         }
     }
 
-    private bool HasPermission(string contractid, string accesslevel)
+    private bool HasPermission(string contractid, string accesslevel,string permissiontype)
     {
         dataTable = data.GetLevelAt(contractid);
         string levelat = dataTable.Rows[0]["levelId"].ToString();
         if (accesslevel.Equals(levelat)|| accesslevel.Equals("1"))
         {
+            switch (permissiontype) 
+            {
+                case "approval":
+                    return true;
+                case "files":
+                    return bool.Parse(dataTable.Rows[0]["CanUploadDoc"].ToString());
+                case "milestone":
+                    return bool.Parse(dataTable.Rows[0]["CanAddMilestones"].ToString());
+                default:
+                    return false;
+            }
             return true;
         }
         else
@@ -299,28 +325,28 @@ public partial class ManageContracts : System.Web.UI.Page
             {
                 nextStatus = dataTable.Rows[indexOfRow + 1]["StatusID"].ToString();
             }
-            else if (rbnApproval.SelectedIndex == 2)
+            else if (rbnApproval.SelectedIndex == 1)// rejected contract
             {
-                data.UpdateContractLog(contid.Text, workflowid.Text, description, userid, currentstatus);
-            }
-            else
-            {
+                // for rejected status, user has to select the role the contract is being sent to
                 if (cboAccessLevel.SelectedIndex.Equals(0))
                 {
                     ShowMessage("Please select access level to send to", true);
                 }
                 else
                 {
+                    data.UpdateContractLog(contid.Text, workflowid.Text, description, userid, currentstatus);
                     data.UpdateRejectedContract(contid.Text, currentstatus, cboAccessLevel.SelectedValue);
+                    nextStatus = "12";//dataTable.Rows[indexOfRow - 1]["StatusID"].ToString();
                 }
-                nextStatus = "12";//dataTable.Rows[indexOfRow - 1]["StatusID"].ToString();
-                data.NextContractStatus(contid.Text, workflowid.Text, description, userid, nextStatus);
-                txtComment.Text = "";
-                ShowMessage("Contract Moved to the next stage", false);
             }
-            
-            
-            
+            else if (rbnApproval.SelectedIndex == 2)// submitting to the same stage
+            {
+                nextStatus = currentstatus;
+            }
+                
+            data.NextContractStatus(contid.Text, workflowid.Text, description, userid, nextStatus);
+            ShowMessage("Contract Moved to the next stage", false);
+            ClearControls();
             MultiView1.ActiveViewIndex = 0;
         }
         catch (Exception ex)
@@ -329,6 +355,12 @@ public partial class ManageContracts : System.Web.UI.Page
 
         }
 
+    }
+
+    private void ClearControls() 
+    {
+        rbnApproval.SelectedIndex = -1;
+        txtComment.Text = "";
     }
 
     protected void DataGrid1_ItemCommand(object source, DataGridCommandEventArgs e)

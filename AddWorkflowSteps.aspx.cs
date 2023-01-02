@@ -303,7 +303,10 @@ public partial class AddWorkflowSteps : System.Web.UI.Page
                 bool canappr = bool.Parse(dr["CanApprove"].ToString());
                 bool candown = bool.Parse(dr["CanDownload"].ToString());
                 string description = dr["Description"].ToString();
-                data.SaveWorkflowItems(workflowname.SelectedValue,status,FromRoleid,ToRoleid,candown,canappr, description);
+                bool chkcanaddmilestones = bool.Parse(dr["CanAddMilestones"].ToString());
+                bool chkCanCompleteMilestones = bool.Parse(dr["CanCompleteMilestones"].ToString());
+                bool chkLastStep = bool.Parse(dr["LastStep"].ToString());
+                data.SaveWorkflowItems(workflowname.SelectedValue,status,FromRoleid,ToRoleid,candown,canappr, description, chkcanaddmilestones, chkCanCompleteMilestones, chkLastStep);
             }
             
             //UploadFiles(PDReturn);
@@ -381,7 +384,14 @@ public partial class AddWorkflowSteps : System.Web.UI.Page
 
     private void ClearItemControls()
     {
-
+        txtStatus.Text = "";
+        description.Text = "";
+        GetFromRoles();
+        canapprove.Checked = false;
+        canupload.Checked = false;
+        canaddmilestones.Checked = false;
+        cancompletemilestones.Checked = false;
+        laststep.Checked = false;
     }
 
 
@@ -416,62 +426,17 @@ public partial class AddWorkflowSteps : System.Web.UI.Page
     {
         try
         {
-            //string Plancode = e.Item.Cells[0].Text;
-            //string RecordID = e.Item.Cells[0].Text;
-            //string PD_Code = e.Item.Cells[1].Text;
             string Desc = e.Item.Cells[0].Text;
 
             if (e.CommandName == "btnRemove")
             {
                 int ItemRowIndex = e.Item.DataSetIndex;
-                //double ItemTotalCost = Convert.ToDouble(e.Item.Cells[4].Text.Replace(",", ""));
-                //double RemAmount = 0;//Convert.ToDouble(lblAmount.Text.Trim().Replace(",", ""));
-                //RemAmount = RemAmount + ItemTotalCost;
 
                 dtUpdate.Rows.RemoveAt(ItemRowIndex);
-                //lblAmount.Text = RemAmount.ToString("#,##0");
 
                 DataGrid2.DataSource = dtUpdate.DefaultView;
                 DataGrid2.DataBind();
             }
-            //sas
-            //else if (e.CommandName == "btnEdit")
-            //{
-            //    //MultiView1.ActiveViewIndex = 0;
-
-            //    //lblPlanCode.Text = Plancode;
-            //    //lblDesc.Text = ItemDesc;
-            //    //LoadDetails(Plancode);
-            //    //Session["Status"] = cboStatus.SelectedValue.ToString();
-            //    Session["SelectedType"] = cboProcType.SelectedValue.ToString();
-
-
-            //    Response.Redirect("Requisition_EditGroupRequisition.aspx?transferid=" + Desc, true);
-            //    lblGroupRequisition.Text = "EDIT REQUISITION ITEM";
-            //    int ItemRowIndex = e.Item.DataSetIndex;
-            //    double ItemTotalCost = Convert.ToDouble(e.Item.Cells[4].Text.Replace(",", ""));
-            //    double RemAmount = Convert.ToDouble(lblAmount.Text.Trim().Replace(",", ""));
-            //    RemAmount = RemAmount + ItemTotalCost;
-            //    string ItemDesc = e.Item.Cells[0].Text.Trim();
-
-            //    string StockCode = dtUpdate.Rows[0]["StockCode"].ToString();
-            //    string StockName = dtUpdate.Rows[0]["StockName"].ToString();
-            //    int Quantity = Convert.ToInt32(e.Item.Cells[3].Text.ToString());
-            //    int UnitCode = Convert.ToInt32(e.Item.Cells[4].Text.ToString());
-            //    string Unit = e.Item.Cells[5].Text.ToString();
-            //    double UnitCost = Convert.ToDouble(e.Item.Cells[6].Text.Trim().Replace(",", ""));
-            //    //double TotalCost = UnitCost * Quantity;
-            //    double Amount = Convert.ToDouble(e.Item.Cells[8].Text.Trim().Replace(",", ""));
-            //    double MarketPrice = Convert.ToDouble(e.Item.Cells[7].Text.Trim().Replace(",", ""));
-
-
-
-            //    DataGrid2.DataSource = dtUpdate.DefaultView;
-            //    DataGrid2.DataBind();
-
-
-
-            //}
         }
         catch (Exception ex)
         {
@@ -521,8 +486,11 @@ public partial class AddWorkflowSteps : System.Web.UI.Page
                 bool canreject_or_approve = canapprove.Checked;
                 bool canupload_download = canupload.Checked;
                 string narration = description.Text.Trim();
+                bool ckcanaddmilestones = canaddmilestones.Checked;
+                bool ckcancompletemilestones = cancompletemilestones.Checked;
+                bool cklaststep = laststep.Checked;
 
-                dtUpdate.Rows.Add(new object[] { status, fromrol, fromroleid, torol, toroleid, canreject_or_approve, canupload_download, narration });
+                dtUpdate.Rows.Add(new object[] { status, fromrol, fromroleid, torol, toroleid, canreject_or_approve, canupload_download, narration, ckcanaddmilestones, ckcancompletemilestones, cklaststep });
                 ClearItemControls();
 
                 DataGrid2.DataSource = dtUpdate.DefaultView;
@@ -547,6 +515,9 @@ public partial class AddWorkflowSteps : System.Web.UI.Page
         dtWorkflowsteps.Columns.Add(new DataColumn("CanApprove", typeof(Boolean)));
         dtWorkflowsteps.Columns.Add(new DataColumn("CanDownload", typeof(Boolean)));
         dtWorkflowsteps.Columns.Add(new DataColumn("Description", typeof(string)));
+        dtWorkflowsteps.Columns.Add(new DataColumn("CanAddMilestones", typeof(Boolean)));
+        dtWorkflowsteps.Columns.Add(new DataColumn("CanCompleteMilestones", typeof(Boolean)));
+        dtWorkflowsteps.Columns.Add(new DataColumn("LastStep", typeof(Boolean)));
         dtWorkflowsteps.Rows.Clear();
         Session["dtWorkflowSteps"] = dtWorkflowsteps;
     }

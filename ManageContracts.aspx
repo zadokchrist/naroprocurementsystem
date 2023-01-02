@@ -34,10 +34,18 @@ Title="MANAGE ROLES" %>
                             <asp:BoundColumn DataField="Subject" HeaderText="Subject"></asp:BoundColumn>
                             <asp:BoundColumn DataField="ContractType" HeaderText="Contract Type"></asp:BoundColumn>
                             <asp:BoundColumn DataField="StatusName" HeaderText="Status"></asp:BoundColumn>
-                            <asp:ButtonColumn CommandName="btnFiles" HeaderText="FILES" Text="View/Add"></asp:ButtonColumn>
-                            <asp:ButtonColumn CommandName="btnStatus" HeaderText="Status" Text="View"></asp:ButtonColumn>
-                            <asp:ButtonColumn CommandName="btnMileStones" HeaderText="Milestones" Text="Add/View"></asp:ButtonColumn>
-                            <asp:ButtonColumn CommandName="btnApprove" HeaderText="Action" Text="Approve/Reject"></asp:ButtonColumn>
+                            <asp:ButtonColumn CommandName="btnFiles" HeaderText="FILES" Text="View/Add">
+                                <ItemStyle CssClass=" btn-warning " ForeColor="White"/>
+                            </asp:ButtonColumn>
+                            <asp:ButtonColumn CommandName="btnStatus" HeaderText="Status" Text="View">
+                                <ItemStyle CssClass=" btn-info " ForeColor="White"/>
+                            </asp:ButtonColumn>
+                            <asp:ButtonColumn CommandName="btnMileStones" HeaderText="Milestones" Text="Add/View">
+                                <ItemStyle CssClass=" btn-secondary " ForeColor="White"/>
+                            </asp:ButtonColumn>
+                            <asp:ButtonColumn CommandName="btnApprove" HeaderText="Action" Text="Approve/Reject">
+                                <ItemStyle CssClass=" btn-dark " ForeColor="White"/>
+                            </asp:ButtonColumn>
                         </Columns>
                         <HeaderStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" HorizontalAlign="Left" />
                     </asp:DataGrid>
@@ -51,7 +59,9 @@ Title="MANAGE ROLES" %>
                         <Columns>
                             <asp:ButtonField CommandName="btnFiles" Text="View/Add" HeaderText="Files"></asp:ButtonField>
                             <asp:ButtonField CommandName="btnStatus" Text="Status" HeaderText="Contract Trails"></asp:ButtonField>
-                            <asp:ButtonField CommandName="btnAction" Text="Approve/Reject" HeaderText="Action"></asp:ButtonField>
+                            <asp:ButtonField CommandName="btnAction" Text="Approve/Reject" HeaderText="Action">
+                                
+                            </asp:ButtonField>
                         </Columns>
                         <HeaderStyle CssClass="gridHeaderStyle" HorizontalAlign="Left" />
                         <AlternatingRowStyle CssClass="gridAlternatingRowStyle" />
@@ -233,7 +243,7 @@ Title="MANAGE ROLES" %>
                         </div>
                     </div>
                     <asp:DataGrid ID="DataGrid2" runat="server" AutoGenerateColumns="False" CellPadding="4"
-                                Font-Names="Verdana" Font-Size="Small" ForeColor="#333333" GridLines="None" OnItemCommand="DataGrid1_ItemCommand" Style="text-align: justify"
+                                Font-Names="Verdana" Font-Size="Small" ForeColor="#333333" GridLines="None" OnItemCommand="DataGrid1_ItemCommand" Style="text-align: left"
                                 Width="100%">
                                 <FooterStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
                                 <EditItemStyle BackColor="#999999" />
@@ -244,9 +254,9 @@ Title="MANAGE ROLES" %>
                                 <Columns>
                                     <asp:BoundColumn DataField="RecordID" HeaderText="RecordID" Visible="False"></asp:BoundColumn>
                                     <asp:BoundColumn DataField="Description" HeaderText="Stage">
-                                        <ItemStyle Width="450px" />
                                     </asp:BoundColumn>
-                                    <asp:BoundColumn DataField="Remark" HeaderText="Comment "></asp:BoundColumn>
+                                    <asp:BoundColumn DataField="Remark" HeaderText="Comment ">
+                                    </asp:BoundColumn>
                                     <asp:BoundColumn DataField="CreationDate" HeaderText="Date/Time"></asp:BoundColumn>
                                     <asp:BoundColumn DataField="MadeBy" HeaderText="Made By"></asp:BoundColumn>
                                     <asp:BoundColumn DataField="Level" HeaderText="System Level"></asp:BoundColumn>
@@ -266,7 +276,7 @@ Title="MANAGE ROLES" %>
                         <asp:Label runat="server" ID="contid" Visible="false"></asp:Label>
                         Approve Contract
                     </div>
-                    <div class="col-sm-2 mb-3 mb-sm-0">
+                    <div class="col-sm-3 mb-3 mb-sm-0">
                         <asp:RadioButtonList ID="rbnApproval" runat="server" CssClass="InterfaceDropdownList" AutoPostBack="True" OnSelectedIndexChanged="rbnApproval_SelectedIndexChanged">
                             <asp:ListItem Value="1">Approve Contract</asp:ListItem>
                             <asp:ListItem Value="2">Reject Contract</asp:ListItem>

@@ -69,6 +69,24 @@
                     <asp:CheckBox ID="canupload" runat="server" Font-Bold="True"
                                         Font-Italic="True" Text="Checker Can Upload Documents" />
                 </div>
+                <div class="col-sm-2 mb-3 mb-sm-0">
+                    <asp:CheckBox ID="canaddmilestones" runat="server" Font-Bold="True"
+                                        Font-Italic="True" Text="Can add milestones" />
+                </div>
+                
+                
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-1 mb-3 mb-sm-0"></div>
+                <div class="col-sm-2 mb-3 mb-sm-0"></div>
+                <div class="col-sm-2 mb-3 mb-sm-0">
+                    <asp:CheckBox ID="cancompletemilestones" runat="server" Font-Bold="True"
+                                        Font-Italic="True" Text="Can Complete Milestones" />
+                </div>
+                <div class="col-sm-2 mb-3 mb-sm-0">
+                    <asp:CheckBox ID="laststep" runat="server" Font-Bold="True"
+                                        Font-Italic="True" Text="Mark this as last step" />
+                </div>
             </div>
             <div class="form-group row">
                 <div class="col-sm-4 mb-3 mb-sm-0"></div>
@@ -100,6 +118,10 @@
                             <asp:BoundColumn DataField="CanApprove" HeaderText="Can Approve"></asp:BoundColumn>
                             <asp:BoundColumn DataField="CanDownload" HeaderText="Can Upload Documents"></asp:BoundColumn>
                             <asp:BoundColumn DataField="Description" HeaderText="Descrition"></asp:BoundColumn>
+                            <asp:BoundColumn DataField="CanAddMilestones" HeaderText="Add Milestones"></asp:BoundColumn>
+                            <asp:BoundColumn DataField="CanAddMilestones" HeaderText="Add Milestones"></asp:BoundColumn>
+                            <asp:BoundColumn DataField="CanCompleteMilestones" HeaderText="Complete Milestones"></asp:BoundColumn>
+                            <asp:BoundColumn DataField="LastStep" HeaderText="Last Step"></asp:BoundColumn>
                             <asp:ButtonColumn CommandName="btnRemove" HeaderText="Remove" Text="Remove"></asp:ButtonColumn>
                         </Columns>
                         <HeaderStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" HorizontalAlign="Left" />

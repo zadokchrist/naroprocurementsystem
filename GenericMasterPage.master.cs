@@ -11,15 +11,20 @@ public partial class GenericMasterPage : System.Web.UI.MasterPage
     {
         try
         {
-            if ((Session["FullName"] == null))
+            //if ((Session["FullName"] == null))
+            if(string.IsNullOrEmpty(Session["FullName"] as string))
             {
                 Response.Redirect("Default.aspx");
             }
-            Label msg = (Label)this.FindControl("lbllevel");
-            Response.ExpiresAbsolute = DateTime.Now.AddDays(-1d);
-            Response.Expires = -1500;
-            Response.CacheControl = "no-cache";
-            msg.Text = "USER ACCOUNT: " + Session["FullName"].ToString() +" -- ACCESS LEVEL: " + Session["AccessLevel"].ToString() +" --  COST CENTER: " + Session["CostCenterName"].ToString() +" (" + Session["PFinancialYear"].ToString() + " )";
+            else
+            {
+                Label msg = (Label)this.FindControl("lbllevel");
+                Response.ExpiresAbsolute = DateTime.Now.AddDays(-1d);
+                Response.Expires = -1500;
+                Response.CacheControl = "no-cache";
+                msg.Text = "USER ACCOUNT: " + Session["FullName"].ToString() + " -- ACCESS LEVEL: " + Session["AccessLevel"].ToString() + " --  COST CENTER: " + Session["CostCenterName"].ToString() + " (" + Session["PFinancialYear"].ToString() + " )";
+            }
+            
         }
         catch (NullReferenceException ex)
         {

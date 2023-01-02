@@ -445,9 +445,11 @@ public class DataLogin
         }
     }
 
-    public void SaveWorkflowItems(string workflowid, string Status, string FromRoleid,string ToRoleid, bool CanDownload,bool CanApprove,string description)
+    public void SaveWorkflowItems(string workflowid, string Status, string FromRoleid,string ToRoleid, bool CanDownload,
+        bool CanApprove,string description,bool canaddmilestones,bool CanCompleteMilestones,bool LastStep)
     {
-        mycommand = Proc_DB.GetStoredProcCommand("Saveworkflowsteps", workflowid, Status, FromRoleid, ToRoleid, CanDownload, CanApprove, description);
+        mycommand = Proc_DB.GetStoredProcCommand("Saveworkflowsteps", workflowid, Status, FromRoleid, ToRoleid, CanDownload,
+            CanApprove, description, canaddmilestones, CanCompleteMilestones, LastStep);
         Proc_DB.ExecuteNonQuery(mycommand);
     }
 
