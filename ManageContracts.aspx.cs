@@ -207,6 +207,11 @@ public partial class ManageContracts : System.Web.UI.Page
             switch (permissiontype) 
             {
                 case "approval":
+                    if (dataTable.Rows[0]["StatusID"].ToString().Equals("12"))// for rejected contracts, disable further rejection
+                    {
+                        rbnApproval.Items[1].Enabled = false;
+                        rbnApproval.Items[2].Enabled = false;
+                    }
                     return true;
                 case "files":
                     return bool.Parse(dataTable.Rows[0]["CanUploadDoc"].ToString());
@@ -318,12 +323,23 @@ public partial class ManageContracts : System.Web.UI.Page
             string description = txtComment.Text;
             dataTable = data.GetStatusesByWorkflowid(workflowid.Text);
             string currentstatus = data.GetContractStatus(contid.Text).Rows[0]["StatusId"].ToString();//dataTable.Rows[0]["StatusID"].ToString();
-            var rows = dataTable.Select("StatusID="+ currentstatus);
-            var indexOfRow = dataTable.Rows.IndexOf(rows[0]);
+            
             string nextStatus = "";
             if (rbnApproval.SelectedIndex==0)
             {
-                nextStatus = dataTable.Rows[indexOfRow + 1]["StatusID"].ToString();
+                if (currentstatus.Equals("12"))// approving rejected contracts
+                {
+                    nextStatus = data.GetRejectedPrevStatus(contid.Text).Rows[0]["PrevStatus"].ToString();
+                    data.RemoveRejection(contid.Text);
+                }
+                else
+                {
+                    var rows = dataTable.Select("StatusID=" + currentstatus);
+                    var indexOfRow = dataTable.Rows.IndexOf(rows[0]);
+                    
+                    nextStatus = dataTable.Rows[indexOfRow + 1]["StatusID"].ToString();
+                }
+                
             }
             else if (rbnApproval.SelectedIndex == 1)// rejected contract
             {
@@ -343,7 +359,9 @@ public partial class ManageContracts : System.Web.UI.Page
             {
                 nextStatus = currentstatus;
             }
-                
+             
+            
+
             data.NextContractStatus(contid.Text, workflowid.Text, description, userid, nextStatus);
             ShowMessage("Contract Moved to the next stage", false);
             ClearControls();

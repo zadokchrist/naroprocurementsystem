@@ -164,7 +164,7 @@
 
                                 <li><a href="UploadContracts.aspx">Upload Contract</a></li>
                                 <li><a href="ManageContracts.aspx">Manage Contracts</a></li>
-                                <li><a href="ManageRejectedContracts.aspx">Rejected Contracts</a></li>
+                                <li><a href="ManageRejectedContracts.aspx">Completed Contracts</a></li>
                             </ul>
                         </li>
                         <%
@@ -177,7 +177,7 @@
                             <ul aria-expanded="false">
                                 <li><a href="UploadContracts.aspx">Upload Contract</a></li>
                                 <li><a href="ManageContracts.aspx">Manage Contracts</a></li>
-                                <li><a href="ManageRejectedContracts.aspx">Rejected Contracts</a></li>
+                                <li><a href="ManageRejectedContracts.aspx">Completed Contracts</a></li>
                             </ul>
                         </li>
 

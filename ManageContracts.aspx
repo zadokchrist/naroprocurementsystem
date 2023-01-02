@@ -35,13 +35,13 @@ Title="MANAGE ROLES" %>
                             <asp:BoundColumn DataField="ContractType" HeaderText="Contract Type"></asp:BoundColumn>
                             <asp:BoundColumn DataField="StatusName" HeaderText="Status"></asp:BoundColumn>
                             <asp:ButtonColumn CommandName="btnFiles" HeaderText="FILES" Text="View/Add">
-                                <ItemStyle CssClass=" btn-warning " ForeColor="White"/>
+                                <ItemStyle CssClass=" btn-warning" ForeColor="White"/>
                             </asp:ButtonColumn>
                             <asp:ButtonColumn CommandName="btnStatus" HeaderText="Status" Text="View">
                                 <ItemStyle CssClass=" btn-info " ForeColor="White"/>
                             </asp:ButtonColumn>
                             <asp:ButtonColumn CommandName="btnMileStones" HeaderText="Milestones" Text="Add/View">
-                                <ItemStyle CssClass=" btn-secondary " ForeColor="White"/>
+                                <ItemStyle CssClass="btn-secondary " ForeColor="White"/>
                             </asp:ButtonColumn>
                             <asp:ButtonColumn CommandName="btnApprove" HeaderText="Action" Text="Approve/Reject">
                                 <ItemStyle CssClass=" btn-dark " ForeColor="White"/>
