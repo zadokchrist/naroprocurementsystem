@@ -34,10 +34,15 @@ Title="MANAGE ROLES" %>
                             <asp:BoundColumn DataField="Subject" HeaderText="Subject"></asp:BoundColumn>
                             <asp:BoundColumn DataField="ContractType" HeaderText="Contract Type"></asp:BoundColumn>
                             <asp:BoundColumn DataField="StatusName" HeaderText="Status"></asp:BoundColumn>
-                            <asp:ButtonColumn CommandName="btnFiles" HeaderText="FILES" Text="View/Add"></asp:ButtonColumn>
-                            <asp:ButtonColumn CommandName="btnStatus" HeaderText="Status" Text="View"></asp:ButtonColumn>
-                            <asp:ButtonColumn CommandName="btnMileStones" HeaderText="Milestones" Text="Add/View"></asp:ButtonColumn>
-                            <asp:ButtonColumn CommandName="btnApprove" HeaderText="Action" Text="Approve/Reject"></asp:ButtonColumn>
+                            <asp:ButtonColumn CommandName="btnFiles" HeaderText="FILES" Text="View">
+                                <ItemStyle CssClass=" btn-warning" ForeColor="White"/>
+                            </asp:ButtonColumn>
+                            <asp:ButtonColumn CommandName="btnStatus" HeaderText="Status" Text="View">
+                                <ItemStyle CssClass=" btn-info " ForeColor="White"/>
+                            </asp:ButtonColumn>
+                            <asp:ButtonColumn CommandName="btnMileStones" HeaderText="Milestones" Text="View">
+                                <ItemStyle CssClass="btn-secondary " ForeColor="White"/>
+                            </asp:ButtonColumn>
                         </Columns>
                         <HeaderStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" HorizontalAlign="Left" />
                     </asp:DataGrid>
@@ -154,8 +159,7 @@ Title="MANAGE ROLES" %>
             <asp:View ID="View4" runat="server">
                 <div class="form-group row">
                     <div class="col-sm-1 mb-3 mb-sm-0"></div>
-                    <div class="col-sm-2 mb-3 mb-sm-0">New Attachments</div>
-                    <div class="col-sm-6 mb-3 mb-sm-0">
+                    <div class="col-sm-4 mb-3 mb-sm-0">
                     </div>
                     <div class="col-sm-2 mb-3 mb-sm-0">View Attachments</div>
                     <div class="col-sm-3 mb-3 mb-sm-0">
@@ -163,13 +167,7 @@ Title="MANAGE ROLES" %>
                 </div>
                 <div class="form-group row">
                     <div class="col-sm-1 mb-3 mb-sm-0"></div>
-                    <div class="col-sm-2 mb-3 mb-sm-0">
-                        <br />
-                        <p id="upload-area">
-                            <input id="FileField" runat="server" size="60" type="file" />
-                        </p><br />
-                        <asp:Button ID="btnSaveFile" runat="server" OnClick="btnSaveFile_Click" class="btn btn-primary btn-user float-left" Text="SAVE FILE " />
-                    </div>
+                    
                     <div class="col-sm-2 mb-3 mb-sm-0">
                     </div>
                     <div class="col-sm-6 mb-3 mb-sm-0">
@@ -185,8 +183,9 @@ Title="MANAGE ROLES" %>
                             <Columns>
                                 <asp:BoundColumn DataField="FileID" HeaderText="FileID" Visible="false"></asp:BoundColumn>
                                 <asp:BoundColumn DataField="FileName" HeaderText="FileName"></asp:BoundColumn>
-                                <asp:ButtonColumn CommandName="btnRemove" HeaderText="Action" Text="Remove"></asp:ButtonColumn>
-                                <asp:ButtonColumn CommandName="btnEdit" HeaderText="Action" Text="View"></asp:ButtonColumn>
+                                <asp:ButtonColumn CommandName="btnEdit" HeaderText="Action" Text="View">
+                                    <ItemStyle CssClass="mb-1 btn-warning" />
+                                </asp:ButtonColumn>
                             </Columns>
                             <HeaderStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" HorizontalAlign="Left" />
                         </asp:DataGrid>
@@ -302,40 +301,6 @@ Title="MANAGE ROLES" %>
                     <asp:Label runat="server" ID="milestoneid" Visible="false"></asp:Label>
                 </div>
                 <div class="form-group row">
-                    <div class="col-sm-1 mb-3 mb-sm-0"></div>
-                    <div class="col-sm-2 mb-3 mb-sm-0">Milestone Name</div>
-                    <div class="col-sm-3 mb-3 mb-sm-0">
-                        <asp:TextBox ID="milestonename" runat="server" Font-Bold="True" CssClass="form-control"></asp:TextBox>
-                    </div>
-                    <div class="col-sm-2 mb-3 mb-sm-0">Date of Completion</div>
-                    <div class="col-sm-3 mb-3 mb-sm-0">
-                        <asp:TextBox ID="milestondate" runat="server" Font-Bold="True" CssClass="form-control"></asp:TextBox>
-                        <ajaxToolkit:CalendarExtender ID="CalendarExtender1" runat="server" CssClass="MyCalendar"
-                            Format="MMMM d, yyyy" PopupPosition="TopLeft" TargetControlID="milestondate"></ajaxToolkit:CalendarExtender>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <div class="col-sm-1 mb-3 mb-sm-0"></div>
-                    <div class="col-sm-2 mb-3 mb-sm-0"><asp:Label runat="server" ID="lblcompletion" Visible="false">Proof of Completion</asp:Label> </div>
-                    <div class="col-sm-3 mb-3 mb-sm-0">
-                        <p id="upload2-area">
-                            <input id="File1" runat="server" size="60" type="file" visible="false" />
-                        </p>
-                    </div>
-                    <div class="col-sm-2 mb-3 mb-sm-0"><asp:label runat="server" ID="lblcompletiondate" Visible="false">Date of Completed</asp:label></div>
-                    <div class="col-sm-3 mb-3 mb-sm-0">
-                        <asp:TextBox ID="txtcompletiondate" runat="server" Font-Bold="True" CssClass="form-control" Visible="false"></asp:TextBox>
-                        <ajaxToolkit:CalendarExtender ID="CalendarExtender2" runat="server" CssClass="MyCalendar"
-                            Format="MMMM d, yyyy" PopupPosition="TopLeft" TargetControlID="txtcompletiondate"></ajaxToolkit:CalendarExtender>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <div class="col-sm-3 mb-3 mb-sm-0"></div>
-                    <div class="col-sm-3 mb-3 mb-sm-0 float-right">
-                        <asp:Button ID="btnAddMilestone" runat="server" OnClick="btnAddItem_Click" class="btn btn-primary btn-user float-right" Text="Add Milestones" />
-                    </div>
-                </div>
-                <div class="form-group row">
                     <div class="col-sm-12 mb-3 mb-sm-0">
                         <asp:DataGrid ID="DataGrid3" runat="server" AutoGenerateColumns="False" class="table table-striped table-bordered zero-configuration" OnItemCommand="DataGrid3_ItemCommand" HorizontalAlign="Center">
                             <FooterStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
@@ -348,10 +313,8 @@ Title="MANAGE ROLES" %>
                                 <asp:BoundColumn DataField="RecordId" HeaderText="Id" Visible="false"></asp:BoundColumn>
                                 <asp:BoundColumn DataField="Milestone" HeaderText="Milestone"></asp:BoundColumn>
                                 <asp:BoundColumn DataField="DateRequired" HeaderText="Date Required"></asp:BoundColumn>
-                                <asp:BoundColumn DataField="CreationDate" HeaderText="Creation Date"></asp:BoundColumn>
+                                <asp:BoundColumn DataField="CreationDate" HeaderText="Completed Date"></asp:BoundColumn>
                                 <asp:BoundColumn DataField="Active" HeaderText="Status"></asp:BoundColumn>
-                                <asp:ButtonColumn CommandName="btnCompleteMilestone" HeaderText="Add File" Text="Complete Milestone"></asp:ButtonColumn>
-                                <asp:ButtonColumn CommandName="btnEdit" HeaderText="Edit Milestone" Text="Edit"></asp:ButtonColumn>
                             </Columns>
                             <HeaderStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" HorizontalAlign="Left" />
                         </asp:DataGrid>

@@ -228,7 +228,6 @@ public partial class ManageRejectedContracts : System.Web.UI.Page
         {
             //string Plancode = lblPlanCode.Text.Trim();
             string PD_Code = contid.Text.Trim();
-            UploadFiles(PD_Code);
             LoadDocuments(PD_Code);
         }
         catch (Exception ex)
@@ -299,23 +298,6 @@ public partial class ManageRejectedContracts : System.Web.UI.Page
         catch (Exception ex)
         {
             ShowMessage(ex.Message);
-        }
-    }
-    private void UploadFiles(string PlanCode)
-    {
-        HttpFileCollection uploads;
-        uploads = HttpContext.Current.Request.Files;
-        int countfiles = 0;
-        for (int i = 0; i <= (uploads.Count - 1); i++)
-        {
-            if (uploads[i].ContentLength > 0)
-            {
-                string c = System.IO.Path.GetFileName(uploads[i].FileName);
-                string cNoSpace = c.Replace(" ", "-");
-                string c1 = PlanCode + "_" + (countfiles + i + 1) + "_" + cNoSpace;
-                FileField.PostedFile.SaveAs("D:\\NaroContracts\\UploadedContracts\\" + c1);
-                ProcessOthers.SavePlanDocuments(PlanCode, ("D:\\NaroContracts\\UploadedContracts\\" + c1), c, false, Session["FullName"].ToString());
-            }
         }
     }
     protected void btnReturn_Click(object sender, EventArgs e)
@@ -505,15 +487,6 @@ public partial class ManageRejectedContracts : System.Web.UI.Page
                 if (!IsCompleted)
                 {
                     DataTable milestonedetails = data.GetMilestonById(RecordID);
-                    milestonename.Text = milestonedetails.Rows[0]["Milestone"].ToString();
-                    milestonename.Enabled = false;
-                    milestondate.Text = milestonedetails.Rows[0]["DateRequired"].ToString();
-                    milestondate.Enabled = false;
-                    File1.Visible = true;
-                    lblcompletion.Visible = true;
-                    txtcompletiondate.Visible = true;
-                    lblcompletiondate.Visible = true;
-                    btnAddMilestone.Text = "Complete Milestone";
                     milestoneid.Text = RecordID;
                 }
                 else
@@ -524,11 +497,6 @@ public partial class ManageRejectedContracts : System.Web.UI.Page
             else if (e.CommandName == "btnEdit")
             {
                 DataTable milestonedetails = data.GetMilestonById(RecordID);
-                milestonename.Text = milestonedetails.Rows[0]["Milestone"].ToString();
-                milestonename.Enabled = true;
-                milestondate.Text = milestonedetails.Rows[0]["DateRequired"].ToString();
-                milestondate.Enabled = true;
-                btnAddMilestone.Text = "Update Milestone";
                 milestoneid.Text = RecordID;
             }
         }
@@ -538,83 +506,8 @@ public partial class ManageRejectedContracts : System.Web.UI.Page
         }
     }
 
-    protected void btnAddItem_Click(object sender, EventArgs e)
-    {
-        try
-        {
-            DataTable milestones = null;
-            if (btnAddMilestone.Text.Equals("Add Milestones"))
-            {
-                if (string.IsNullOrEmpty(milestonename.Text))
-                {
-                    ShowMessage("Please Enter Milestone");
-                }
-                else if (string.IsNullOrEmpty(milestondate.Text))
-                {
-                    ShowMessage("Date Required cannot be empty");
-                }
-                else
-                {
-                    string contractid = contraid.Text;
-                    string milstonename = milestonename.Text;
-                    string daterequired = milestondate.Text;
-                    milestones = data.SaveMileStone(contractid, milstonename, daterequired);
-                    ShowMessage("Milestone saved successfully");
-                    DataGrid3.DataSource = milestones;
-                    DataGrid3.DataBind();
-                }
-            }
-            else if (btnAddMilestone.Text.Equals("Update Milestone"))
-            {
-                string contractid = contraid.Text;
-                string stoneid = milestoneid.Text;
-                string milstonename = milestonename.Text;
-                string daterequired = milestondate.Text;
-                milestones = data.UpdateMileStone(stoneid, milstonename, daterequired, contractid);
-                ShowMessage("Milestone updated successfully");
-                DataGrid3.DataSource = milestones;
-                DataGrid3.DataBind();
-            }
-            else
-            {
-                string milestonid = milestoneid.Text;
-                string completeddate = txtcompletiondate.Text;
-                if (string.IsNullOrEmpty(completeddate))
-                {
-                    ShowMessage("Please enter date completed");
-                }
-                else
-                {
-                    UploadFilesMileStones(milestonid, completeddate);
-                    ShowMessage("Milestone Completed successfully");
-                }
-                
-            }
-            
-        }
-        catch (Exception ex)
-        {
-            ShowMessage(ex.Message);
-        }
-    }
+    
 
-    private void UploadFilesMileStones(string PlanCode,string completeddate)
-    {
-        HttpFileCollection uploads;
-        uploads = HttpContext.Current.Request.Files;
-        int countfiles = 0;
-        for (int i = 0; i <= (uploads.Count - 1); i++)
-        {
-            if (uploads[i].ContentLength > 0)
-            {
-                string c = System.IO.Path.GetFileName(uploads[i].FileName);
-                string cNoSpace = c.Replace(" ", "-");
-                string c1 = PlanCode + "_" + (countfiles + i + 1) + "_" + cNoSpace;
-                File1.PostedFile.SaveAs("D:\\NaroContracts\\UploadedContracts\\MileStones" + c1);
-                ProcessOthers.SaveMileStoneDocuments(PlanCode, ("D:\\NaroContracts\\UploadedContracts\\MileStones" + c1), c, completeddate);
-            }
-        }
-    }
 
 
 }
