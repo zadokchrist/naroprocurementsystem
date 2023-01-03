@@ -420,8 +420,8 @@ public partial class ManageContracts : System.Web.UI.Page
                 string c = System.IO.Path.GetFileName(uploads[i].FileName);
                 string cNoSpace = c.Replace(" ", "-");
                 string c1 = PlanCode + "_" + (countfiles + i + 1) + "_" + cNoSpace;
-                FileField.PostedFile.SaveAs("D:\\NaroContracts\\UploadedContracts\\" + c1);
-                ProcessOthers.SavePlanDocuments(PlanCode, ("D:\\NaroContracts\\UploadedContracts\\" + c1), c, false, uploadedby);
+                FileField.PostedFile.SaveAs("C:\\NaroContracts\\UploadedContracts\\" + c1);
+                ProcessOthers.SavePlanDocuments(PlanCode, ("C:\\NaroContracts\\UploadedContracts\\" + c1), c, false, uploadedby);
             }
         }
     }
@@ -614,10 +614,10 @@ public partial class ManageContracts : System.Web.UI.Page
             string RecordID = e.Item.Cells[0].Text;
             string PD_Code = e.Item.Cells[1].Text;
             string Desc = e.Item.Cells[3].Text;
-            bool IsCompleted= bool.Parse(e.Item.Cells[4].Text);
+            string IsCompleted= e.Item.Cells[4].Text;
             if (e.CommandName == "btnCompleteMilestone")
             {
-                if (!IsCompleted)
+                if (IsCompleted.Equals("PENDING"))
                 {
                     DataTable milestonedetails = data.GetMilestonById(RecordID);
                     milestonename.Text = milestonedetails.Rows[0]["Milestone"].ToString();
@@ -725,8 +725,8 @@ public partial class ManageContracts : System.Web.UI.Page
                 string c = System.IO.Path.GetFileName(uploads[i].FileName);
                 string cNoSpace = c.Replace(" ", "-");
                 string c1 = PlanCode + "_" + (countfiles + i + 1) + "_" + cNoSpace;
-                File1.PostedFile.SaveAs("D:\\NaroContracts\\UploadedContracts\\MileStones" + c1);
-                ProcessOthers.SaveMileStoneDocuments(PlanCode, ("D:\\NaroContracts\\UploadedContracts\\MileStones" + c1), c, completeddate);
+                File1.PostedFile.SaveAs("C:\\NaroContracts\\UploadedContracts\\MileStones" + c1);
+                ProcessOthers.SaveMileStoneDocuments(PlanCode, ("C:\\NaroContracts\\UploadedContracts\\MileStones" + c1), c, completeddate);
             }
         }
     }

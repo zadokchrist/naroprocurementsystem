@@ -374,8 +374,12 @@ Title="MANAGE ROLES" %>
                                 <asp:BoundColumn DataField="DateRequired" HeaderText="Date Required"></asp:BoundColumn>
                                 <asp:BoundColumn DataField="CreationDate" HeaderText="Creation Date"></asp:BoundColumn>
                                 <asp:BoundColumn DataField="Active" HeaderText="Status"></asp:BoundColumn>
-                                <asp:ButtonColumn CommandName="btnCompleteMilestone" HeaderText="Add File" Text="Complete Milestone"></asp:ButtonColumn>
-                                <asp:ButtonColumn CommandName="btnEdit" HeaderText="Edit Milestone" Text="Edit"></asp:ButtonColumn>
+                                <asp:ButtonColumn CommandName="btnCompleteMilestone" HeaderText="Add File" Text="Complete Milestone">
+                                    <ItemStyle CssClass="btn-secondary " ForeColor="White"/>
+                                </asp:ButtonColumn>
+                                <asp:ButtonColumn CommandName="btnEdit" HeaderText="Edit Milestone" Text="Edit">
+                                     <ItemStyle CssClass=" btn-warning " ForeColor="White"/>
+                                </asp:ButtonColumn>
                             </Columns>
                             <HeaderStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" HorizontalAlign="Left" />
                         </asp:DataGrid>
