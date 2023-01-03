@@ -40,6 +40,7 @@ Title="MANAGE ROLES" Culture="auto" UICulture="auto" %>
                     <asp:BoundColumn DataField="IsActive" HeaderText="IsActive"></asp:BoundColumn>
                     <asp:BoundColumn DataField="DateCreated" HeaderText="DateCreated"></asp:BoundColumn>
                     <asp:ButtonColumn CommandName="btnEdit" HeaderText="Action" Text="UploadContract">
+                        <ItemStyle CssClass="btn-secondary " ForeColor="White"/>
                     </asp:ButtonColumn>
                 </Columns>
                 <HeaderStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" HorizontalAlign="Left" />
