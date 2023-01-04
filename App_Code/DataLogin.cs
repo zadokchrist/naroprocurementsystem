@@ -719,11 +719,10 @@ public class DataLogin
         }
     }
 
-    public DataTable SaveMileStone(string contractid, string milstonename, string daterequired)
+    public void SaveMileStone(string contractid, string milstonename, string daterequired)
     {
         mycommand = Proc_DB.GetStoredProcCommand("SaveMileStone", contractid, milstonename, daterequired);
-        returnDatatable = Proc_DB.ExecuteDataSet(mycommand).Tables[0];
-        return returnDatatable;
+        Proc_DB.ExecuteNonQuery(mycommand);
     }
 
     public DataTable UpdateMileStone(string milestoneid, string milstonename, string daterequired,string contractid)

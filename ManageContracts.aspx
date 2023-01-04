@@ -274,12 +274,12 @@ Title="MANAGE ROLES" %>
                     <div class="col-sm-1 mb-3 mb-sm-0"></div>
                     <div class="col-sm-2 mb-3 mb-sm-0">
                         <asp:Label runat="server" ID="contid" Visible="false"></asp:Label>
-                        Approve Contract
+                        Approve Request
                     </div>
                     <div class="col-sm-3 mb-3 mb-sm-0">
                         <asp:RadioButtonList ID="rbnApproval" runat="server" CssClass="InterfaceDropdownList" AutoPostBack="True" OnSelectedIndexChanged="rbnApproval_SelectedIndexChanged">
-                            <asp:ListItem Value="1">Approve Contract</asp:ListItem>
-                            <asp:ListItem Value="2">Reject Contract</asp:ListItem>
+                            <asp:ListItem Value="1">Approve Request</asp:ListItem>
+                            <asp:ListItem Value="2">Reject Request</asp:ListItem>
                             <asp:ListItem Value="3">Submit to Same Stage</asp:ListItem>
                         </asp:RadioButtonList>
                     </div>
@@ -331,7 +331,7 @@ Title="MANAGE ROLES" %>
                     <div class="col-sm-3 mb-3 mb-sm-0">
                         <asp:TextBox ID="milestonename" runat="server" Font-Bold="True" CssClass="form-control"></asp:TextBox>
                     </div>
-                    <div class="col-sm-2 mb-3 mb-sm-0">Date of Completion</div>
+                    <div class="col-sm-2 mb-3 mb-sm-0">Expected Date of Completion</div>
                     <div class="col-sm-3 mb-3 mb-sm-0">
                         <asp:TextBox ID="milestondate" runat="server" Font-Bold="True" CssClass="form-control"></asp:TextBox>
                         <ajaxToolkit:CalendarExtender ID="CalendarExtender1" runat="server" CssClass="MyCalendar"
@@ -371,7 +371,7 @@ Title="MANAGE ROLES" %>
                             <Columns>
                                 <asp:BoundColumn DataField="RecordId" HeaderText="Id" Visible="false"></asp:BoundColumn>
                                 <asp:BoundColumn DataField="Milestone" HeaderText="Milestone"></asp:BoundColumn>
-                                <asp:BoundColumn DataField="DateRequired" HeaderText="Date Required"></asp:BoundColumn>
+                                <asp:BoundColumn DataField="DateRequired" HeaderText="Expected Date of Completion"></asp:BoundColumn>
                                 <asp:BoundColumn DataField="CreationDate" HeaderText="Creation Date"></asp:BoundColumn>
                                 <asp:BoundColumn DataField="Active" HeaderText="Status"></asp:BoundColumn>
                                 <asp:ButtonColumn CommandName="btnCompleteMilestone" HeaderText="Add File" Text="Complete Milestone">

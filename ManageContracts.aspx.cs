@@ -180,16 +180,13 @@ public partial class ManageContracts : System.Web.UI.Page
             {
                 if (HasPermission(contractid, accesslevel, "milestone"))
                 {
-                    MultiView1.ActiveViewIndex = 6;
                     contraid.Text = contractid;
-                    DataGrid3.DataSource = data.GetMileStonesByContractId(contractid);
-                    DataGrid3.DataBind();
+                    LoadContractMilestones(contraid.Text);
                 }
                 else
                 {
                     ShowMessage("You dont have permission to perform for this at this level", true);
                 }
-                
             }
         }
         catch (Exception ex)
@@ -318,7 +315,6 @@ public partial class ManageContracts : System.Web.UI.Page
     {
         try
         {
-
             string userid = Session["UserID"].ToString();
             string description = txtComment.Text;
             dataTable = data.GetStatusesByWorkflowid(workflowid.Text);
@@ -336,10 +332,8 @@ public partial class ManageContracts : System.Web.UI.Page
                 {
                     var rows = dataTable.Select("StatusID=" + currentstatus);
                     var indexOfRow = dataTable.Rows.IndexOf(rows[0]);
-                    
                     nextStatus = dataTable.Rows[indexOfRow + 1]["StatusID"].ToString();
                 }
-                
             }
             else if (rbnApproval.SelectedIndex == 1)// rejected contract
             {
@@ -359,18 +353,15 @@ public partial class ManageContracts : System.Web.UI.Page
             {
                 nextStatus = currentstatus;
             }
-             
-            
-
             data.NextContractStatus(contid.Text, workflowid.Text, description, userid, nextStatus);
-            ShowMessage("Contract Moved to the next stage", false);
+            string levelat = data.GetLevelAt(contid.Text).Rows[0]["Level"].ToString();
+            ShowMessage("Contract Moved to "+ levelat+" stage", false);
             ClearControls();
             MultiView1.ActiveViewIndex = 0;
         }
         catch (Exception ex)
         {
             ShowMessage(ex.Message, true);
-
         }
 
     }
@@ -658,6 +649,8 @@ public partial class ManageContracts : System.Web.UI.Page
         try
         {
             DataTable milestones = null;
+            HttpFileCollection uploads;
+            uploads = HttpContext.Current.Request.Files;
             if (btnAddMilestone.Text.Equals("Add Milestones"))
             {
                 if (string.IsNullOrEmpty(milestonename.Text))
@@ -673,10 +666,9 @@ public partial class ManageContracts : System.Web.UI.Page
                     string contractid = contraid.Text;
                     string milstonename = milestonename.Text;
                     string daterequired = milestondate.Text;
-                    milestones = data.SaveMileStone(contractid, milstonename, daterequired);
+                    data.SaveMileStone(contractid, milstonename, daterequired);
                     ShowMessage("Milestone saved successfully",false);
-                    DataGrid3.DataSource = milestones;
-                    DataGrid3.DataBind();
+                    LoadContractMilestones(contractid);
                 }
             }
             else if (btnAddMilestone.Text.Equals("Update Milestone"))
@@ -687,8 +679,7 @@ public partial class ManageContracts : System.Web.UI.Page
                 string daterequired = milestondate.Text;
                 milestones = data.UpdateMileStone(stoneid, milstonename, daterequired, contractid);
                 ShowMessage("Milestone updated successfully",false);
-                DataGrid3.DataSource = milestones;
-                DataGrid3.DataBind();
+                LoadContractMilestones(contractid);
             }
             else
             {
@@ -698,10 +689,17 @@ public partial class ManageContracts : System.Web.UI.Page
                 {
                     ShowMessage("Please enter date completed", true);
                 }
+                else if (uploads[0].ContentLength<1)
+                {
+                    ShowMessage("Please attach proof of completion", true);
+                }
                 else
                 {
                     UploadFilesMileStones(milestonid, completeddate);
                     ShowMessage("Milestone Completed successfully",false);
+                    LoadContractMilestones(contraid.Text);
+
+
                 }
                 
             }
@@ -713,6 +711,23 @@ public partial class ManageContracts : System.Web.UI.Page
         }
     }
 
+    private void LoadContractMilestones(string contractid) 
+    {
+        MultiView1.ActiveViewIndex = 6;
+        contraid.Text = contractid;
+        DataGrid3.DataSource = data.GetMileStonesByContractId(contractid);
+        DataGrid3.DataBind();
+
+        lblcompletion.Visible = false;
+        File1.Visible = false;
+        lblcompletiondate.Visible = false;
+        txtcompletiondate.Visible = false;
+        btnAddMilestone.Text = "Add Milestones";
+        milestonename.Text = "";
+        milestonename.Enabled = true;
+        milestondate.Text = "";
+        milestondate.Enabled = true;
+    }
     private void UploadFilesMileStones(string PlanCode,string completeddate)
     {
         HttpFileCollection uploads;
