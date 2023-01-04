@@ -479,25 +479,11 @@ public partial class ManageRejectedContracts : System.Web.UI.Page
         try
         {
             string RecordID = e.Item.Cells[0].Text;
-            string PD_Code = e.Item.Cells[1].Text;
-            string Desc = e.Item.Cells[3].Text;
-            bool IsCompleted= bool.Parse(e.Item.Cells[4].Text);
-            if (e.CommandName == "btnCompleteMilestone")
+            if (e.CommandName == "btnDownloadFile")
             {
-                if (!IsCompleted)
-                {
-                    DataTable milestonedetails = data.GetMilestonById(RecordID);
-                    milestoneid.Text = RecordID;
-                }
-                else
-                {
-                    ShowMessage("Certificate of completion was already uploaded. ");
-                }
-            }
-            else if (e.CommandName == "btnEdit")
-            {
-                DataTable milestonedetails = data.GetMilestonById(RecordID);
                 milestoneid.Text = RecordID;
+                string Path = data.GetMilestoneDocumentPath(milestoneid.Text).Rows[0]["FilePath"].ToString();
+                DownloadFile(Path, true);
             }
         }
         catch (Exception ex)

@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/GenericMasterPage.master" AutoEventWireup="true" EnableEventValidation="false"  CodeFile="AddRoles.aspx.cs" Inherits="AddRoles" 
+﻿<%@ Page Language="C#" MasterPageFile="~/GenericMasterPage.master" AutoEventWireup="true" EnableEventValidation="false"  CodeFile="ConfigureDocumentTypes.aspx.cs" Inherits="ConfigureDocumentTypes" 
 Title="MANAGE ROLES" Culture="auto" UICulture="auto" %>
  <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
  <%@ Import Namespace="System.Threading" %>
@@ -14,14 +14,14 @@ Title="MANAGE ROLES" Culture="auto" UICulture="auto" %>
                     <div class="form-group row">
                         <div class="col-sm-6 mb-3 mb-sm-0">
                             <div class="text-right">
-                                <h6 class="m-0 font-weight-bold text-primary">List of Access Roles</h6>
+                                <h6 class="m-0 font-weight-bold text-primary">List of Document Types</h6>
                             </div>
                         </div>
                         <div class="col-sm-6">
-                            <asp:Button ID="Button1" runat="server" OnClick="Button1_Click" class="btn btn-primary btn-user float-right" Text="Add User Role" />
+                            <asp:Button ID="Button1" runat="server" OnClick="Button1_Click" class="btn btn-primary btn-user float-right" Text="Add Document Type" />
                         </div>
                     </div>
-                    <asp:DataGrid ID="DataGrid1" runat="server" DataKeyField="LevelID" AllowPaging="True" OnPageIndexChanged="DataGrid1_PageIndexChanged" AutoGenerateColumns="False" class="table table-striped table-bordered zero-configuration" OnItemCommand="DataGrid2_ItemCommand" HorizontalAlign="Center">
+                    <asp:DataGrid ID="DataGrid1" runat="server" DataKeyField="RecordId" AllowPaging="True" OnPageIndexChanged="DataGrid1_PageIndexChanged" AutoGenerateColumns="False" class="table table-striped table-bordered zero-configuration" OnItemCommand="DataGrid2_ItemCommand" HorizontalAlign="Center">
                         <PagerStyle Mode="NumericPages" Position="Bottom" />
                         <FooterStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
                         <EditItemStyle BackColor="#999999" />
@@ -30,10 +30,10 @@ Title="MANAGE ROLES" Culture="auto" UICulture="auto" %>
                         <AlternatingItemStyle BackColor="White" ForeColor="#284775" />
                         <ItemStyle BackColor="#F7F6F3" ForeColor="#333333" HorizontalAlign="Left" />
                         <Columns>
-                            <asp:BoundColumn DataField="LevelID" HeaderText="LevelID" Visible="false"></asp:BoundColumn>
-                            <asp:BoundColumn DataField="LevelName" HeaderText="LevelName"></asp:BoundColumn>
-                            <asp:BoundColumn DataField="Description" HeaderText="Description"></asp:BoundColumn>
+                            <asp:BoundColumn DataField="RecordId" HeaderText="RecordId" Visible="false"></asp:BoundColumn>
+                            <asp:BoundColumn DataField="DocumentType" HeaderText="DocumentType"></asp:BoundColumn>
                             <asp:BoundColumn DataField="Active" HeaderText="Active"></asp:BoundColumn>
+                            <asp:BoundColumn DataField="RecordDate" HeaderText="Date Entered"></asp:BoundColumn>
                             <asp:ButtonColumn CommandName="btnenable" HeaderText="Action" Text="Enable/Disable">
                                 <ItemStyle CssClass="btn-secondary " ForeColor="White"/>
                             </asp:ButtonColumn>
@@ -51,24 +51,17 @@ Title="MANAGE ROLES" Culture="auto" UICulture="auto" %>
                         <div class="col-sm-3 mb-3 mb-sm-0"></div>
                         <div class="col-sm-6 mb-3 mb-sm-0">
                             <div class="card-header py-3">
-                                Edit Access Level
+                                Edit Document Types
                             </div>
                         </div>
                     </div>
                     <div class="form-group row">
                         <div class="col-sm-3 mb-3 mb-sm-0"></div>
-                        <div class="col-sm-3 mb-3 mb-sm-0"><label>Level Name</label>
-                            <asp:Label runat="server" ID="lblLevelid" Visible="false"></asp:Label>
+                        <div class="col-sm-3 mb-3 mb-sm-0"><label>Document Type</label>
+                            <asp:Label runat="server" ID="lbldoctype" Visible="false"></asp:Label>
                         </div>
                         <div class="col-sm-3 mb-3 mb-sm-0">
-                             <asp:TextBox ID="txtEditLevelName"  runat="server" class="form-control"></asp:TextBox>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <div class="col-sm-3 mb-3 mb-sm-0"></div>
-                        <div class="col-sm-3 mb-3 mb-sm-0"><label>Description</label></div>
-                        <div class="col-sm-3 mb-3 mb-sm-0">
-                            <asp:TextBox ID="txtEditDescription"  runat="server" TextMode="MultiLine" class="form-control"></asp:TextBox>
+                             <asp:TextBox ID="txtEditDocType"  runat="server" class="form-control"></asp:TextBox>
                         </div>
                     </div>
                     <div class="form-group row">
@@ -102,26 +95,17 @@ Title="MANAGE ROLES" Culture="auto" UICulture="auto" %>
                         <div class="col-sm-3 mb-3 mb-sm-0"></div>
                         <div class="col-sm-6 mb-3 mb-sm-0">
                             <div class="card-header py-3">
-                                Add Roles
+                                Add Document Type
                             </div>
                         </div>
                     </div>
                     <div class="form-group  row">
                         <div class="col-sm-1 mb-3 mb-sm-0"></div>
                         <div class="col-sm-3 mb-3 mb-sm-0">
-                            <label>Role Name</label>
+                            <label>Document Type Name</label>
                         </div>
                         <div class="col-sm-5 mb-3 mb-sm-0">
-                            <asp:TextBox ID="txtAName" runat="server" class="form-control"></asp:TextBox>
-                        </div>
-                    </div>
-                    <div class="form-group  row">
-                        <div class="col-sm-1 mb-3 mb-sm-0"></div>
-                        <div class="col-sm-3 mb-3 mb-sm-0">
-                            <label>Description</label>
-                        </div>
-                        <div class="col-sm-5 mb-3 mb-sm-0">
-                            <asp:TextBox ID="txtdescript" runat="server" TextMode="MultiLine" class="form-control"></asp:TextBox>
+                            <asp:TextBox ID="txtDocType" runat="server" class="form-control"></asp:TextBox>
                         </div>
                     </div>
                     <div class="form-group row">

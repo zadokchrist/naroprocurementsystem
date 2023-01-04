@@ -315,6 +315,9 @@ Title="MANAGE ROLES" %>
                                 <asp:BoundColumn DataField="DateRequired" HeaderText="Date Required"></asp:BoundColumn>
                                 <asp:BoundColumn DataField="CreationDate" HeaderText="Completed Date"></asp:BoundColumn>
                                 <asp:BoundColumn DataField="Active" HeaderText="Status"></asp:BoundColumn>
+                                <asp:ButtonColumn CommandName="btnDownloadFile" HeaderText="Action" Text="Proof Of Completion">
+                                    <ItemStyle CssClass=" btn-warning" ForeColor="White"/>
+                                </asp:ButtonColumn>
                             </Columns>
                             <HeaderStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" HorizontalAlign="Left" />
                         </asp:DataGrid>

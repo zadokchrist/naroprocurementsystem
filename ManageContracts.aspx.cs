@@ -151,6 +151,7 @@ public partial class ManageContracts : System.Web.UI.Page
                 if (HasPermission(contractid, accesslevel, "files"))
                 {
                     LoadDocuments(contractid);
+                    LoadDocumentTypes();
                 }
                 else
                 {
@@ -295,10 +296,27 @@ public partial class ManageContracts : System.Web.UI.Page
     {
         try
         {
-            //string Plancode = lblPlanCode.Text.Trim();
-            string PD_Code = contid.Text.Trim();
-            UploadFiles(PD_Code);
-            LoadDocuments(PD_Code);
+            if (documentTypes.SelectedIndex.Equals(0))
+            {
+                ShowMessage("Please select Document Type your saving", true);
+            }
+            else
+            {
+                HttpFileCollection uploads = HttpContext.Current.Request.Files;
+                if (uploads[0].ContentLength<1)
+                {
+                    ShowMessage("Please select file to upload", true);
+                }
+                else
+                {
+                    string PD_Code = contid.Text.Trim();
+                    UploadFiles(PD_Code);
+                    LoadDocuments(PD_Code);
+                }
+
+                
+            }
+            
         }
         catch (Exception ex)
         {
@@ -412,7 +430,7 @@ public partial class ManageContracts : System.Web.UI.Page
                 string cNoSpace = c.Replace(" ", "-");
                 string c1 = PlanCode + "_" + (countfiles + i + 1) + "_" + cNoSpace;
                 FileField.PostedFile.SaveAs("C:\\NaroContracts\\UploadedContracts\\" + c1);
-                ProcessOthers.SavePlanDocuments(PlanCode, ("C:\\NaroContracts\\UploadedContracts\\" + c1), c, false, uploadedby);
+                ProcessOthers.SavePlanDocumentsWithDocType(PlanCode, ("C:\\NaroContracts\\UploadedContracts\\" + c1), c, false, uploadedby, documentTypes.SelectedValue);
             }
         }
     }
@@ -711,6 +729,13 @@ public partial class ManageContracts : System.Web.UI.Page
         }
     }
 
+    private void LoadDocumentTypes()
+    {
+        dataTable = data.GetDocumentTypes();
+        documentTypes.DataSource = dataTable;
+        documentTypes.DataBind();
+    }
+
     private void LoadContractMilestones(string contractid) 
     {
         MultiView1.ActiveViewIndex = 6;
@@ -758,5 +783,10 @@ public partial class ManageContracts : System.Web.UI.Page
     protected void cboAccessLevel_DataBound(object sender, EventArgs e)
     {
         cboAccessLevel.Items.Insert(0, new ListItem("- - Select Access Level - -", "0"));
+    }
+
+    protected void cbodocumentTypes_DataBound(object sender, EventArgs e)
+    {
+        documentTypes.Items.Insert(0, new ListItem("- - Select File Type - -", "0"));
     }
 }

@@ -173,14 +173,16 @@ Title="MANAGE ROLES" %>
                 </div>
                 <div class="form-group row">
                     <div class="col-sm-1 mb-3 mb-sm-0"></div>
-                    <div class="col-sm-2 mb-3 mb-sm-0">
-                        <br />
+                    <div class="col-sm-3 mb-3 mb-sm-0">
                         <p id="upload-area">
                             <input id="FileField" runat="server" size="60" type="file" />
-                        </p><br />
+                        </p>
+                        Document Type Uploaded
+                        <asp:DropDownList ID="documentTypes" runat="server" DataValueField="RecordId" DataTextField="DocumentType" OnDataBound="cbodocumentTypes_DataBound" CssClass="form-control">
+                            </asp:DropDownList><br />
                         <asp:Button ID="btnSaveFile" runat="server" OnClick="btnSaveFile_Click" class="btn btn-primary btn-user float-left" Text="SAVE FILE " />
                     </div>
-                    <div class="col-sm-2 mb-3 mb-sm-0">
+                    <div class="col-sm-1 mb-3 mb-sm-0">
                     </div>
                     <div class="col-sm-6 mb-3 mb-sm-0">
                         <asp:Label ID="lblmsg" runat="server" Font-Names="Cambria" Font-Size="11pt" ForeColor="Red"
@@ -195,6 +197,7 @@ Title="MANAGE ROLES" %>
                             <Columns>
                                 <asp:BoundColumn DataField="FileID" HeaderText="FileID" Visible="false"></asp:BoundColumn>
                                 <asp:BoundColumn DataField="FileName" HeaderText="FileName"></asp:BoundColumn>
+                                <asp:BoundColumn DataField="DocumentType" HeaderText="File Type"></asp:BoundColumn>
                                 <asp:BoundColumn DataField="UploadedBy" HeaderText="UploadedBy"></asp:BoundColumn>
                                 <asp:BoundColumn DataField="CreationDate" HeaderText="Upload Date"></asp:BoundColumn>
                                 <%--<asp:ButtonColumn CommandName="btnRemove" HeaderText="Action" Text="Remove"></asp:ButtonColumn>--%>

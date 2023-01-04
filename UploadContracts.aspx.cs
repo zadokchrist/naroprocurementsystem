@@ -27,6 +27,7 @@ public partial class AddWorkFlow : System.Web.UI.Page
                 MultiView1.ActiveViewIndex = 0;
                 LoadWorkFlows();
                 LoadConfiguredContracts();
+                
             }
         }
         catch (Exception ex)
@@ -73,6 +74,10 @@ public partial class AddWorkFlow : System.Web.UI.Page
             {
                 ShowMessage("Please Enter Contract subject", true);
             }
+            else if (documentTypes.SelectedIndex.Equals(0))
+            {
+                ShowMessage("Please Select Type of Document Attached", true);
+            }
             else
             {
                 string uploadedcontid = data.InsertUploadedContract(contract_id, subject).Rows[0]["Contractid"].ToString();
@@ -118,6 +123,7 @@ public partial class AddWorkFlow : System.Web.UI.Page
             dataTable = data.GetAllConfiguredContracts(contractid.Text.Trim());
             contname.Text = dataTable.Rows[0]["ContractName"].ToString();
             conttype.Text = dataTable.Rows[0]["ContractType"].ToString();
+            LoadDocumentTypes();
         }
         catch (Exception ex)
         {
@@ -206,7 +212,7 @@ public partial class AddWorkFlow : System.Web.UI.Page
                     string c1 = PlanCode + "_" + (countfiles + i + 1) + "_" + cNoSpace;
                     string Path = processdoc.GetDocPath();
                     FileField.PostedFile.SaveAs(Path + "" + c1);
-                    ProcessOther.SavePlanDocuments(PlanCode, (Path + "" + c1), c, false, uploadedby);
+                    ProcessOther.SavePlanDocumentsWithDocType(PlanCode, (Path + "" + c1), c, false, uploadedby, documentTypes.SelectedValue);
 
                 }
             }
@@ -216,6 +222,13 @@ public partial class AddWorkFlow : System.Web.UI.Page
             ShowMessage(ex.Message, true);
         } 
         
+    }
+
+    private void LoadDocumentTypes()
+    {
+        dataTable = data.GetDocumentTypes();
+        documentTypes.DataSource = dataTable;
+        documentTypes.DataBind();
     }
 
     protected void Button2_Click1(object sender, EventArgs e)
@@ -270,6 +283,11 @@ public partial class AddWorkFlow : System.Web.UI.Page
         int newPageIndex = e.NewPageIndex;
         DataGrid1.CurrentPageIndex = newPageIndex;
         LoadConfiguredContracts();
+    }
+
+    protected void cbodocumentTypes_DataBound(object sender, EventArgs e)
+    {
+        documentTypes.Items.Insert(0, new ListItem("- - Select Document Type Attached - -", "0"));
     }
 
 }

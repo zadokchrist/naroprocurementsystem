@@ -64,6 +64,13 @@ public class DataLogin
             throw ex;
         }
     }
+
+    public void UpdateDocType(string docid, string doctype, bool active)
+    {
+        mycommand = Proc_DB.GetStoredProcCommand("UpdateDocType", docid, doctype, active);
+        Proc_DB.ExecuteNonQuery(mycommand);
+    }
+
     public DataTable CheckIfModActive(int ModID)
     {
         try
@@ -111,6 +118,13 @@ public class DataLogin
             throw ex;
         }
     }
+
+    public void SaveDocType(string docTypeName, bool active)
+    {
+        mycommand = Proc_DB.GetStoredProcCommand("SaveDocType", docTypeName, active);
+        Proc_DB.ExecuteDataSet(mycommand);
+    }
+
     public DataTable GetFinancialYears()
     {
         try
@@ -158,6 +172,14 @@ public class DataLogin
             throw ex;
         }
     }
+
+    public DataTable GetDocumentTypesById(string docid)
+    {
+        mycommand = Proc_DB.GetStoredProcCommand("GetDocumentTypesById", docid);
+        returnDatatable = Proc_DB.ExecuteDataSet(mycommand).Tables[0];
+        return returnDatatable;
+    }
+
     public DataTable GetStartPage(int AccessLevel, int ModuleID)
     {
         try
@@ -366,6 +388,12 @@ public class DataLogin
         Proc_DB.ExecuteNonQuery(mycommand);
     }
 
+    internal void ChangeDocTypeStatus(string doctypid, bool status)
+    {
+        mycommand = Proc_DB.GetStoredProcCommand("ChangeDocTypeStatus", doctypid, status);
+        Proc_DB.ExecuteNonQuery(mycommand);
+    }
+
     public DataTable GetModulesAllocation(int UserID)
     {
         try
@@ -451,6 +479,13 @@ public class DataLogin
         mycommand = Proc_DB.GetStoredProcCommand("Saveworkflowsteps", workflowid, Status, FromRoleid, ToRoleid, CanDownload,
             CanApprove, description, canaddmilestones, CanCompleteMilestones, LastStep);
         Proc_DB.ExecuteNonQuery(mycommand);
+    }
+
+    public DataTable GetMilestoneDocumentPath(string milestoneid)
+    {
+        mycommand = Proc_DB.GetStoredProcCommand("GetMilestoneDocumentPath", milestoneid);
+        returnDatatable = Proc_DB.ExecuteDataSet(mycommand).Tables[0];
+        return returnDatatable;
     }
 
     public DataTable GetAreas()
@@ -776,6 +811,20 @@ public class DataLogin
         try
         {
             mycommand = Proc_DB.GetStoredProcCommand("GetAllAccessLevels");
+            returnDatatable = Proc_DB.ExecuteDataSet(mycommand).Tables[0];
+            return returnDatatable;
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+
+    public DataTable GetDocumentTypes()
+    {
+        try
+        {
+            mycommand = Proc_DB.GetStoredProcCommand("GetDocumentTypes");
             returnDatatable = Proc_DB.ExecuteDataSet(mycommand).Tables[0];
             return returnDatatable;
         }

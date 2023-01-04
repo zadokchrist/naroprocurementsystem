@@ -311,6 +311,24 @@ public class ProcessUsers
         return output;
 
     }
+    public string ChangeDocTypeStatus(string doctypid, bool Status,string doctypename)
+    {
+        bool status;
+        string output = "";
+        if (Status)
+        {
+            status = false;
+            output = "Doctype (" + doctypename + ") has been disabled Successfully";
+        }
+        else
+        {
+            status = true;
+            output = "User(" + doctypename + ") has been enabled Successfully";
+        }
+        data.ChangeDocTypeStatus(doctypid, status);
+        return output;
+
+    }
     public string ChangeAccessLevelStatus(string levelid, string Status)
     {
         bool status;

@@ -26,25 +26,25 @@ Title="MANAGE ROLES" Culture="auto" UICulture="auto" %>
                 <div class="card-body">
                     <asp:DataGrid ID="DataGrid1" runat="server" DataKeyField="ContractId" AllowPaging="True" OnPageIndexChanged="DataGrid1_PageIndexChanged" AutoGenerateColumns="False" class="table table-striped zero-configuration" OnItemCommand="DataGrid2_ItemCommand" HorizontalAlign="Center">
                         <PagerStyle Mode="NumericPages" />
-                <FooterStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
-                <EditItemStyle BackColor="#999999" />
-                <SelectedItemStyle BackColor="#E2DED6" Font-Bold="True" ForeColor="#333333" />
-                <PagerStyle BackColor="#284775" ForeColor="White" HorizontalAlign="Center" />
-                <AlternatingItemStyle BackColor="White" ForeColor="#284775" />
-                <ItemStyle BackColor="#F7F6F3" ForeColor="#333333" HorizontalAlign="Left" />
-                <Columns>
-                    <asp:BoundColumn DataField="ContractId" HeaderText="ContractId" Visible="false"></asp:BoundColumn>
-                    <asp:BoundColumn DataField="ContractName" HeaderText="ContractName"></asp:BoundColumn>
-                    <asp:BoundColumn DataField="ContractType" HeaderText="ContractType"></asp:BoundColumn>
-                    <asp:BoundColumn DataField="WorkFlowName" HeaderText="WorkFlowName"></asp:BoundColumn>
-                    <asp:BoundColumn DataField="IsActive" HeaderText="IsActive"></asp:BoundColumn>
-                    <asp:BoundColumn DataField="DateCreated" HeaderText="DateCreated"></asp:BoundColumn>
-                    <asp:ButtonColumn CommandName="btnEdit" HeaderText="Action" Text="UploadContract">
-                        <ItemStyle CssClass="btn-secondary " ForeColor="White"/>
-                    </asp:ButtonColumn>
-                </Columns>
-                <HeaderStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" HorizontalAlign="Left" />
-            </asp:DataGrid>
+                        <FooterStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
+                        <EditItemStyle BackColor="#999999" />
+                        <SelectedItemStyle BackColor="#E2DED6" Font-Bold="True" ForeColor="#333333" />
+                        <PagerStyle BackColor="#284775" ForeColor="White" HorizontalAlign="Center" />
+                        <AlternatingItemStyle BackColor="White" ForeColor="#284775" />
+                        <ItemStyle BackColor="#F7F6F3" ForeColor="#333333" HorizontalAlign="Left" />
+                        <Columns>
+                            <asp:BoundColumn DataField="ContractId" HeaderText="ContractId" Visible="false"></asp:BoundColumn>
+                            <asp:BoundColumn DataField="ContractName" HeaderText="ContractName"></asp:BoundColumn>
+                            <asp:BoundColumn DataField="ContractType" HeaderText="ContractType"></asp:BoundColumn>
+                            <asp:BoundColumn DataField="WorkFlowName" HeaderText="WorkFlowName"></asp:BoundColumn>
+                            <asp:BoundColumn DataField="IsActive" HeaderText="IsActive"></asp:BoundColumn>
+                            <asp:BoundColumn DataField="DateCreated" HeaderText="DateCreated"></asp:BoundColumn>
+                            <asp:ButtonColumn CommandName="btnEdit" HeaderText="Action" Text="UploadContract">
+                                <ItemStyle CssClass="btn-secondary " ForeColor="White" />
+                            </asp:ButtonColumn>
+                        </Columns>
+                        <HeaderStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" HorizontalAlign="Left" />
+                    </asp:DataGrid>
                 </div>
             </asp:View>
             <asp:View ID="View2" runat="server">
@@ -105,6 +105,16 @@ Title="MANAGE ROLES" Culture="auto" UICulture="auto" %>
                         <div class="col-sm-3 mb-3 mb-sm-0"><label>Contract Subject</label></div>
                         <div class="col-sm-5 mb-3 mb-sm-0">
                             <asp:TextBox TextMode="MultiLine" ID="comment" CssClass="form-control" runat="server"></asp:TextBox>
+                        </div>
+                    </div>
+                    <div class="form-group  row">
+                        <div class="col-sm-1 mb-3 mb-sm-0"></div>
+                        <div class="col-sm-3 mb-3 mb-sm-0">
+                            <label>Document Type Uploaded</label>
+                        </div>
+                        <div class="col-sm-5 mb-3 mb-sm-0">
+                            <asp:DropDownList ID="documentTypes" runat="server" DataValueField="RecordId" DataTextField="DocumentType" OnDataBound="cbodocumentTypes_DataBound" CssClass="form-control">
+                            </asp:DropDownList>
                         </div>
                     </div>
                     <div class="form-group row">

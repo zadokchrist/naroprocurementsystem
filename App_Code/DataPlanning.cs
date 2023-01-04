@@ -651,6 +651,19 @@ public class DataPlanning
         }
     }
 
+    public void SavePlanDocWithDoctype(string PlanCode, string FilePath, string FileName, bool Requisition, string uploadedby,string doctype)
+    {
+        try
+        {
+            mycommand = Proc_DB.GetStoredProcCommand("Proc_Planning_SavePlanDocWith_doc_type", PlanCode, FilePath, FileName, Requisition, uploadedby, doctype);
+            Proc_DB.ExecuteNonQuery(mycommand);
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+
     public void SaveMileStoneDocuments(string PlanCode, string FilePath, string FileName,string completeddate)
     {
         try

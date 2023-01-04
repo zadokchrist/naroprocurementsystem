@@ -148,6 +148,14 @@
                         </li>
                         <li>
                             <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                                <i class="icon-notebook menu-icon"></i><span class="nav-text">Document Type Configuration</span>
+                            </a>
+                            <ul aria-expanded="false">
+                                <li><a href="ConfigureDocumentTypes.aspx">Document Types</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a class="has-arrow" href="javascript:void()" aria-expanded="false">
                                 <i class="icon-grid menu-icon"></i><span class="nav-text">Work Flow Management</span>
                             </a>
                             <ul aria-expanded="false">

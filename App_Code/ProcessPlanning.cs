@@ -625,6 +625,10 @@ public class ProcessPlanning
                                  PayPeriodID, PaymentMonthID,Marketprice);
 
     }
+    public void SavePlanDocumentsWithDocType(string PlanCode, string FilePath, string FileName, bool Requisition, string uploadedby,string doctype)
+    {
+        data.SavePlanDocWithDoctype(PlanCode, FilePath, FileName, Requisition, uploadedby, doctype);
+    }
     public void SavePlanDocuments(string PlanCode, string FilePath, string FileName, bool Requisition,string uploadedby)
     {
         data.SavePlanDoc(PlanCode, FilePath, FileName, Requisition, uploadedby);
