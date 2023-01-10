@@ -9,6 +9,7 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using System.IO;
+using System.Threading.Tasks;
 
 public partial class ManageContracts : System.Web.UI.Page
 {
@@ -18,6 +19,7 @@ public partial class ManageContracts : System.Web.UI.Page
     DataLogin data = new DataLogin();
     BusinessLogin bll = new BusinessLogin();
     DataTable dataTable = new DataTable();
+    SendMail send = new SendMail();
     protected void Page_Load(object sender, EventArgs e)
     {
         Label msg = (Label)Master.FindControl("lblmsg");
@@ -336,8 +338,9 @@ public partial class ManageContracts : System.Web.UI.Page
             string userid = Session["UserID"].ToString();
             string description = txtComment.Text;
             dataTable = data.GetStatusesByWorkflowid(workflowid.Text);
-            string currentstatus = data.GetContractStatus(contid.Text).Rows[0]["StatusId"].ToString();//dataTable.Rows[0]["StatusID"].ToString();
-            
+            DataTable contract = data.GetContractStatus(contid.Text);
+            string currentstatus = contract.Rows[0]["StatusId"].ToString();//dataTable.Rows[0]["StatusID"].ToString();
+            string subject = contract.Rows[0]["Subject"].ToString();
             string nextStatus = "";
             if (rbnApproval.SelectedIndex==0)
             {
@@ -372,7 +375,13 @@ public partial class ManageContracts : System.Web.UI.Page
                 nextStatus = currentstatus;
             }
             data.NextContractStatus(contid.Text, workflowid.Text, description, userid, nextStatus);
-            string levelat = data.GetLevelAt(contid.Text).Rows[0]["Level"].ToString();
+            DataTable levelat = data.GetLevelAt(contid.Text);
+            string levelname = levelat.Rows[0]["Level"].ToString();
+            string levelid = levelat.Rows[0]["levelId"].ToString();
+
+            Task.Run(()=> {
+                Process.SendOutNotifications(levelid, subject);
+            });
             ShowMessage("Contract Moved to "+ levelat+" stage", false);
             ClearControls();
             MultiView1.ActiveViewIndex = 0;
@@ -383,6 +392,8 @@ public partial class ManageContracts : System.Web.UI.Page
         }
 
     }
+
+    
 
     private void ClearControls() 
     {

@@ -1053,6 +1053,7 @@ public class DataLogin
         }
     }
 
+
     public DataTable GetAllUsers()
     {
         try
@@ -1065,6 +1066,13 @@ public class DataLogin
         {
             throw ex;
         }
+    }
+
+    public DataTable GetUsersByAccessLevel(string accessleve) 
+    {
+        mycommand = Proc_DB.GetStoredProcCommand("GetUsersByAccessLevel", accessleve);
+        returnDatatable = Proc_DB.ExecuteDataSet(mycommand).Tables[0];
+        return returnDatatable;
     }
 
     public void insertMailException(string to, string from, string displayname, string subject ,string body, string exception, int status)

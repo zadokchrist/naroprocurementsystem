@@ -62,6 +62,10 @@ public partial class General_ViewUsers : System.Web.UI.Page
             {
                 Response.Redirect("./General_EditUser.aspx?transferid=" + code, true);
             }
+            else if (e.CommandName.Equals("btnreset"))
+            {
+                ResetUserPassword(code);
+            }
             else if (e.CommandName == "btnenable")
             {
                 string Status = e.Item.Cells[5].Text;
@@ -73,6 +77,27 @@ public partial class General_ViewUsers : System.Web.UI.Page
         catch (Exception ex)
         {
             ShowMessage(ex.Message,true);
+        }
+    }
+
+    private void ResetUserPassword(string usercode)
+    {
+        try
+        {
+            dataTable = Process.GetUserDetails(usercode);
+            string email = dataTable.Rows[0]["Email"].ToString();
+            string firstname = dataTable.Rows[0]["FirstName"].ToString();
+            string MiddleName = dataTable.Rows[0]["MiddleName"].ToString();
+            string LastName = dataTable.Rows[0]["LastName"].ToString();
+            string username = dataTable.Rows[0]["Username"].ToString();
+            string name = firstname + " " + MiddleName + " " + LastName;
+            string encryptpwd = bll.EncryptString(username);
+            Process.resetUserPassword(username, encryptpwd);
+            Process.NotifyChange(email, username, name);
+        }
+        catch (Exception ex)
+        {
+            ShowMessage(ex.Message, true);
         }
     }
 

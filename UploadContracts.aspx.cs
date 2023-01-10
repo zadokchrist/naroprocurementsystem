@@ -8,7 +8,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
-
+using System.Threading.Tasks;
 
 public partial class AddWorkFlow : System.Web.UI.Page
 {
@@ -88,8 +88,14 @@ public partial class AddWorkFlow : System.Web.UI.Page
                 string status = dataTable.Rows[0]["StatusID"].ToString();
                 string remark = dataTable.Rows[0]["Description"].ToString();
                 data.NextContractStatus(uploadedcontid, workflowid, remark, userid, status);
-                UploadFiles(code);
-                ShowMessage("Contract Uploaded and forwarded to the next step for processing......",false);
+                DataTable levelat = data.GetLevelAt(uploadedcontid);
+                string levelname = levelat.Rows[0]["Level"].ToString();
+                string levelid = levelat.Rows[0]["levelId"].ToString();
+
+                Task.Run(() => {
+                    Process.SendOutNotifications(levelid, subject);
+                });
+                ShowMessage("Contract Moved to " + levelname + " stage", false);
             }
             
         }

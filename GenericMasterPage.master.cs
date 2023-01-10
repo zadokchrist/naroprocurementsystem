@@ -22,7 +22,7 @@ public partial class GenericMasterPage : System.Web.UI.MasterPage
                 Response.ExpiresAbsolute = DateTime.Now.AddDays(-1d);
                 Response.Expires = -1500;
                 Response.CacheControl = "no-cache";
-                msg.Text = "USER ACCOUNT: " + Session["FullName"].ToString() + " -- ACCESS LEVEL: " + Session["AccessLevel"].ToString() + " --  COST CENTER: " + Session["CostCenterName"].ToString() + " (" + Session["PFinancialYear"].ToString() + " )";
+                msg.Text = "USER ACCOUNT: " + Session["FullName"].ToString() + " -- ACCESS LEVEL: " + Session["AccessLevel"].ToString() + " )";
             }
             
         }

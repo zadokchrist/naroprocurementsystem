@@ -19,8 +19,8 @@ public class SendMail
 {
     DataLogin main = new DataLogin();
     private const string smtpServer = "smtp.gmail.com";
-    private const string smtpUsername = "lwcprocurement@gmail.com";
-    private const string smtpPassword = "proc@lwc123";
+    private const string smtpUsername = "ngobizadokchrist@gmail.com";//"lwcprocurement@gmail.com";
+    private const string smtpPassword = "qgkutqpdygrztaez";//"proc@lwc123";
     public SendMail()
     {
 
@@ -43,7 +43,7 @@ public class SendMail
             message.Subject = Subject.Replace('\r', ' ').Replace('\n', ' ');
             message.Body = Message;
             message.IsBodyHtml = true;
-            message.From = new MailAddress("lwcprocurement@gmail.com", "E-Proc - " + Name);
+            message.From = new MailAddress("ngobizadokchrist@gmail.com", "NARO CMS - " + Name);
             //I USE GMAIL AS THE SMTP SERVER..for more info google
             mailClient.UseDefaultCredentials = false;
             NetworkCredential cred = new NetworkCredential(smtpUsername, smtpPassword);
@@ -62,12 +62,12 @@ public class SendMail
         catch (Exception ex)
         {
             // let us log the failed message
-            string to = emailAddress;
-            string from = "info@nwsc.co.ug";
-            string displayname = "E-Proc - " + Name;
-            string exception = ex.Message;
-            string body = Message;
-            string subject = Subject.Replace('\r', ' ').Replace('\n', ' ');
+            //string to = emailAddress;
+            //string from = "info@nwsc.co.ug";
+            //string displayname = "E-Proc - " + Name;
+            //string exception = ex.Message;
+            //string body = Message;
+            //string subject = Subject.Replace('\r', ' ').Replace('\n', ' ');
             //main.insertMailException(to, from, displayname, subject, body, exception, 0);
         }
     }

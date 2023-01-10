@@ -8,6 +8,7 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using System.IO;
+using System.Threading.Tasks;
 /// <summary>
 /// Summary description for ProcessUsers
 /// </summary>
@@ -114,14 +115,67 @@ public class ProcessUsers
         mailer.SendEmail("Admin", Email, "NARO CMS Account Profile", message);
     }
 
-    private void NotifyChange(string Email, string Username, string Name)
+    public void NotifyChange(string Email, string Username, string Name)
     {
         string message = "<p>Hello " + Name.ToUpper() + ", " + Environment.NewLine + "Your Password has Been Reset" + Environment.NewLine;
         message += "<p>Your Username is " + Username + ". (Password is the same as the username). </p>" + Environment.NewLine;
-        message += "<p>In case of any issue(s), Please Contact Israel Adekanmbi (israel.adekanmbi@lagoswater.org) or Segun (segun.adeniran@lagoswater.org) or Chidozie Agbakwuru (caagbakwuru@lagoswater.org) .</p>";
+        message += "<p>In case of any issue(s), Please Contact (contact person) (contact person email).</p>";
 
-        mailer.SendEmail("Admin", Email, "E-Procurement Account Password Reset", message);
+        mailer.SendEmail("Admin", Email, "NARO CMS Account Password Reset", message);
     
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    }
+
+    public async void SendOutNotifications(string levelat, string contractsubect)
+    {
+        try
+        {
+            await Task.Run(() =>
+            {
+                DataTable users = data.GetUsersByAccessLevel(levelat);
+                if (users.Rows.Count > 0)
+                {
+
+                    foreach (DataRow dr in users.Rows)
+                    {
+                        string fname = dr["FirstName"].ToString();
+                        string middlename = dr["MiddleName"].ToString();
+                        string LastName = dr["LastName"].ToString();
+                        string Name = fname + " " + middlename + " " + LastName;
+                        string Email = dr["Email"].ToString();
+                        string message = "<p>Hello " + Name.ToUpper() + ", " + Environment.NewLine;
+                        message += "<p>A new request with subject " + contractsubect + ". Has been sent to you for your attention. </p>" + Environment.NewLine;
+                        message += "<p>In case of any issue(s), Please Contact Administrator for help.</p>";
+                        mailer.SendEmail(Name, Email, "NEW REQUEST FOR YOUR ATTENTION", message);
+                    }
+                }
+            });
+
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
     }
 
     public string UpdateSystemUser(string UserCode, string Username, string FirstName, string MiddleName, string LastName,

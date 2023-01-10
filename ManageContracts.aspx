@@ -1,4 +1,4 @@
-<%@ Page Language="C#" MasterPageFile="~/GenericMasterPage.master" AutoEventWireup="true" EnableEventValidation="false"  CodeFile="ManageContracts.aspx.cs" Inherits="ManageContracts" 
+<%@ Page Language="C#" MasterPageFile="~/GenericMasterPage.master" AutoEventWireup="true" Async="true" EnableEventValidation="false"  CodeFile="ManageContracts.aspx.cs" Inherits="ManageContracts" 
 Title="MANAGE ROLES" %>
  <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
  <%@ Import Namespace="System.Threading" %>
