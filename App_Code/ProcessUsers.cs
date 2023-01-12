@@ -109,7 +109,7 @@ public class ProcessUsers
 
     private void NotifyUser(string Email, string Username, string Name)
     {
-        string message = "<p>Hello " + Name.ToUpper() + ", " + Environment.NewLine + "</p><p> Access the E-Procurement System through http://192.168.8.110:4070/procurement/ </p>" + Environment.NewLine;
+        string message = "<p>Hello " + Name.ToUpper() + ", " + Environment.NewLine + "</p><p> Access the NARO CMS through https://mallan.co:8095/ </p>" + Environment.NewLine;
         message += "<p>Your Username is " + Username + ". (Password is the same as the username). </p>" + Environment.NewLine;
         
         mailer.SendEmail("Admin", Email, "NARO CMS Account Profile", message);

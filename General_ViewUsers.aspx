@@ -37,10 +37,14 @@
                     <asp:BoundColumn DataField="Email" HeaderText="Email"></asp:BoundColumn>
                     <asp:BoundColumn DataField="Level" HeaderText="AccessLevel"></asp:BoundColumn>
                     <asp:BoundColumn DataField="Active" HeaderText="Active"></asp:BoundColumn>
-                    <asp:ButtonColumn CommandName="btnenable" HeaderText="Action" Text="Enable/Disable"></asp:ButtonColumn>
-                    <asp:ButtonColumn CommandName="btnEdit" HeaderText="Edit" Text="Edit"></asp:ButtonColumn>
+                    <asp:ButtonColumn CommandName="btnenable" HeaderText="Action" Text="Enable/Disable">
+                        <ItemStyle CssClass="btn-secondary " ForeColor="White"/>
+                    </asp:ButtonColumn>
+                    <%--<asp:ButtonColumn CommandName="btnEdit" HeaderText="Edit" Text="Edit"></asp:ButtonColumn>--%>
 
-                    <asp:ButtonColumn CommandName="btnreset" HeaderText="Reset" Text="Reset Password"></asp:ButtonColumn>
+                    <asp:ButtonColumn CommandName="btnreset" HeaderText="Reset" Text="Reset Password">
+                        <ItemStyle CssClass=" btn-dark " ForeColor="White"/>
+                    </asp:ButtonColumn>
                 </Columns>
                 <HeaderStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" HorizontalAlign="Left" />
             </asp:DataGrid>
