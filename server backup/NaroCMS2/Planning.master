@@ -1,0 +1,549 @@
+<%@ Master Language="C#" AutoEventWireup="true" CodeFile="Planning.master.cs" Inherits="Planning" %>
+<%@ Import Namespace="System.Data" %>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <link href="plugins/jquery-datatable/css/jquery.dataTables.css" rel="stylesheet" type="text/css" />
+    <!-- CSS-->
+    <link rel="stylesheet" type="text/css" href="css/main.css"/>
+    <!-- Font-icon css-->
+    <link rel="stylesheet" type="text/css" href="font-awesome-4.7.0/css/font-awesome.css"/>
+    <link href="light-box/lightbox.min.css" rel="stylesheet" type="text/css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="alert/jquery-confirm.min.css" />
+    <link href="css/jquery.tabFrozenScroll.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="css/material-modal.css"/>
+    <link rel="stylesheet" href="gis/esri.css"/>
+     <link rel="stylesheet" href="gis/tundra.css"/>
+    <title>LWC Procurement</title>
+</head>
+<body>
+     <form id="form1" runat="server">
+         
+         <header class="main-header hidden-print"> <a class="logo" href="index.html">LWC Procurement</a>
+        <nav class="navbar navbar-static-top">
+          <!-- Sidebar toggle button--><a class="sidebar-toggle" href="#" data-toggle="offcanvas"></a>
+          <!-- Navbar Right Menu-->
+          <div class="navbar-custom-menu">
+            <ul class="top-nav">
+                <asp:Label ID="lbllevel" runat="server" Font-Bold="True" Font-Italic="False" Font-Names="Cambria"
+                                    Font-Size="Small" ForeColor="WhiteSmoke" Style="font-weight: 700" Text="Logged in as: Admin"></asp:Label>
+              <!--Notification Menu-->
+              <li class="dropdown notification-menu"><a class="dropdown-toggle" href="#" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-bell-o fa-lg"></i></a>
+                <ul class="dropdown-menu">
+                   
+                  <li class="not-head">You have 4 new notifications.</li>
+                     <div id="nots_wrapper" runat="server"></div>
+                  <li class="not-footer"><a href="#">See all notifications.</a></li>
+                </ul>
+              </li>
+              <!-- User Menu-->
+              <li class="dropdown"><a class="dropdown-toggle" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user fa-lg"></i></a>
+                <ul class="dropdown-menu settings-menu">
+                  <li><a href="#"><i class="fa fa-cog fa-lg"></i> Change Password</a></li>
+                  <li><a href="#"><i class="fa fa-user fa-lg"></i> Profile</a></li>
+                  <li><a href="Default.aspx"><i class="fa fa-sign-out fa-lg"></i> Sign Out </a></li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </nav>
+      </header>
+    
+    <div class="container content-wrapper">
+   
+
+      <!-- Side-Nav-->
+      <aside class="main-sidebar">
+        <section class="sidebar">
+          <div class="user-panel">
+              <img class="img-rounded" src="images/logo.png" alt="User Image" height="80" width="176"/>
+            <div class="pull-left image hidden"><img class="img-circle" src="images/logo.png" alt="User Image" height="150" width="150"/></div>
+            <div class="pull-left info">
+                <%--     <p id="fullName" class="white_txt" runat="server"></p>
+                <p id="roleText" class="white_txt" runat="server"></p>--%>
+            </div>
+                
+          </div>
+          <!-- Sidebar Menu-->
+          <ul class="sidebar-menu">
+    
+     <% 
+        BusinessLogin bll = new BusinessLogin();
+        int UserID = Convert.ToInt32(Session["UserID"]);
+        int UserCode = 0;
+        if (!bll.IsUserDelegated(UserID))
+        {
+            UserCode = Convert.ToInt32(Session["UserID"]);
+        }
+        else
+        {
+            UserCode = Convert.ToInt32(Session["DelegatorID"]);
+        }
+        ProcessUsers Dll = new ProcessUsers();
+        DataTable dTable = Dll.GetModulesAllocation(UserCode);
+
+        foreach (DataRow dr in dTable.Rows)
+        {
+    %>  
+      
+        <%if (dr["ModuleName"].ToString() == "ADMINISTRATION")
+            { %>
+        <li class="treeview"><a href="<% Response.Write(dr["PageFath"]); %>" rel="ct1"><i class="fa fa-laptop"></i><span>ADMINISTRATION</span><i class="fa fa-angle-right"></i></a>
+               
+          <%if (Session["AccessLevelID"].ToString() == "1")
+                                         { %>
+                  <ul class="treeview-menu">
+                                                   <li><<a href="General_AddUser.aspx"><i class="fa fa-circle-o"></i>NEW USER</a></li>
+                                                  <li> <a href="General_ViewUsers.aspx"><i class="fa fa-circle-o"></i>VIEW USER(S)</a></li>
+                                                  <li> <a href="General_CostCenter.aspx"><i class="fa fa-circle-o"></i>COST CENTERS</a></li>
+                                                <li> <a href="General_ItemCategory.aspx"><i class="fa fa-circle-o"></i>ITEM CATEGORIES</a></li>
+                                                  <li> <a href="General_Years.aspx"><i class="fa fa-circle-o"></i>FINANCIAL YEARS</a></li>
+                                                   <li><a href="Bidding_Suppliers.aspx"><i class="fa fa-circle-o"></i>SUPPLIERS</a><</li>
+                                                    
+                                                           
+                                     
+                                      
+                                                <% } %>
+
+
+
+
+            </ul>
+
+        </li>
+        <%
+            }
+        %>
+    
+        
+          <%else if (dr["ModuleName"].ToString() == "PLANNING")
+            { %>
+        <li class="treeview"><a href="<% Response.Write(dr["PageFath"]); %>" rel="ct1"><i class="fa fa-laptop"></i><span>PLANNING</span><i class="fa fa-angle-right"></i></a>
+               
+            <ul class="treeview-menu">
+
+                
+  <%if (Session["AccessLevelID"].ToString() == "1")
+      { %>
+                                           <li> <a href="Planning_AddPlan.aspx"><i class="fa fa-circle-o"></i>NEW PLAN ITEM(S)</a></li>
+                                                   <li><a href="Planning_PendingItems.aspx"><i class="fa fa-circle-o"></i>MANAGE PLAN ITEM(S)</a></li>
+                                                  <li> <a href="Planning_ViewPlanItems.aspx"><i class="fa fa-circle-o"></i>VIEW PLAN ITEM(S)</a></li>
+                                                  <li> <a href="Planning_Procu.aspx"><i class="fa fa-circle-o"></i>PROC. PLAN(S)</a></li>
+                                                <li>  <a href="Planning_ProjectedCashFlow.aspx"><i class="fa fa-circle-o"></i>PROJECTED CASHFLOW</a></li>
+                                                  <li><a href="Planning_ExpectedExpenditure.aspx"><i class="fa fa-circle-o"></i>EXPECTED EXPENDITURE</a></li>
+                                                   <li><a href="Planning_UserDeptPlans.aspx"><i class="fa fa-circle-o"></i>USER DEPT PLAN</a></li>
+                                                   <li><a href="Planning_ConsolidatedPlans.aspx"><i class="fa fa-circle-o"></i>CONSOLIDATED PLAN</a></li>
+                                                    
+                                                           
+                                       <% }
+                                           else if (Session["AccessLevelID"].ToString() == "5" || Session["AccessLevelID"].ToString() == "15")
+                                           { %>    
+                                                     <li> <a href="Planning_AddPlan.aspx"><i class="fa fa-circle-o"></i>NEW PLAN ITEM(S)</a></li>
+                                                      <li><a href="Planning_PendingItems.aspx"><i class="fa fa-circle-o"></i>SUBMIT PLAN ITEM(S)</a></li>
+                                                      <li> <a href="Planning_ViewPlanItems.aspx"><i class="fa fa-circle-o"></i>MANAGE PLAN ITEM(S)</a></li>
+                                                       <li><a href="Planning_ProjectedCashFlow.aspx"><i class="fa fa-circle-o"></i>PROJECTED CASHFLOW</a></li>
+                                                       <li><a href="Planning_ExpectedExpenditure.aspx"><i class="fa fa-circle-o"></i>EXPECTED EXPENDITURE</a></li>
+                                                       <li><a href="Planning_ConsolidatedPlans.aspx"><i class="fa fa-circle-o"></i>CONSOLIDATED PLAN</a></li>
+                                                <% if (Session["AccessLevelID"].ToString() == "15")
+                                                    { %>
+                                                          <li><a href="Planning_OperationsAddPlan.aspx"><i class="fa fa-circle-o"></i>ADD AREA PLANS</a></li>
+                                                         <li><a href="Planning_Operations.aspx"><i class="fa fa-circle-o"></i>CONSOLIDATE AREA PLANS</a></li>
+                                                <% } %>
+                                                      
+                                            <% }
+                                                else if (Session["AccessLevelID"].ToString() == "17")
+                                                {%>
+
+                                                       <li> <a href="Planning_PlanItemsMD.aspx"><i class="fa fa-circle-o"></i>APPROVE PLAN ITEM(S)</a></li>
+                                                       <li>  <a href="Planning_ViewPlanItems.aspx"><i class="fa fa-circle-o"></i>VIEW PLAN ITEM(S)</a></li>
+                                                        <li><a href="Planning_ProjectedCashFlow.aspx"><i class="fa fa-circle-o"></i>PROJECTED CASHFLOW</a></li>
+                                                        <li><a href="Planning_ExpectedExpenditure.aspx"><i class="fa fa-circle-o"></i>EXPECTED EXPENDITURE</a></li>
+                                                        <li><a href="Planning_ConsolidatedPlans.aspx">CONSOLIDATED PLAN</a></li>
+                                           
+                                                             
+                                             <% }
+                                                 else if (Session["AccessLevelID"].ToString() == "6")
+                                                 {%>
+
+                                                       <li> <a href="Planning_PlanItems.aspx"><i class="fa fa-circle-o"></i>APPROVE PLAN ITEM(S)</a></li>
+                                                       <li>  <a href="Planning_ViewPlanItems.aspx"><i class="fa fa-circle-o"></i>VIEW PLAN ITEM(S)</a></li>
+                                                        <li><a href="Planning_ProjectedCashFlow.aspx"><i class="fa fa-circle-o"></i>PROJECTED CASHFLOW</a></li>
+                                                        <li><a href="Planning_ExpectedExpenditure.aspx"><i class="fa fa-circle-o"></i>EXPECTED EXPENDITURE</a></li>
+                                                        <li><a href="Planning_ConsolidatedPlans.aspx">CONSOLIDATED PLAN</a></li>
+                                           
+                                               <% }
+                                                   else if (Session["AccessLevelID"].ToString() == "3" || Session["AccessLevelID"].ToString() == "16")
+                                                   { %>
+                                                       <li><a href="Planning_ProjectedCashFlow.aspx"><i class="fa fa-circle-o"></i>PROJECTED CASHFLOW</a></li>
+                                                     <li> <a href="Planning_ExpectedExpenditure.aspx"><i class="fa fa-circle-o"></i>EXPECTED EXPENDITURE</a></li>
+                                                      <li><a href="Planning_ConsolidatedPlans.aspx"><i class="fa fa-circle-o"></i>CONSOLIDATED PLAN</a></li>
+                                                  
+                                                      
+                                               <% }
+                                                   else if (Session["AccessLevelID"].ToString() == "7")
+                                                   { %>
+                                                <li><a href="Planning_Procu.aspx"><i class="fa fa-circle-o"></i>MANAGE PLAN ITEM(S)</a></li>
+                                                     <li><a href="Planning_UserDeptPlans.aspx"><i class="fa fa-circle-o"></i>USER DEPT PLAN</a></li>
+                                                        <li><a href="Planning_DeleteProcPlans.aspx"><i class="fa fa-circle-o"></i>DELETE PLANS</a></li>
+                                                    <li><a href="Planning_ProjectedCashFlow.aspx"><i class="fa fa-circle-o"></i>PROJECTED CASHFLOW</a></li>
+                                                      <li><a href="Planning_ExpectedExpenditure.aspx"><i class="fa fa-circle-o"></i>EXPECTED EXPENDITURE</a></li>
+                                                     <li> <a href="Planning_ConsolidatedPlans.aspx"><i class="fa fa-circle-o"></i>CONSOLIDATED PLAN</a></li>
+
+                                                      <li><a href="Planning_PPDAProcPlans.aspx"><i class="fa fa-circle-o"></i>PPA NON CONSULTANCY PLAN</a></li>
+                                                      
+                                                    
+                                                      
+                                               <%}
+                                                   else if (Session["AccessLevelID"].ToString() == "4")
+                                                   { %>
+                                                   <% if (Session["IsAreaProcess"].ToString() == "0")
+                                                       { %>
+                                                      <li> <a href="Planning_AddPlan.aspx"><i class="fa fa-circle-o"></i>NEW PLAN ITEM</a></li>
+                                                      <li> <a href="Planning_PendingItems.aspx"><i class="fa fa-circle-o"></i>SUBMIT PLAN ITEMS</a></li>
+                                                      <li> <a href="Planning_ViewPlanItems.aspx"><i class="fa fa-circle-o"></i>MANAGE PLAN ITEMS</a></li>
+                                                  <% }
+                                                      else
+                                                      { %>
+                                                      <li> <a href="Planning_AddPlan.aspx"><i class="fa fa-circle-o"></i>NEW PLAN ITEM</a></li>
+                                                         <li><a href="Planning_PendingItems.aspx"><i class="fa fa-circle-o"></i>SUBMIT PLAN ITEMS</a></li>
+                                                       <li><a href="Planning_ViewPlanItems.aspx"><i class="fa fa-circle-o"></i>MANAGE PLAN ITEM(S)</a></li>
+                                                        <li><a href="Planning_AreaPDUOfficer.aspx"><i class="fa fa-circle-o"></i>CONSOLIDATE PLAN ITEMS</a></li>
+                                                       <% } %>
+                                                      <li> <a href="Planning_ExpectedExpenditure.aspx"><i class="fa fa-circle-o"></i>EXPECTED EXPENDITURE</a></li>
+                                                      <li><a href="Planning_ConsolidatedPlans.aspx"><i class="fa fa-circle-o"></i>CONSOLIDATED PLAN</a></li>
+                                                  
+                                      
+                                                <% } %>
+
+
+
+
+            </ul>
+
+        </li>
+        <%
+            }
+        %>
+    
+        
+        
+          <% else if (dr["ModuleName"].ToString() == "REQUISITION")
+            { %>
+              <li class="treeview"><a href="<% Response.Write(dr["PageFath"]); %>" rel="ct1"><i class="fa fa-laptop"></i><span>REQUISITION</span><i class="fa fa-angle-right"></i></a>
+
+                  <ul class="treeview-menu">
+                      <%if (Session["AccessLevelID"].ToString() == "1")
+                          { %>
+
+                      <li><a href="Requisition_ViewItems.aspx"><i class="fa fa-circle-o"></i>MANAGE REQUISITION(S)</a></li>
+
+                      <% }
+                          else if (Session["AccessLevelID"].ToString() == "5" || Session["AccessLevelID"].ToString() == "15")
+                          { %>
+
+                      <li><a href="Requisition_Items.aspx"><i class="fa fa-circle-o"></i>NEW REQUISITION</a></li>
+                      <li><a href="Requisition_ViewItems.aspx"><i class="fa fa-circle-o"></i>MANAGE REQUISITION(S)</a></li>
+                      <% 
+                          ProcessPlanning bllPlanning = new ProcessPlanning();
+                          if (bllPlanning.IsUserInInventory(UserID))
+                          {
+                      %>
+                      <li><a href="Requisition_LogisticViewItems.aspx"><i class="fa fa-circle-o"></i>INVENTORY</a></li>
+                      <%} %>
+                      <li><a href="Requisition_Search.aspx"><i class="fa fa-circle-o"></i>SEARCH REQUISITION(S)</a></li>
+                      <li><a href="Requisition_Reports.aspx"><i class="fa fa-circle-o"></i>View REPORT(S)</a></li>
+
+                      <%}
+                          else if (Session["AccessLevelID"].ToString() == "6")
+                          {%>
+                      <li><a href="Requisition_ManagerViewItems.aspx"><i class="fa fa-circle-o"></i>MANAGE REQUISITION(S)</a></li>
+                      <% 
+                          BusinessRequisition bllReq = new BusinessRequisition();
+                          //int UserId = Convert.ToInt32(Session["UserID"]);
+                          if (bllReq.RankItemToApprove(UserID))
+                          {
+                      %>
+                      <li><a href="Requisition_RankItems.aspx"><i class="fa fa-circle-o"></i>APPROVE PRIORITY</a></li>
+                      <%} %>
+                      <li><a href="Requisition_Search.aspx"><i class="fa fa-circle-o"></i>SEARCH REQUISITION(S)</a></li>
+                      <li><a href="Requisition_Reports.aspx"><i class="fa fa-circle-o"></i>View REPORT(S)</a></li>
+
+
+
+
+
+                      <% }
+                          else if (Session["AccessLevelID"].ToString() == "17")
+                          {%>
+                      <li><a href="Requisition_MDViewItems.aspx"><i class="fa fa-circle-o"></i>MANAGE REQUISITION(S)</a></li>
+                      <% 
+                          BusinessRequisition bllReq = new BusinessRequisition();
+                          //int UserId = Convert.ToInt32(Session["UserID"]);
+                          if (bllReq.RankItemToApprove(UserID))
+                          {
+                      %>
+                      <li><a href="Requisition_RankItems.aspx"><i class="fa fa-circle-o"></i>APPROVE PRIORITY</a></li>
+                      <%} %>
+                      <li><a href="Requisition_Search.aspx"><i class="fa fa-circle-o"></i>SEARCH REQUISITION(S)</a></li>
+                      <li><a href="Requisition_Reports.aspx"><i class="fa fa-circle-o"></i>View REPORT(S)</a></li>
+
+
+                     <%} else if (Session["AccessLevelID"].ToString() == "3")
+                          {%>
+                      <li><a href="Requisition_ProcViewItems.aspx"><i class="fa fa-circle-o"></i>ASSIGN REQUISITION(S)</a></li>
+                      <li><a href="Requisition_Search.aspx">SEARCH REQUISITION(S)</a></li>
+                      <li><a href="Requisition_AssignedPRs.aspx"><i class="fa fa-circle-o"></i>VIEW ASSIGNED PR(S)</a></li>
+                    <%--  
+                      <li><a href="Requisition_ActivitySchedule.aspx"><i class="fa fa-circle-o"></i>
+                          ACTIVITY SCHEDULE</a></li>--%>
+
+                     <%-- <li><a href="Requisition_ActivityScheduleReport.aspx"><i class="fa fa-circle-o"></i>ACTIVITY SCHEDULE REPORT</a></li>--%>
+
+                <%--      <li><a href="Requisition_Cancel_Requisition.aspx"><i class="fa fa-circle-o"></i>CANCEL REQUISITIONS IN CC</a></li>--%>
+
+                      <li><a href="Requisition_Reports.aspx"><i class="fa fa-circle-o"></i>View REPORT(S)</a></li>
+
+                      <%}
+                          else if (Session["AccessLevelID"].ToString() == "9")
+                          {%>
+                      <li><a href="Requisition_LogisticViewItems.aspx"><i class="fa fa-circle-o"></i>
+                          APPROVE REQUISITION(S)</a></li>
+                      <li><a href="Requisition_Search.aspx"><i class="fa fa-circle-o"></i>SEARCH REQUISITION(S)</a></li>
+                      <li><a href="Requisition_AssignedPRs.aspx">ASSIGNED PR(S) REPORT</a></li>
+
+                      <% 
+                          BusinessRequisition bllReq = new BusinessRequisition();
+                          if (bllReq.UserIsSupervisor(UserID.ToString()))
+                          {
+                      %>
+                      <li><a href="Requisition_PDUSupervisorItems.aspx"><i class="fa fa-circle-o"></i>APPROVE ACTIVITY SCHEDULE(S)</a></li>
+                      <%} %>
+                      <li><a href="Requisition_ActivityScheduleReport.aspx"><i class="fa fa-circle-o"></i>ACTIVITY SCHEDULE REPORT</a></li>
+
+                      <%}
+                          else if (Session["AccessLevelID"].ToString() == "8")
+                          {%>
+                      <li><a href="Requisition_ManagerViewItems.aspx"><i class="fa fa-circle-o"></i>MANAGE REQUISITION(S)</a></li>
+                      <li><a href="Requisition_InventoryViewItems.aspx"><i class="fa fa-circle-o"></i>INVENTORY</a></li>
+                      <li><a href="Requisition_Search.aspx"><i class="fa fa-circle-o"></i>SEARCH REQUISITION(S)</a></li>
+                      <%}
+                          else if (Session["AccessLevelID"].ToString() == "4")
+                          {%>
+                      <% if (Session["IsAreaProcess"].ToString() == "1")
+                          { %>
+                      <li><a href="Requisition_AreaPDUViewItems.aspx"><i class="fa fa-circle-o"></i>MANAGE REQUISITION(S)</a></li>
+<%--                      <li><a href="Requisition_Cancel_Requisition.aspx"><i class="fa fa-circle-o"></i>CANCEL REQUISITIONS IN CC</a></li>--%>
+
+                      <% } %>
+                      <li><a href="Requisition_OfficerViewItems.aspx"><i class="fa fa-circle-o"></i>ASSIGNED REQUISITION(S)</a></li>
+                      <li><a href="Requisition_Search.aspx"><i class="fa fa-circle-o"></i>SEARCH REQUISITION(S)</a></li>
+                      <li><a href="Requisition_AssignedPRs.aspx"><i class="fa fa-circle-o"></i>ASSIGNED PR(S) REPORT</a></li>
+
+                      <% 
+                          BusinessRequisition bllReq = new BusinessRequisition();
+                          if (bllReq.UserIsSupervisor(UserID.ToString()))
+                          {
+                      %>
+                      <li><a href="Requisition_PDUSupervisorItems.aspx"><i class="fa fa-circle-o"></i>APPROVE ACTIVITY SCHEDULE(S)</a></li>
+                      <%} %>
+<%--                      <li><a href="Requisition_ActivityScheduleReport.aspx"><i class="fa fa-circle-o"></i>ACTIVITY SCHEDULE REPORT</a></li>
+                      <li><a href="Requisition_View_Cancelled_Requisitions.aspx"><i class="fa fa-circle-o"></i>Cancelled And Deleted Requisitions</a></li>--%>
+
+                      <%}
+                          else if (Session["AccessLevelID"].ToString() == "7")
+                          {%>
+
+                      <% 
+                          BusinessRequisition bllReq = new BusinessRequisition();
+                          if (bllReq.RankItemToApprove(UserID))
+                          {
+                      %>
+                      <li><a href="Requisition_RankItems.aspx"><i class="fa fa-circle-o"></i>APPROVE PRIORITY</a></li>
+                      <%} %>
+                      <li><a href="Requisition_FinanceViewItems.aspx"><i class="fa fa-circle-o"></i>APPROVE FUNDS</a></li>
+                      <li><a href="Requisition_FinanceViewFramework.aspx"><i class="fa fa-circle-o"></i>APPROVE FRAMEWORK CONTRACT(S)</a></li>
+                      <li><a href="Requisition_Search.aspx"><i class="fa fa-circle-o"></i>SEARCH REQUISITION(S)</a></li>
+
+
+                      <li><a href="Requisition_Reports.aspx"><i class="fa fa-circle-o"></i>View REPORT(S)</a></li>
+
+                      <%}%>
+                  </ul>
+
+              </li>
+        <%
+            }
+        %>
+
+
+
+          <% else if (dr["ModuleName"].ToString() == "BIDDING")
+            { %>
+        <li class="treeview"><a href="<% Response.Write(dr["PageFath"]); %>" rel="ct1"><i class="fa fa-wrench"></i><span>BIDDING</span><i class="fa fa-angle-right"></i></a>
+
+            <ul class="treeview-menu">
+
+
+ 
+               <%if (Session["AccessLevelID"].ToString() == "1")
+                                         { %>
+                                     <li>  <a href="Bidding_PendingProcurements.aspx"><i class="fa fa-circle-o"></i>ASSIGNED PROCUREMENT(S)</a></li>
+                                               <li> <a href="Bidding_SearchProcurements.aspx"><i class="fa fa-circle-o"></i>SEARCH PROCUREMENT(S)</a></li>
+                                                <li> <a href="Bidding_MicroProcApproval.aspx"><i class="fa fa-circle-o"></i>MICRO PROC. APPROVAL</a></li>
+                                               <li><a href="Bidding_CCProcApproval.aspx"><i class="fa fa-circle-o"></i>CC PROCUREMENT(S) APPROVAL</a></li>
+                                                  <li> <a href="Bidding_Evaluation.aspx"><i class="fa fa-circle-o"></i>EVALUATION</a></li>
+                                               
+                                                
+                               <% } else if (Session["AccessLevelID"].ToString() == "4" || Session["AccessLevelID"].ToString() == "9")
+                                 {%>
+                                    <li> <a  href="Bidding_PendingProcurements.aspx"><i class="fa fa-circle-o"></i>ASSIGNED PROCUREMENT(S)</a></li>
+                                       
+                                       <% if (Session["IsAreaProcess"].ToString() == "1") { %>
+                                           <li> <a href="Bidding_SubmitToPDUSupervisor.aspx"><i class="fa fa-circle-o"></i>SUBMIT TO PROC MANAGER</a></li>
+                                       <% } else { %>
+                                           <li> <a  href="Bidding_SubmitToPDUSupervisor.aspx"><i class="fa fa-circle-o"></i>SUBMIT TO PROC MANAGER</a></li>
+                                       <% } %>
+                                       <% 
+                                           BusinessBidding bllBidding = new BusinessBidding();
+                                         if (bllBidding.IsContractCommitteeUser(UserID.ToString()))
+                                         {
+                                       %>
+                                      <li> <a href="Bidding_CCProcApproval.aspx"><i class="fa fa-circle-o"></i>CC PROCUREMENT(S) APPROVAL</a></li>
+                                       <%} %>
+                                       <li> <a  href="Bidding_Suppliers.aspx"><i class="fa fa-circle-o"></i>SUPPLIER(S)</a></li>
+                                          <%--<li>  <a  href="Bidding_SolicitBidders.aspx"><i class="fa fa-circle-o"></i>SOLICIT BIDDERS</a></li>
+                                          <li> <a  href="Bidding_PreBidMeeting.aspx"><i class="fa fa-circle-o"></i>PRE-BID MEETING</a></li>
+                                       
+                                           <li><a  href="Bidding_BidReceipt.aspx"><i class="fa fa-circle-o"></i>BID RECEIPT</a></li>
+                                 
+                                        <li> <a  href="Bidding_BidOpening.aspx"><i class="fa fa-circle-o"></i>BID OPENING</a></li>
+                                    
+                                     <!--  <td class="leftnav" style="vertical-align: middle; width: 20%; text-align: left; height: 19px;">
+                                            <a href="Bidding_ECSubmission.aspx">EC SUBMISSION</a>
+                                       </td>-->
+                                            <li><a  href="Bidding_Evaluation.aspx"><i class="fa fa-circle-o"></i>EVALUATION</a></li>
+                                   --%>
+                                    <!--   <td class="leftnav" style="vertical-align: middle; width: 20%; text-align: left; height: 19px;">
+                                            <a href="Bidding_Negotiations.aspx">NEGOTIATIONS</a>-->
+                                           <%--<li> <a  href="Bidding_ApprovedProcurements.aspx"><i class="fa fa-circle-o"></i>AWARDED PROCUREMENT(S)</a></li>
+                                            <li> <a  href="Bidding_SearchProcurements.aspx"><i class="fa fa-circle-o"></i>SEARCH PROCUREMENT(S)</a></li>
+                                            <li> <a  href="Bidding_MicroBidAnalysis.aspx"><i class="fa fa-circle-o"></i>BID ANALYSIS</a></li>
+                                            <li><a  href="Bidding_MicroProcApproval.aspx"><i class="fa fa-circle-o"></i>MICRO PROC. APPROVAL</a></li>
+                                             <li> <a  href="Bidding_CCSchedule.aspx"><i class="fa fa-circle-o"></i>CC SCHEDULE</a></li>--%>
+                                       
+                                       <% 
+                                         BusinessRequisition bllReq = new BusinessRequisition();
+                                         if (bllReq.UserIsSupervisor(UserID.ToString()))
+                                         {
+                                       %>
+                                            <li>   <a href="Bidding_PDUSupervisorItems.aspx"><i class="fa fa-circle-o"></i>REVIEW PROC. METHOD</a></li>
+                                         <li>  <a href="Bidding_ScheduledProcurements.aspx"><i class="fa fa-circle-o"></i>SCHEDULED PROC METHOD</a></li>
+                                              <li>  <a href="Bidding_PDUEvaluation.aspx"><i class="fa fa-circle-o"></i>REVIEW EVALUATION(S)</a></li>
+                                      
+                                       <%} %>
+                                       <% } else if (Session["AccessLevelID"].ToString() == "3")
+                                 {%>
+                
+                                     <li>  <a href="Bidding_SearchProcurements.aspx"><i class="fa fa-circle-o"></i>SEARCH PROCUREMENTS</a></li>
+                                     <li>  <a href="Bidding_PDUSupervisorItems.aspx"><i class="fa fa-circle-o"></i>REVIEW PROCUREMENTS</a></li>
+<%--                                <li> <a href="Bidding_ScheduledProcurements.aspx"><i class="fa fa-circle-o"></i>SCHEDULED PROC METHOD</a></li>--%>
+                                   <li>   <a href="Bidding_PDUEvaluation.aspx"><i class="fa fa-circle-o"></i>REVIEW EVALUATIONS</a></li>
+<%--                                      <li> <a href="Bidding_CCSchedule.aspx"><i class="fa fa-circle-o"></i>CC SCHEDULE</a></li>
+                                       <li> <a href="Bidding_MicroProcApproval.aspx"><i class="fa fa-circle-o"></i>MICRO PROC. APPROVAL</a></li>
+                                 --%>
+                                      <li> <a href="Bidding_ApprovedProcurements.aspx"><i class="fa fa-circle-o"></i>AWARDED PROCUREMENT(S)</a></li>
+                                       <li> <a href="Bidding_Suppliers.aspx"><i class="fa fa-circle-o"></i>SUPPLIER(S)</a></li>
+                                
+                                  <%} else { %>
+                                    
+                                       <% 
+                                         BusinessBidding bllBidding = new BusinessBidding();
+                                         
+                                         if (bllBidding.IsContractCommitteeUser(UserID.ToString()))
+                                         {
+                                       %>
+                                        <li>    <a href="Bidding_CCSchedule.aspx"><i class="fa fa-circle-o"></i>CC SCHEDULE</a></li>
+                                          <li> <a href="Bidding_CCMeetingMinutes.aspx"><i class="fa fa-circle-o"></i>CC MEETING MINS</a></li>
+                                          <li>  <a href="Bidding_CCProcApproval.aspx"><i class="fa fa-circle-o"></i>CC PROC. METHOD APPROVAL</a></li>
+                                     <li>  <a href="Bidding_CCEvaluationReportApproval.aspx"><i class="fa fa-circle-o"></i>CC EVALUATION(S) APPROVAL</a></li>
+                                       <%} %>
+                                          <li>  <a href="Bidding_MicroProcApproval.aspx"><i class="fa fa-circle-o"></i>MICRO PROC. APPROVAL</a></li>
+                                      
+                                    
+                                  <% } %>
+
+                </ul>
+
+        </li>
+        <%
+            }
+        %>
+
+
+
+            
+    <%      
+        } 
+        %>
+      
+     
+       
+     </ul>
+             
+        </section>
+      </aside>
+
+
+         <div class="content-wrapper center">
+              <div class="left">
+                 <asp:Label ID="lblmsg" runat="server" Font-Names="Cambria" Font-Size="11pt" 
+                        ForeColor="Red" Text="."></asp:Label>
+                  </div>
+             </div>
+       <div class="container-fluid">
+        <div class="panel">
+            <div class="panel-body mainSection form-control">
+
+         
+       <asp:ContentPlaceHolder id="ContentPlaceHolder1" runat="server">
+        
+        </asp:ContentPlaceHolder>
+               </div>
+        </div>         
+                
+      
+    </div>
+    </div>
+    <!-- Javascripts-->
+    <script src="js/jquery-2.1.4.min.js" type="text/javascript"></script>
+
+    <script src="plugins/jquery-datatable/js/jquery.dataTables.min.js" type="text/javascript"></script>
+    <script src="plugins/jquery-datatable/extra/js/dataTables.tableTools.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="plugins/datatables-responsive/js/datatables.responsive.js"></script>
+    <script type="text/javascript" src="plugins/datatables-responsive/js/lodash.min.js"></script>
+   
+    <script src="js/jquery.tabs.min.js" type="text/javascript"></script>
+    <script src="js/bootstrap.min.js" type="text/javascript"></script>
+    <!-- <script src="js/plugins/pace.min.js" type="text/javascript"></script> -->
+    <script src="light-box/lightbox.min.js" type="text/javascript"></script>
+    <script src="js/Chart.min.js" type="text/javascript"></script>
+    <script src="js/chartist.min.js" type="text/javascript"></script>
+    <script src="alert/jquery-confirm.min.js" type="text/javascript"></script> 
+   <script src="js/main.js" type="text/javascript"></script>  
+        <script src="gis/arcgis.js" type="text/javascript"></script>
+        <script type="text/javascript" src='http://maps.google.com/maps/api/js?sensor=false&libraries=places&key=AIzaSyA-gMwaBA8APYxFqFavZJDz_cgWJ3gITjM'></script>
+         <script src="gis/locationpicker.jquery.js" type="text/javascript"></script>
+         <script src="gis/maps.js" type="text/javascript"></script>
+   <script src="js/jquery.tabFrozenScroll.js" type="text/javascript"></script>
+   <script src="js/material-modal.js" type="text/javascript"></script>   
+   <script src="js/func.js" type="text/javascript"></script>  
+    </form>
+   
+
+</body>
+
+  
+
+
+</html>
+

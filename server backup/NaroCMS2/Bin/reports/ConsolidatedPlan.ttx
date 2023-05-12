@@ -1,0 +1,15 @@
+ItemCategoryDesc	String	999	Fencing of Gaba Water Works and staff quarters
+Unit	String	50	none
+Quantity	Number		1
+UnitCost	Number		2000000
+TotalCost	Number		2000000
+ProcurementMethod	String	100	
+ProcurementLength	String	50	5
+Date4PP20	String	50	
+Quater	String	50	
+Authority	String	500	
+Funding	String	500	
+other1	String	50	
+other2	String	50	
+other3	String	50	
+other4	String	50	
